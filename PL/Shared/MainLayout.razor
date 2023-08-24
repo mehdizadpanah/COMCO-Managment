@@ -1,21 +1,40 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>PL</PageTitle>
+@* <PageTitle>PL</PageTitle> *@
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
-<div class="page" dir="rtl">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<MudLayout dir="rtl">
+    @* <MudInputLabel dir="rtl"> *@
+        <MudAppBar Elevation="1" Dense="false">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
+        </MudAppBar>
+    @* </MudInputLabel> *@
 
-        <article class="content px-4">
-                @Body
-        </article>
-    </main>
-</div>
+    <NavMenu @ref="navMenu" />
+
+    <MudMainContent Class="pt-16 px-16" dir="rtl" >
+        <MudContainer Class="mt-6 ">
+
+            
+
+            @Body
+
+           
+
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+@code
+{
+    
+    private NavMenu navMenu { get; set; }
+    void ToggleDrawer()
+    {
+        navMenu.ToggleDrawer();
+    }
+}
+
