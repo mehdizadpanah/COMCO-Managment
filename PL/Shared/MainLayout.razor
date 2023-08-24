@@ -1,8 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
 <PageTitle>PL</PageTitle>
-
-<div class="page">
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<div class="page" dir="rtl">
     <div class="sidebar">
         <NavMenu />
     </div>
@@ -13,7 +15,7 @@
         </div>
 
         <article class="content px-4">
-            @Body
+                @Body
         </article>
     </main>
 </div>
