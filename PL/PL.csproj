@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="font-awesome" Version="4.7.0" />
+    <PackageReference Include="MudBlazor" Version="6.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
   </ItemGroup>
 
