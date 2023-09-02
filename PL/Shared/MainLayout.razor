@@ -1,40 +1,93 @@
 ﻿@inherits LayoutComponentBase
 
 @* <PageTitle>PL</PageTitle> *@
+@* <MudThemeProvider Theme="MyCustomTheme" /> *@
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout dir="rtl">
-    @* <MudInputLabel dir="rtl"> *@
-        <MudAppBar Elevation="1" Dense="false">
+    <MudInputLabel dir="rtl">
+        <MudAppBar Elevation="0" Dense="true">
             <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+
             <MudSpacer />
             <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
+
         </MudAppBar>
-    @* </MudInputLabel> *@
+        @* </MudInputLabel> *@
 
-    <NavMenu @ref="navMenu" />
+        <NavMenu @ref="navMenu" />
 
-    <MudMainContent Class="pt-16 px-16" dir="rtl" >
-        <MudContainer Class="mt-6 ">
+        <MudMainContent Class="pt-16 px-16" dir="rtl">
 
-            
+            <MudContainer Class="mt-6 ">
 
-            @Body
 
-           
 
-        </MudContainer>
-    </MudMainContent>
+                @Body
+
+
+
+            </MudContainer>
+        </MudMainContent>
+    </MudInputLabel>
 </MudLayout>
 @code
 {
-    
+
     private NavMenu navMenu { get; set; }
     void ToggleDrawer()
     {
         navMenu.ToggleDrawer();
     }
+
+    MudTheme MyCustomTheme = new MudTheme()
+        {
+            Palette = new PaletteLight()
+            {
+                // TextPrimary = Colors.Shades.Black,
+                // Primary = Colors.Shades.White,
+                // PrimaryContrastText = Colors.Shades.White,
+                // Secondary = Colors.Grey.Lighten5,
+                // AppbarBackground = Colors.Indigo.Default,
+                // DrawerBackground  = Colors.Indigo.Default,
+                // DrawerText = Colors.Shades.White,
+                // DrawerIcon = Colors.Shades.White,
+                // AppbarText = Colors.Shades.White,
+                // Info = Colors.Shades.White,
+                // Primary = Colors.Indigo.Default,
+                // ActionDefault = "#ffffff",
+                // HoverOpacity = 0.5,
+                // DrawerBackground = Colors.Brown.Default,
+                // DrawerText = "#ffffff",
+                // DrawerIcon = "#ffffff",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            },
+            PaletteDark = new PaletteDark()
+            {
+                Primary = Colors.Red.Lighten1
+            },
+
+
+            // LayoutProperties = new LayoutProperties()
+            // {
+            //     DrawerWidthLeft = "260px",
+            //     DrawerWidthRight = "300px"
+            // }
+        };
 }
 

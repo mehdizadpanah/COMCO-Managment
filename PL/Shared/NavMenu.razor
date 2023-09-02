@@ -1,13 +1,20 @@
 ﻿
 
-<MudDrawer @bind-Open="@open" ClipMode="clipMode" Elevation="1" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState=true Color="Color.Primary">
-    <MudDrawerHeader>
-        <MudText Typo="Typo.h6">My App</MudText>
-    </MudDrawerHeader>
-    <MudNavMenu Color="Color.Inherit">
-        <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Inherit">Store</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All">Library</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All">Community</MudNavLink>
+
+<MudDrawer @bind-Open="@open" ClipMode="clipMode" Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true" Color="Color.Surface">
+       @*  <MudDrawerHeader>
+        </MudDrawerHeader>
+     *@
+    <MudNavMenu Style="font-family:dana" Color="Color.Surface">
+        <MudText Class="my-4 px-4" Typo="Typo.h6" Style="font-family:dana">دستیار کامکو</MudText>
+        <MudDivider Class="d-inline-flex" />
+
+        <MudNavLink Icon="@Icons.Material.Filled.Home">صفحه اصلی</MudNavLink>
+        <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.People" Title="پرسنل">
+
+        </MudNavGroup>
+        <MudNavLink>Library</MudNavLink>
+        <MudNavLink>Community</MudNavLink>
     </MudNavMenu>
 </MudDrawer>
 
@@ -17,7 +24,7 @@
 
 
 @code {
-    
+
     bool open = true;
     bool dense = true;
     DrawerClipMode clipMode = DrawerClipMode.Always;
