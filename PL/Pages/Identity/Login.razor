@@ -1,0 +1,37 @@
+﻿@page "/login"
+
+<MudStack Class="d-flex align-content-center flex-wrap flex-grow-1 gap-4">
+    <MudPaper Class="pa-4">
+        <MudStack Row="true">
+            <MudAvatar Image="images/mony.jpg" Size="Size.Large" />
+            <MudStack Justify="Justify.Center" Spacing="0">
+                <MudText Typo="Typo.body1">Mony Larsson</MudText>
+                <MudText Typo="Typo.body2">onebiteonekill@mony.dog</MudText>
+            </MudStack>
+        </MudStack>
+    </MudPaper>
+
+    <MudPaper Class="pa-4">
+        <MudStack Spacing="4">
+            <MudTextField T="string" Label="Card number" Mask="@(new PatternMask("0000 0000 0000 0000"))" />
+            <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Filled" InputType="InputType.Password" Adornment="Adornment.End" AdornmentIcon="Icons.Material.Filled.VisibilityOff" OnAdornmentClick="VisibleIconClick" AdornmentAriaLabel="Show Password" />
+
+            <MudStack Row="true">
+
+                <MudTextField T="string" Label="Expires" Mask="@(new DateMask("MM/YY", 'Y', 'M'))" />
+                <MudTextField T="string" Label="CVC" Mask="@(new PatternMask("000"))" />
+            </MudStack>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true">Pay Now</MudButton>
+        </MudStack>
+    </MudPaper>
+</MudStack>
+
+
+@code {
+    public string Password { get; set; } = "password";
+
+    void VisibleIconClick()
+    {
+
+    }
+}

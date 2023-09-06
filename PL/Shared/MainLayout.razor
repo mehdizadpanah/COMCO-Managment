@@ -2,37 +2,39 @@
 
 @* <PageTitle>PL</PageTitle> *@
 @* <MudThemeProvider Theme="MyCustomTheme" /> *@
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+<MudRTLProvider RightToLeft="true">
+    <MudThemeProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
 
-<MudLayout dir="rtl">
-    <MudInputLabel dir="rtl">
-        <MudAppBar Elevation="0" Dense="true">
-            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+    <MudLayout>
+        <MudInputLabel >
+            <MudAppBar Elevation="0" Dense="true">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
 
-            <MudSpacer />
-            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
+                <MudSpacer />
+                <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
 
-        </MudAppBar>
-        @* </MudInputLabel> *@
+            </MudAppBar>
+            @* </MudInputLabel> *@
 
-        <NavMenu @ref="navMenu" />
+            <NavMenu @ref="navMenu" />
 
-        <MudMainContent Class="pt-16 px-16" dir="rtl">
+            <MudMainContent Class="pt-16 px-16" dir="rtl">
 
-            <MudContainer Class="mt-6 ">
-
-
-
-                @Body
+                <MudContainer Class="mt-6 ">
 
 
 
-            </MudContainer>
-        </MudMainContent>
-    </MudInputLabel>
-</MudLayout>
+                    @Body
+
+
+
+                </MudContainer>
+            </MudMainContent>
+        </MudInputLabel>
+    </MudLayout>
+</MudRTLProvider>
 @code
 {
 

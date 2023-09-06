@@ -1,20 +1,32 @@
-﻿
+﻿@using System.Reflection;
 
 
-<MudDrawer @bind-Open="@open" ClipMode="clipMode" Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true" Color="Color.Surface">
-       @*  <MudDrawerHeader>
-        </MudDrawerHeader>
-     *@
+
+<MudDrawer Class="border" @bind-Open="@open" ClipMode="clipMode" Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true" Color="Color.Surface">
+    @*  <MudDrawerHeader>
+    </MudDrawerHeader>
+    *@
     <MudNavMenu Style="font-family:dana" Color="Color.Surface">
-        <MudText Class="my-4 px-4" Typo="Typo.h6" Style="font-family:dana">دستیار کامکو</MudText>
+        <MudText Class="mt-4 px-4" Typo="Typo.h6" Style="font-family:dana">دستیار کامکو</MudText>
+        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary" Style="font-family:dana; font-size:small">ورژن: @version </MudText>
+
         <MudDivider Class="d-inline-flex" />
+        <div>
 
-        <MudNavLink Icon="@Icons.Material.Filled.Home">صفحه اصلی</MudNavLink>
-        <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.People" Title="پرسنل">
+            <MudNavLink Icon="@Icons.Material.Filled.Home">صفحه اصلی</MudNavLink>
+            <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.People" Title="پرسنل">
+                <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.DateRange" Title="مرخصی">
+                    <MudNavLink>مرخصی های من</MudNavLink>
+                    <MudNavLink>لیست مرخصی ها</MudNavLink>
+                    <MudNavLink>تایید مرخصی</MudNavLink>
 
-        </MudNavGroup>
-        <MudNavLink>Library</MudNavLink>
-        <MudNavLink>Community</MudNavLink>
+                </MudNavGroup>
+            </MudNavGroup>
+            <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.Settings" Title="تنظیمات">
+
+            </MudNavGroup>
+
+        </div>>
     </MudNavMenu>
 </MudDrawer>
 
@@ -24,7 +36,16 @@
 
 
 @code {
+    Assembly assembly = typeof(Program).Assembly;
+    string version = "";
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        version = assembly.GetName().Version.ToString();
+    }
 
+    // Assembly assembly = typeof(Program).Assembly;
+    
     bool open = true;
     bool dense = true;
     DrawerClipMode clipMode = DrawerClipMode.Always;
