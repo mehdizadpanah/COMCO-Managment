@@ -1,36 +1,61 @@
 ﻿@page "/login"
 
-<MudStack Class="d-flex align-content-center flex-wrap flex-grow-1 gap-4">
+@* <MudStack Class="d-flex align-content-center flex-wrap flex-grow-1 gap-4">
     <MudPaper Class="pa-4">
-        <MudStack Row="true">
+        <MudStack Row="true" Justify="Justify.Center">
             <MudAvatar Image="images/mony.jpg" Size="Size.Large" />
             <MudStack Justify="Justify.Center" Spacing="0">
-                <MudText Typo="Typo.body1">Mony Larsson</MudText>
-                <MudText Typo="Typo.body2">onebiteonekill@mony.dog</MudText>
+                <MudText Typo="Typo.h6" Style="font-family:dana; font-style:bold">ورود کاربر</MudText>
             </MudStack>
         </MudStack>
     </MudPaper>
 
-    <MudPaper Class="pa-4">
-        <MudStack Spacing="4">
-            <MudTextField T="string" Label="Card number" Mask="@(new PatternMask("0000 0000 0000 0000"))" />
-            <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Filled" InputType="InputType.Password" Adornment="Adornment.End" AdornmentIcon="Icons.Material.Filled.VisibilityOff" OnAdornmentClick="VisibleIconClick" AdornmentAriaLabel="Show Password" />
-
-            <MudStack Row="true">
-
-                <MudTextField T="string" Label="Expires" Mask="@(new DateMask("MM/YY", 'Y', 'M'))" />
-                <MudTextField T="string" Label="CVC" Mask="@(new PatternMask("000"))" />
-            </MudStack>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true">Pay Now</MudButton>
+    <MudPaper Class="pa-2">
+        <MudStack Spacing="2" Style="font-family:dana;">
+            <MudTextField @bind-Value="Username" Label="نام کاربری" Variant="Variant.Filled" InputType="InputType.Text" Adornment="Adornment.End" AdornmentIcon="Icons.Material.Filled.VisibilityOff" OnAdornmentClick="VisibleIconClick" AdornmentAriaLabel="Show Password" />
+            <MudTextField @bind-Value="Password" Label="کلمه عبور" Variant="Variant.Filled" InputType="InputType.Password" Adornment="Adornment.End" AdornmentIcon="Icons.Material.Filled.VisibilityOff" OnAdornmentClick="VisibleIconClick" AdornmentAriaLabel="Show Password" />
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true">ورود</MudButton>
         </MudStack>
     </MudPaper>
-</MudStack>
+</MudStack> *@
 
+<div class="container d-flex justify-content-center align-items-center pt-16" style="font-family:dana">
+
+    <MudPaper Square="true" style="width:45vh">
+        <div class="card-header">
+            <h4 class="text-center">ورود کاربر</h4>
+        </div>
+        <div class="card-body">
+            <div class="form-group pb-4">
+                <MudTextField Label="نام کاربری" InputType=InputType.Text Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Login"
+                              Adornment="Adornment.Start" Class="form-control" Style="height:40px;" @bind-Value="Username" />
+            </div>
+            <div class="form-group pb-4">
+                <MudTextField Label="کلمه عبور" InputType=InputType.Password Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Password"
+                              Adornment="Adornment.Start" Class="form-control" Style="height:40px;" @bind-Value="Password" />
+
+            </div>
+            <div class="form-group">
+                <MudCheckBox class="form-check" style="font-family:dana" Dense="true" @bind-Checked="@RememberMe" >
+                    <div style="font-family:dana;font-size:small" class="row-1"> مرا به خاطر بسپار</div>
+                </MudCheckBox>
+                @* <input type="checkbox" class="form-check-input" value="">مرا به خاطر بسپار *@
+            </div>
+            <div class="text-center">
+                <MudButton Style="font-family:dana" Variant="Variant.Filled" Color="Color.Primary" @onclick="LoginClick" Class="mt-3">ورود</MudButton>
+            </div>
+            
+        </div>
+
+    </MudPaper>
+</div>
 
 @code {
-    public string Password { get; set; } = "password";
+    public string Password { get; set; } = "";
+    public string Username { get; set; } = "";
+    public bool RememberMe { get; set; }
 
-    void VisibleIconClick()
+    void LoginClick()
     {
 
     }

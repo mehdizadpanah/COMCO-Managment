@@ -4,6 +4,9 @@ html, body {
     font-family: dana, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+body {
+    font-family: dana, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 h1:focus {
     outline: none;
 }

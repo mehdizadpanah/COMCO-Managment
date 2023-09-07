@@ -1,14 +1,13 @@
 ﻿@inherits LayoutComponentBase
 
-@* <PageTitle>PL</PageTitle> *@
-@* <MudThemeProvider Theme="MyCustomTheme" /> *@
+
 <MudRTLProvider RightToLeft="true">
     <MudThemeProvider />
     <MudDialogProvider />
     <MudSnackbarProvider />
 
     <MudLayout>
-        <MudInputLabel >
+        <MudInputLabel>
             <MudAppBar Elevation="0" Dense="true">
                 <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
 
@@ -20,9 +19,10 @@
 
             <NavMenu @ref="navMenu" />
 
-            <MudMainContent Class="pt-16 px-16" dir="rtl">
-
-                <MudContainer Class="mt-6 ">
+            @* <MudMainContent Class="pt-16 px-16"> *@
+            <MudMainContent Class="pt-6 px-1">
+                @* <MudContainer Class="mt-6 "> *@
+                <MudContainer>
 
 
 
