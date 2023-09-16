@@ -1,4 +1,7 @@
 ﻿@page "/login"
+@using SH.Class;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 
 
 <div class="container d-flex justify-content-center align-items-center pt-16" style="font-family:dana">
@@ -39,6 +42,7 @@
 
     void LoginClick()
     {
-
+        ((CustomAuthenticationStateProvider)AuthenticationStateProvider).UserAuthenticate(Username);
+        NavigationManager.NavigateTo("/");
     }
 }

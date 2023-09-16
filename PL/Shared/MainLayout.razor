@@ -9,20 +9,26 @@
     <MudLayout>
         <MudInputLabel>
             <MudAppBar Elevation="0" Dense="true">
-                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+                <AuthorizeView>
+
+                    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+
+                </AuthorizeView>
 
                 <MudSpacer />
                 <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
 
             </MudAppBar>
             @* </MudInputLabel> *@
+            <AuthorizeView>
+                <NavMenu @ref="navMenu" />
 
-            <NavMenu @ref="navMenu" />
+            </AuthorizeView>
 
-            @* <MudMainContent Class="pt-16 px-16"> *@
-            <MudMainContent Class="pt-6 px-1">
-                @* <MudContainer Class="mt-6 "> *@
-                <MudContainer>
+            <MudMainContent Class="pt-16 px-16">
+                @* <MudMainContent Class="pt-6 px-1"> *@
+                <MudContainer Class="mt-6 ">
+                    @* <MudContainer> *@
 
 
 
