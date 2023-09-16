@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SH.Class
+namespace SH.Service
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {

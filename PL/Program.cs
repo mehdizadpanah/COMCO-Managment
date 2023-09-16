@@ -4,7 +4,7 @@ using SH.Data.Model;
 using MudBlazor.Services;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Components.Authorization;
-using SH.Class;
+using SH.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
