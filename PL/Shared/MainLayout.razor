@@ -1,40 +1,101 @@
 ﻿@inherits LayoutComponentBase
 
-@* <PageTitle>PL</PageTitle> *@
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
 
-<MudLayout dir="rtl">
-    @* <MudInputLabel dir="rtl"> *@
-        <MudAppBar Elevation="1" Dense="false">
-            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
-            <MudSpacer />
-            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
-        </MudAppBar>
-    @* </MudInputLabel> *@
+<MudRTLProvider RightToLeft="true">
+    <MudThemeProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
 
-    <NavMenu @ref="navMenu" />
+    <MudLayout>
+        <MudInputLabel>
+            <MudAppBar Elevation="0" Dense="true">
+                <AuthorizeView>
 
-    <MudMainContent Class="pt-16 px-16" dir="rtl" >
-        <MudContainer Class="mt-6 ">
+                    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
 
-            
+                </AuthorizeView>
 
-            @Body
+                <MudSpacer />
+                <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
 
-           
+            </MudAppBar>
+            @* </MudInputLabel> *@
+            <AuthorizeView>
+                <NavMenu @ref="navMenu" />
 
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+            </AuthorizeView>
+
+            <MudMainContent Class="pt-16 px-16">
+                @* <MudMainContent Class="pt-6 px-1"> *@
+                <MudContainer Class="mt-6 ">
+                    @* <MudContainer> *@
+
+
+
+                    @Body
+
+
+
+                </MudContainer>
+            </MudMainContent>
+        </MudInputLabel>
+    </MudLayout>
+</MudRTLProvider>
 @code
 {
-    
+
     private NavMenu navMenu { get; set; }
     void ToggleDrawer()
     {
         navMenu.ToggleDrawer();
     }
+
+    MudTheme MyCustomTheme = new MudTheme()
+        {
+            Palette = new PaletteLight()
+            {
+                // TextPrimary = Colors.Shades.Black,
+                // Primary = Colors.Shades.White,
+                // PrimaryContrastText = Colors.Shades.White,
+                // Secondary = Colors.Grey.Lighten5,
+                // AppbarBackground = Colors.Indigo.Default,
+                // DrawerBackground  = Colors.Indigo.Default,
+                // DrawerText = Colors.Shades.White,
+                // DrawerIcon = Colors.Shades.White,
+                // AppbarText = Colors.Shades.White,
+                // Info = Colors.Shades.White,
+                // Primary = Colors.Indigo.Default,
+                // ActionDefault = "#ffffff",
+                // HoverOpacity = 0.5,
+                // DrawerBackground = Colors.Brown.Default,
+                // DrawerText = "#ffffff",
+                // DrawerIcon = "#ffffff",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            },
+            PaletteDark = new PaletteDark()
+            {
+                Primary = Colors.Red.Lighten1
+            },
+
+
+            // LayoutProperties = new LayoutProperties()
+            // {
+            //     DrawerWidthLeft = "260px",
+            //     DrawerWidthRight = "300px"
+            // }
+        };
 }
 

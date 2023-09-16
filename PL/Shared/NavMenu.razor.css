@@ -1,3 +1,31 @@
+::deep .mud-nav-link {
+    width: 100%;
+    font-weight: 400;
+    padding: 8px 16px 8px 16px;
+    color: black;
+    line-height: 1.75;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-transform: inherit;
+    background-color: transparent;
+    transition: background-color 250ms cubic-bezier(.4,0,.2,1) 0ms,box-shadow 250ms cubic-bezier(.4,0,.2,1) 0ms,border 250ms cubic-bezier(.4,0,.2,1) 0ms,padding 250ms cubic-bezier(.4,0,.2,1) 0ms;
+    align-items: flex-start;
+}
+
+::deep .mud-navmenu.mud-navmenu-default .mud-nav-link.active:not(.mud-nav-link-disabled) {
+    /*color: var(--mud-palette-primary);
+    background-color: var(--mud-palette-action-default-hover);*/
+    color: black;
+    background-color: transparent;
+}
+
+::deep .mud-navmenu.mud-navmenu-default .mud-nav-link-expand-icon.mud-transform {
+    /*fill: var(--mud-palette-primary);*/
+    fill: black;
+}
+
+
 .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
 }
