@@ -1,0 +1,48 @@
+﻿@page "/login"
+@using SH.Class;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+
+<div class="container d-flex justify-content-center align-items-center pt-16" style="font-family:dana">
+
+    <MudPaper Square="true" style="width:45vh">
+        <div class="card-header">
+            <h4 class="text-center">ورود کاربر</h4>
+        </div>
+        <div class="card-body">
+            <div class="form-group pb-4">
+                <MudTextField Label="نام کاربری" InputType=InputType.Text Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Login"
+                              Adornment="Adornment.Start" Class="form-control" Style="height:40px;" @bind-Value="Username" />
+            </div>
+            <div class="form-group pb-4">
+                <MudTextField Label="کلمه عبور" InputType=InputType.Password Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Password"
+                              Adornment="Adornment.Start" Class="form-control" Style="height:40px;" @bind-Value="Password" />
+
+            </div>
+            <div class="form-group">
+                <MudCheckBox class="form-check" style="font-family:dana" Dense="true" @bind-Checked="@RememberMe" >
+                    <div style="font-family:dana;font-size:small" class="row-1"> مرا به خاطر بسپار</div>
+                </MudCheckBox>
+                @* <input type="checkbox" class="form-check-input" value="">مرا به خاطر بسپار *@
+            </div>
+            <div class="text-center">
+                <MudButton Style="font-family:dana" Variant="Variant.Filled" Color="Color.Primary" @onclick="LoginClick" Class="mt-3">ورود</MudButton>
+            </div>
+            
+        </div>
+
+    </MudPaper>
+</div>
+
+@code {
+    public string Password { get; set; } = "";
+    public string Username { get; set; } = "";
+    public bool RememberMe { get; set; }
+
+    void LoginClick()
+    {
+        ((CustomAuthenticationStateProvider)AuthenticationStateProvider).UserAuthenticate(Username);
+        NavigationManager.NavigateTo("/");
+    }
+}

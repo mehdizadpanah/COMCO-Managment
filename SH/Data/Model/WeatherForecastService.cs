@@ -1,4 +1,4 @@
-namespace BL.Data.Model
+namespace SH.Data.Model
 {
     public class WeatherForecastService
     {

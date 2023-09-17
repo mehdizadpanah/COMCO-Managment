@@ -1,39 +1,58 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">PL</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿@using System.Reflection;
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
-    </nav>
-</div>
+
+
+<MudDrawer Class="border" @bind-Open="@open" ClipMode="clipMode" Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true" Color="Color.Surface">
+    @*  <MudDrawerHeader>
+    </MudDrawerHeader>
+    *@
+    <MudNavMenu Style="font-family:dana" Color="Color.Surface">
+        <MudText Class="mt-4 px-4" Typo="Typo.h6" Style="font-family:dana">دستیار کامکو</MudText>
+        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary" Style="font-family:dana; font-size:small">ورژن: @version </MudText>
+
+        <MudDivider Class="d-inline-flex" />
+        <div>
+
+            <MudNavLink Icon="@Icons.Material.Filled.Home">صفحه اصلی</MudNavLink>
+            <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.People" Title="پرسنل">
+                <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.DateRange" Title="مرخصی">
+                    <MudNavLink>مرخصی های من</MudNavLink>
+                    <MudNavLink>لیست مرخصی ها</MudNavLink>
+                    <MudNavLink>تایید مرخصی</MudNavLink>
+
+                </MudNavGroup>
+            </MudNavGroup>
+            <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.Settings" Title="تنظیمات">
+
+            </MudNavGroup>
+
+        </div>>
+    </MudNavMenu>
+</MudDrawer>
+
+
+
+
+
 
 @code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    Assembly assembly = typeof(Program).Assembly;
+    string version = "";
+    protected override void OnInitialized()
     {
-        collapseNavMenu = !collapseNavMenu;
+        base.OnInitialized();
+        version = assembly.GetName().Version.ToString();
+    }
+
+    // Assembly assembly = typeof(Program).Assembly;
+    
+    bool open = true;
+    bool dense = true;
+    DrawerClipMode clipMode = DrawerClipMode.Always;
+    public void ToggleDrawer()
+    {
+        open = !open;
+        Console.WriteLine(open);
+        StateHasChanged();
     }
 }

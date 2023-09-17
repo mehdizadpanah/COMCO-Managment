@@ -16,8 +16,4 @@
     <PackageReference Include="System.DirectoryServices.Protocols" Version="7.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BL\BL.csproj" />
-  </ItemGroup>
-
 </Project>
