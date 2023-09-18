@@ -2,6 +2,8 @@
 @using SH.Service;
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject ISnackbar SnackbarService
+
 
 
 <div class="container d-flex justify-content-center align-items-center pt-16" style="font-family:dana">
@@ -21,7 +23,7 @@
 
             </div>
             <div class="form-group">
-                <MudCheckBox class="form-check" style="font-family:dana" Dense="true" @bind-Checked="@RememberMe" >
+                <MudCheckBox class="form-check" style="font-family:dana" Dense="true" @bind-Checked="@RememberMe">
                     <div style="font-family:dana;font-size:small" class="row-1"> مرا به خاطر بسپار</div>
                 </MudCheckBox>
                 @* <input type="checkbox" class="form-check-input" value="">مرا به خاطر بسپار *@
@@ -29,7 +31,7 @@
             <div class="text-center">
                 <MudButton Style="font-family:dana" Variant="Variant.Filled" Color="Color.Primary" @onclick="LoginClick" Class="mt-3">ورود</MudButton>
             </div>
-            
+
         </div>
 
     </MudPaper>
@@ -40,9 +42,17 @@
     public string Username { get; set; } = "";
     public bool RememberMe { get; set; }
 
-    void LoginClick()
+    async void LoginClick()
     {
-        ((CustomAuthenticationStateProvider)AuthenticationStateProvider).UserAuthenticate(Username);
-        NavigationManager.NavigateTo("/");
+        var result = await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).Login(Username, Password, RememberMe);
+        if (!result)
+        {
+            SnackbarService.Add(@<div style="font-family:dana">نام کاربری و یا کلمه عبور اشتباه است.</div>, Severity.Error);
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/");
+        }
+
     }
 }

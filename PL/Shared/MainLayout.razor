@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Reflection
+@inherits LayoutComponentBase
 
 
 <MudRTLProvider RightToLeft="true">
@@ -7,28 +8,32 @@
     <MudSnackbarProvider />
 
     <MudLayout>
+
         <MudInputLabel>
+
             <MudAppBar Elevation="0" Dense="true">
                 <AuthorizeView>
 
                     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+                    <ProfileMenu Open="@ProfileMenuOpen"></ProfileMenu>
+                    <MudSpacer />
+                    <div Class="px-14">
+                        <MudIconButton OnClick="@ProfileClick" Icon="@Icons.Filled.Person" Color="Color.Inherit" Target="_blank" />
+                    </div>
 
                 </AuthorizeView>
 
-                <MudSpacer />
-                <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
 
             </MudAppBar>
-            @* </MudInputLabel> *@
+
             <AuthorizeView>
-                <NavMenu @ref="navMenu" />
+                <NavMenu @ref="NavMenu" Version="@_version"/>
 
             </AuthorizeView>
 
             <MudMainContent Class="pt-16 px-16">
-                @* <MudMainContent Class="pt-6 px-1"> *@
+
                 <MudContainer Class="mt-6 ">
-                    @* <MudContainer> *@
 
 
 
@@ -43,59 +48,28 @@
 </MudRTLProvider>
 @code
 {
+    public bool ProfileMenuOpen { get; set; }
+    private NavMenu NavMenu { get; set; }
+    readonly Assembly _assembly = typeof(Program).Assembly;
+    string? _version = "";
 
-    private NavMenu navMenu { get; set; }
-    void ToggleDrawer()
+    protected override void OnInitialized()
     {
-        navMenu.ToggleDrawer();
+        base.OnInitialized();
+        _version = _assembly.GetName().Version?.ToString();
     }
 
-    MudTheme MyCustomTheme = new MudTheme()
-        {
-            Palette = new PaletteLight()
-            {
-                // TextPrimary = Colors.Shades.Black,
-                // Primary = Colors.Shades.White,
-                // PrimaryContrastText = Colors.Shades.White,
-                // Secondary = Colors.Grey.Lighten5,
-                // AppbarBackground = Colors.Indigo.Default,
-                // DrawerBackground  = Colors.Indigo.Default,
-                // DrawerText = Colors.Shades.White,
-                // DrawerIcon = Colors.Shades.White,
-                // AppbarText = Colors.Shades.White,
-                // Info = Colors.Shades.White,
-                // Primary = Colors.Indigo.Default,
-                // ActionDefault = "#ffffff",
-                // HoverOpacity = 0.5,
-                // DrawerBackground = Colors.Brown.Default,
-                // DrawerText = "#ffffff",
-                // DrawerIcon = "#ffffff",
+    void ToggleDrawer()
+    {
+        NavMenu.ToggleDrawer();
+    }
+
+    void ProfileClick()
+    {
+        ProfileMenuOpen = !ProfileMenuOpen;
+    }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-            },
-            PaletteDark = new PaletteDark()
-            {
-                Primary = Colors.Red.Lighten1
-            },
-
-
-            // LayoutProperties = new LayoutProperties()
-            // {
-            //     DrawerWidthLeft = "260px",
-            //     DrawerWidthRight = "300px"
-            // }
-        };
 }
 

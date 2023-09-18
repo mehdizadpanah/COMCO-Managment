@@ -2,13 +2,10 @@
 
 
 
-<MudDrawer Class="border" @bind-Open="@open" ClipMode="clipMode" Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true" Color="Color.Surface">
-    @*  <MudDrawerHeader>
-    </MudDrawerHeader>
-    *@
+<MudDrawer Class="border" @bind-Open="@_open" ClipMode="_clipMode" Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true" Color="Color.Surface">
     <MudNavMenu Style="font-family:dana" Color="Color.Surface">
         <MudText Class="mt-4 px-4" Typo="Typo.h6" Style="font-family:dana">دستیار کامکو</MudText>
-        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary" Style="font-family:dana; font-size:small">ورژن: @version </MudText>
+        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary" Style="font-family:dana; font-size:small">ورژن: @Version </MudText>
 
         <MudDivider Class="d-inline-flex" />
         <div>
@@ -36,23 +33,16 @@
 
 
 @code {
-    Assembly assembly = typeof(Program).Assembly;
-    string version = "";
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        version = assembly.GetName().Version.ToString();
-    }
 
-    // Assembly assembly = typeof(Program).Assembly;
-    
-    bool open = true;
-    bool dense = true;
-    DrawerClipMode clipMode = DrawerClipMode.Always;
+    [Parameter]
+    public string Version { get; set; } = "";
+    bool _open = true;
+    bool _dense = true;
+    DrawerClipMode _clipMode = DrawerClipMode.Always;
+
     public void ToggleDrawer()
     {
-        open = !open;
-        Console.WriteLine(open);
+        _open = !_open;
         StateHasChanged();
     }
 }

@@ -1,0 +1,21 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+
+<MudPopover Class="px-15" Open="@Open" OverflowBehavior="OverflowBehavior.FlipAlways" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft" Paper="false">
+    <MudPaper Outlined="true" Class="px-4 py-2">
+        <MudLink @onclick="Logout">Logout</MudLink>
+    </MudPaper>
+</MudPopover>
+
+
+@code {
+
+    [Parameter]
+    public bool Open { get; set; } = false;
+    async void Logout()
+    {
+        await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).Logout();
+        NavigationManager.NavigateTo("/");
+    }
+}
