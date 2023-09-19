@@ -18,7 +18,7 @@
                     <ProfileMenu Open="@ProfileMenuOpen"></ProfileMenu>
                     <MudSpacer />
                     <div Class="px-14">
-                        <MudIconButton OnClick="@ProfileClick" Icon="@Icons.Filled.Person" Color="Color.Inherit" Target="_blank" />
+                        <MudIconButton OnClick="@ProfileClick" Icon="@Icons.Material.Filled.Person" Color="Color.Inherit" Target="_blank" />
                     </div>
 
                 </AuthorizeView>
@@ -27,7 +27,7 @@
             </MudAppBar>
 
             <AuthorizeView>
-                <NavMenu @ref="NavMenu" Version="@_version"/>
+                <NavMenu Version="@_version"/>
 
             </AuthorizeView>
 
@@ -49,7 +49,7 @@
 @code
 {
     public bool ProfileMenuOpen { get; set; }
-    private NavMenu NavMenu { get; set; }
+    private NavMenu? NavMenu { get; set; }
     readonly Assembly _assembly = typeof(Program).Assembly;
     string? _version = "";
 
@@ -61,7 +61,7 @@
 
     void ToggleDrawer()
     {
-        NavMenu.ToggleDrawer();
+        NavMenu?.ToggleDrawer();
     }
 
     void ProfileClick()
