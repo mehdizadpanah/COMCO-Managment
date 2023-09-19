@@ -42,10 +42,21 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapBlazorHub();
+    endpoints.MapFallbackToPage("/_Host");
+
+    // Configure a route to read the default page from the shared project
+    endpoints.MapFallbackToPage("/shared-default", "/_content/SH/Pages/Index.razor");
+});
+
+//app.MapBlazorHub();
+//app.MapFallbackToPage("/_Host");
 
 app.Run();

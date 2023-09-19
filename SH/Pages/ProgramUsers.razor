@@ -1,10 +1,10 @@
-﻿@page "/PrgramUsers"
+﻿@page "/programusers"
 @using SH.Data.ModelVM;
 
 <h3>ProgramUsers</h3>
 
 
-<MudDataGrid Items="@ProgramUsersModel">
+<MudDataGrid Items="@_programUsersModel">
     <Columns>
         <PropertyColumn Property="x => x.FirstName" Title="Nr" />
         <PropertyColumn Property="x => x.LastName" />
@@ -15,7 +15,7 @@
 </MudDataGrid>
 
 @code {
-    private IEnumerable<ProgramUserVm> ProgramUsersModel = new List<ProgramUserVm>();
+    private IEnumerable<ProgramUserVm> _programUsersModel = new List<ProgramUserVm>();
 
 
 }

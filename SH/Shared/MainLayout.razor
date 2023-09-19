@@ -51,13 +51,13 @@
 {
     public bool ProfileMenuOpen { get; set; }
     private NavMenu? NavMenu { get; set; }
-    readonly Assembly _assembly = typeof(Program).Assembly;
+    // readonly Assembly _assembly = typeof(Program).Assembly;
     string? _version = "";
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _version = _assembly.GetName().Version?.ToString();
+        // _version = _assembly.GetName().Version?.ToString();
     }
 
     void ToggleDrawer()
