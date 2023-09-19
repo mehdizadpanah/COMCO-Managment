@@ -1,0 +1,21 @@
+﻿@page "/PrgramUsers"
+@using SH.Data.ModelVM;
+
+<h3>ProgramUsers</h3>
+
+
+<MudDataGrid Items="@ProgramUsersModel">
+    <Columns>
+        <PropertyColumn Property="x => x.FirstName" Title="Nr" />
+        <PropertyColumn Property="x => x.LastName" />
+        <PropertyColumn Property="x => x.Email" />
+        <PropertyColumn Property="x => x.Mobile" />
+        <PropertyColumn Property="x => x.Phone" Title="Molar mass" />
+    </Columns>
+</MudDataGrid>
+
+@code {
+    private IEnumerable<ProgramUserVm> ProgramUsersModel = new List<ProgramUserVm>();
+
+
+}

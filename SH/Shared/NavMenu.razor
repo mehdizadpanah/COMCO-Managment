@@ -20,10 +20,17 @@
                 </MudNavGroup>
             </MudNavGroup>
             <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.Settings" Title="تنظیمات">
+                <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.SupervisedUserCircle" Title="تنظیمات کاربران">
+                    <div CssScope="" style="color:black !important; background:transparent !important">
+                        <MudNavLink Style="color:black !important">کاربران</MudNavLink>
+                        <MudNavLink>گروه های دسترسی</MudNavLink>
+                        <MudNavLink>تیم ها</MudNavLink>
+                    </div>
+                </MudNavGroup>
 
             </MudNavGroup>
 
-        </div>>
+        </div>
     </MudNavMenu>
 </MudDrawer>
 
@@ -44,4 +51,6 @@
         _open = !_open;
         StateHasChanged();
     }
+
+
 }
