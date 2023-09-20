@@ -9,6 +9,7 @@ using Blazored.LocalStorage;
 using Microsoft.VisualBasic;
 using SH.Data.Model;
 using System.Security.Principal;
+using Microsoft.AspNetCore.Components;
 
 namespace SH.Service
 {
@@ -16,12 +17,12 @@ namespace SH.Service
 
     {
         public ILocalStorageService LocalStorageService { get; set; }
+        public NavigationManager NavigationManager { get; set; }
 
-        public CustomAuthenticationStateProvider(ILocalStorageService localStorageService)
+        public CustomAuthenticationStateProvider(ILocalStorageService localStorageService, NavigationManager navigationManager)
         {
             LocalStorageService = localStorageService;
-            
-
+            NavigationManager = navigationManager;
         }
 
        
@@ -75,6 +76,7 @@ namespace SH.Service
             var identity = new ClaimsIdentity();
             var user = new ClaimsPrincipal(identity);
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
+            NavigationManager.NavigateTo("/Login");
 
         }
     }

@@ -1,3 +1,5 @@
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using SH.Data.Model;
 using MudBlazor.Services;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -13,7 +15,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices(config =>
 {
-    
+
     config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomCenter;
 
     config.SnackbarConfiguration.PreventDuplicates = false;
@@ -26,6 +28,9 @@ builder.Services.AddMudServices(config =>
 });
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+builder.Services.AddSingleton<HtmlEncoder>(
+    HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+        UnicodeRanges.Arabic }));
 
 builder.Services.AddBlazoredLocalStorage();
 
@@ -47,16 +52,17 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
+//app.UseEndpoints(endpoints =>
 {
-    endpoints.MapBlazorHub();
-    endpoints.MapFallbackToPage("/_Host");
+    //endpoints.MapBlazorHub();
+    //endpoints.MapFallbackToPage("/_Host");
 
     // Configure a route to read the default page from the shared project
-    endpoints.MapFallbackToPage("/shared-default", "/_content/SH/Pages/Index.razor");
-});
+    //endpoints.MapFallbackToPage("/shared-default", "/_content/SH/Pages/Index.razor");
+    //});
 
-//app.MapBlazorHub();
-//app.MapFallbackToPage("/_Host");
+    app.MapBlazorHub();
+    app.MapFallbackToPage("/_Host");
 
-app.Run();
+    app.Run();
+}

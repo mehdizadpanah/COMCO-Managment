@@ -1,21 +1,44 @@
-﻿@page "/programusers"
+﻿@page "/programusers" 
 @using SH.Data.ModelVM;
+@using SH.Shared
+@using System.Runtime.CompilerServices
 
-<h3>ProgramUsers</h3>
+<div style="font-family:dana; font-language-override:revert">
+    <h3>کاربران برنامه</h3>
 
 
-<MudDataGrid Items="@_programUsersModel">
-    <Columns>
-        <PropertyColumn Property="x => x.FirstName" Title="Nr" />
-        <PropertyColumn Property="x => x.LastName" />
-        <PropertyColumn Property="x => x.Email" />
-        <PropertyColumn Property="x => x.Mobile" />
-        <PropertyColumn Property="x => x.Phone" Title="Molar mass" />
-    </Columns>
-</MudDataGrid>
+    <MudDataGrid Items="@_programUsersModel" Dense="true" Class="mt-16">
+        <Columns>
+            <PropertyColumn Property="x => x.FirstName " Title="نام" />
+            <PropertyColumn Property="x => x.Email" Title="آیمیل" />
+            <PropertyColumn Property="x => x.Mobile" Title="موبایل" />
+            <PropertyColumn Property="x => x.Phone" Title="شماره تماس" />
+        </Columns>
+        
+    </MudDataGrid>
+</div>
 
-@code {
-    private IEnumerable<ProgramUserVm> _programUsersModel = new List<ProgramUserVm>();
+@code
+{
+    private readonly IEnumerable<ProgramUserVm> _programUsersModel = new List<ProgramUserVm>
+    {
+        new ProgramUserVm
+        {
+            FirstName = "مهدی",
+            LastName = "ایزدپناه",
+            Phone = "71749900",
+            Mobile = "09123029200",
 
+        },
+        new ProgramUserVm
+        {
+            FirstName = "مهدی",
+            LastName = "ایزدپناه",
+            Phone = "71749900",
+            Mobile = "09123029200",
+
+        }
+
+    };
 
 }

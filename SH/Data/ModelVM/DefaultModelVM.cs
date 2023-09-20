@@ -8,10 +8,10 @@ namespace SH.Data.ModelVM
 {
     public  class DefaultModelVm
     {
-        public ProgramUserVm Creator { get; set; } = new();
+        public ProgramUserVm Creator { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
-        public ProgramUserVm UpdatedBy { get; set; } = new();
+        public ProgramUserVm UpdatedBy { get; set; }
 
     }
 }

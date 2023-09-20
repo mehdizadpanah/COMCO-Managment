@@ -18,8 +18,4 @@
     <ProjectReference Include="..\SH\SH.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Shared\" />
-  </ItemGroup>
-
 </Project>
