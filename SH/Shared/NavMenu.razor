@@ -2,7 +2,7 @@
 
 
 
-<MudDrawer Class="border" @bind-Open="@_open" ClipMode="_clipMode" Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true" Color="Color.Surface">
+<MudDrawer Class="border" @bind-Open="@OpenMenu" ClipMode="_clipMode" Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true" Color="Color.Surface">
     <MudNavMenu Style="font-family:dana" Color="Color.Surface">
         <MudText Class="mt-4 px-4" Typo="Typo.h6" Style="font-family:dana">دستیار کامکو</MudText>
         <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary" Style="font-family:dana; font-size:small">ورژن: @Version </MudText>
@@ -41,12 +41,13 @@
 
     [Parameter]
     public string Version { get; set; } = "";
-    bool _open = true;
-    DrawerClipMode _clipMode = DrawerClipMode.Always;
+    [Parameter]
+    public bool OpenMenu { get; set; }
+
+        DrawerClipMode _clipMode = DrawerClipMode.Always;
 
     public void ToggleDrawer()
     {
-        _open = !_open;
         StateHasChanged();
     }
 

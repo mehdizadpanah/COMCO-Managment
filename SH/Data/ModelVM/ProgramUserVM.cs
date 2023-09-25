@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SH.Service.Public;
 
 namespace SH.Data.ModelVM
 {
@@ -10,18 +11,23 @@ namespace SH.Data.ModelVM
             FullName = new string(FirstName + " " + LastName);
         }
 
-        
-        public Guid Id { get; set; } 
+
+        public Guid Id { get; set; }
+        public string ProfilePicture { get; set; } = string.Empty;
+        [Required]
         public string DcUsername { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string FullName { get; set; }
-        public string Email { get; set; } = string.Empty;   
-        public string Phone { get; set; } = string.Empty;
-        public string Mobile { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Phone { get => phone; set => phone = value.ToPersianNumber(); }
+        public string PhoneP { get; set; }
+        public string Mobile { get => mobile; set => mobile = value.ToPersianNumber(); }
+        public string Address { get; set; }
         public List<ProgramGroupVm>? ProgramGroupVms { get; set; }
         public ProgramTeamVm? ProgramTeamVm { get; set; }
 
-
+        private string phone;
+        private string mobile;
     }
 }

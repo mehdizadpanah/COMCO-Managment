@@ -1,44 +1,115 @@
-﻿@page "/programusers" 
+﻿@page "/programusers"
+@inject IDialogService DialogService
+@inject IMapper mapper
+@inject dataFile dataFile
+
+
 @using SH.Data.ModelVM;
+@using SH.Service;
 @using SH.Shared
 @using System.Runtime.CompilerServices
+@using SH.Service.Public
+@using System.ComponentModel.Design.Serialization
+@using System.Runtime.Loader
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using AutoMapper
+@using Microsoft.AspNetCore.Authentication
 
 <div style="font-family:dana; font-language-override:revert">
     <h3>کاربران برنامه</h3>
-
-
-    <MudDataGrid Items="@_programUsersModel" Dense="true" Class="mt-16">
+    <MudPaper Elevation="10" Class="mt-10 mb-4" Style="background:#E5E4E2">
+        <MudToolBar Dense="true">
+            <MudIconButton Icon="@Icons.Material.Outlined.Add" Size="Size.Small" />
+            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+            <MudIconButton Icon="@Icons.Material.Outlined.Remove" Size="Size.Small" />
+        </MudToolBar>
+    </MudPaper>
+    <MudDataGrid Bordered="false" Class="" Dense="true" RowClick="@OpenDetail" Hover="true" Items="@_programUsersModel"
+                 ReadOnly="false" T="ProgramUserVm" ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="true"
+                 SelectedItemChanged="@SelectItemChanged">
         <Columns>
-            <PropertyColumn Property="x => x.FirstName " Title="نام" />
-            <PropertyColumn Property="x => x.Email" Title="آیمیل" />
-            <PropertyColumn Property="x => x.Mobile" Title="موبایل" />
-            <PropertyColumn Property="x => x.Phone" Title="شماره تماس" />
+            <SelectColumn />
+           @*  <TemplateColumn>
+                <CellTemplate>
+                    <MudAvatar src="@context.Item.ProfilePicture" />
+                </CellTemplate>
+            </TemplateColumn> *@
+            <PropertyColumn Property="x => x.FirstName" Title="نام" HeaderStyle="font-weight: bold" />
+            <PropertyColumn Property="x => x.LastName" Title="نام خانوادگی" HeaderStyle="font-weight: bold" />
+            <PropertyColumn Property="x => x.Email" Title="ایمیل" HeaderStyle="font-weight: bold" />
+            <PropertyColumn Property="x => x.Mobile.ToPersianNumber()" Title="موبایل" HeaderStyle="font-weight: bold" />
+            <PropertyColumn Property="x => x.Phone.ToPersianNumber()" Title="شماره تماس" HeaderStyle="font-weight: bold" />
+           
         </Columns>
-        
+
     </MudDataGrid>
+
 </div>
 
 @code
 {
-    private readonly IEnumerable<ProgramUserVm> _programUsersModel = new List<ProgramUserVm>
+    IEnumerable<ProgramUserVm> _programUsersModel = new List<ProgramUserVm>();
+    protected override void OnInitialized()
     {
-        new ProgramUserVm
-        {
-            FirstName = "مهدی",
-            LastName = "ایزدپناه",
-            Phone = "71749900",
-            Mobile = "09123029200",
+        base.OnInitialized();
+        _programUsersModel = dataFile.GetProgramUserVms();
+    }
 
-        },
-        new ProgramUserVm
+    // private IEnumerable<ProgramUserVm> _programUsersModel = new List<ProgramUserVm>
+    // {
+    //     new ProgramUserVm
+    //     {
+    //         FirstName = "مهدی",
+    //         LastName = "ایزدپناه",
+    //         Phone = "71749900".ToPersianNumber(),
+    //         Mobile = "09123029200".ToPersianNumber(),
+    //         DcUsername = "mi@persianpadana.local"
+
+    //     },
+    //     new ProgramUserVm
+    //     {
+    //         FirstName = "فراز",
+    //         LastName = "ایزدپناه",
+    //         Phone = "71749900".ToPersianNumber(),
+    //         Mobile = "09123029200".ToPersianNumber(),
+    //         DcUsername = "faraz@persianpadana.local",
+
+
+    //     }
+
+    // };
+
+    async Task OpenDetail(DataGridRowClickEventArgs<ProgramUserVm> args)
+    {
+        var recycle = JsonSerializer.Serialize(args.Item);
+
+        var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true };
+        var parameters = new DialogParameters<ProgramUserDetail>();
+        parameters.Add(x => x.ProgramUserVm, args.Item);
+        var result = await DialogService.Show<ProgramUserDetail>(null, parameters, options).Result;
+        if (!result.Canceled)
         {
-            FirstName = "مهدی",
-            LastName = "ایزدپناه",
-            Phone = "71749900",
-            Mobile = "09123029200",
+            dataFile.SaveProgramUserVms(_programUsersModel);
+            StateHasChanged();
+        }
+        if (result.Canceled)
+        {
+            var rec = JsonSerializer.Deserialize<ProgramUserVm>(recycle);
+            _programUsersModel = _programUsersModel.Select(x =>
+            {
+                if (x.Id == rec.Id)
+                {
+                    return rec;
+                }
+                return x;
+            }).ToList();
 
         }
+    }
 
-    };
+    void SelectItemChanged()
+    {
 
+    }
 }

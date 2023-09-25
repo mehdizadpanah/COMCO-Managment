@@ -1,0 +1,160 @@
+﻿@using Microsoft.AspNetCore.Hosting;
+@using SH.Data.ModelVM;
+@using SH.Service.Public
+@using AutoMapper
+@inject IMapper mapper
+@inject IWebHostEnvironment webHostEnvironment
+
+
+<MudDialog Class="w-50" style="font-family:dana !important">
+    <DialogContent>
+        <EditForm Model="@ProgramUserVm" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudGrid Spacing="2">
+                <MudItem xs="12">
+                    <MudStack>
+                        <MudStack Row="true">
+                            <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
+                                <ButtonTemplate Context="fileContext">
+                                    <MudElement HtmlTag="label" for="@fileContext">
+                                        <MudImage ObjectFit="ObjectFit.ScaleDown" Src="@ProgramUserVm.ProfilePicture" Width="150" Height="150" Alt="Profile Picture"
+                                                  Elevation="25" Class="rounded-lg" Style="cursor:pointer" />
+                                    </MudElement>
+                                </ButtonTemplate>
+                            </MudFileUpload>
+                        </MudStack>
+
+                        <h4 style="font-weight:bold">مشخصات کاربر</h4>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="6" Style="min-width:130px">
+                    <MudTextField Label="نام" HelperText="" Class="order-0"
+                    @bind-Value="ProgramUserVm.FirstName" For="@(() => ProgramUserVm.FirstName)" />
+                </MudItem>
+                <MudItem xs="6" style="min-width:130px">
+                    <MudTextField Label="نام خانوادگی" HelperText=""
+                    @bind-Value="ProgramUserVm.LastName" For="@(() => ProgramUserVm.LastName)" />
+                </MudItem>
+                <MudItem xs="6" style="min-width:130px">
+                    <MudTextField Label="شماره تماس" HelperText=""
+                    @bind-Value="ProgramUserVm.Phone" For="@(() => ProgramUserVm.Phone)" />
+                </MudItem>
+                <MudItem xs="6" Style="min-width:130px">
+                    <MudTextField Label="موبایل" HelperText=""
+                    @bind-Value="ProgramUserVm.Mobile" For="@(() => ProgramUserVm.Mobile)" />
+                </MudItem>
+                <MudItem xs="6" style="min-width:130px">
+                    <MudTextField Label="ایمیل" HelperText=""
+                    @bind-Value="ProgramUserVm.Email" For="@(() => ProgramUserVm.Email)" />
+                </MudItem>
+                <MudItem xs="6" Style="min-width:130px">
+                    <MudTextField Label="نام کاربری دامین" HelperText=""
+                    @bind-Value="ProgramUserVm.DcUsername" For="@(() => ProgramUserVm.DcUsername)" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField Label="ادرس" HelperText=""
+                    @bind-Value="ProgramUserVm.Address" For="@(() => ProgramUserVm.Address)" />
+                </MudItem>
+
+            </MudGrid>
+        </EditForm>
+        <div Style="font-family:dana !important" class="pt-6 pb-4">
+            <MudButton Color="Color.Primary" Style="font-family:dana" OnClick="Submit">قبول</MudButton>
+            <MudButton OnClick="Cancel" style="font-family:dana">رد</MudButton>
+        </div>
+    </DialogContent>
+
+</MudDialog>
+
+@code {
+    [Parameter]
+    public ProgramUserVm? ProgramUserVm { get; set; }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    bool _success;
+    string fileContext;
+    string newProfilePicture;
+    string oldProfilePicture;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (ProgramUserVm.ProfilePicture == "")
+        {
+            ProgramUserVm.ProfilePicture = "_content\\SH\\Pictures\\empty-profile-image.jpg";
+        }
+    }
+    private void OnValidSubmit(EditContext context)
+    {
+        _success = true;
+        StateHasChanged();
+    }
+    private async Task UploadFiles2(IBrowserFile file)
+    {
+        try
+        {
+            if (file != null)
+            {
+                var filename = Guid.NewGuid().ToString() + Path.GetExtension(file.Name);
+                var newfile = await file.RequestImageFileAsync(Path.GetExtension(file.Name), 150, 150);
+                var PPath = "C:\\Users\\mehiz\\source\\repos\\mehdizadpanah\\COMCO-Managment\\SH\\wwwroot";
+                newProfilePicture = Path.Combine(PPath, "TempPicture", filename);
+                
+                if (ProgramUserVm.ProfilePicture != "_content\\SH\\Pictures\\empty-profile-image.jpg")
+                {
+                    oldProfilePicture = Path.Combine(PPath, "TempPicture", Path.GetFileName(ProgramUserVm.ProfilePicture));
+                   
+                }
+                if (!Directory.Exists(Path.GetDirectoryName(newProfilePicture)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(newProfilePicture));
+                }
+                using (var stream = new FileStream(newProfilePicture, FileMode.Create))
+                {
+                    await newfile.OpenReadStream().CopyToAsync(stream);
+                    stream.Close();
+                }
+                ProgramUserVm.ProfilePicture = "_content/SH/TempPicture/" + Path.GetFileName(newProfilePicture);
+            }
+        }
+        catch (Exception e)
+        {
+
+            throw new Exception(e.Message);
+        }
+
+        // files.Add(file);
+
+        //TODO upload the files to the server
+    }
+
+    void Submit() 
+    {
+        if (!string.IsNullOrEmpty(oldProfilePicture))
+        {
+            if (File.Exists(oldProfilePicture))
+            {
+                File.Delete(oldProfilePicture);
+            }
+        }
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void Cancel()
+    {
+        if (!string.IsNullOrEmpty(newProfilePicture))
+        {
+            if (File.Exists(newProfilePicture))
+            {
+                File.Delete(newProfilePicture);
+            }
+
+        }
+        ProgramUserVm.ProfilePicture = "_content/SH/TempPicture/" + Path.GetFileName(oldProfilePicture);
+
+        Console.WriteLine("Cancled");
+
+        MudDialog.Dispose();
+        MudDialog.Cancel();
+
+    }
+}

@@ -28,7 +28,7 @@
             </MudAppBar>
 
             <AuthorizeView>
-                <NavMenu Version="@_version"/>
+                <NavMenu Version="@_version" OpenMenu="@_openManu"/>
 
             </AuthorizeView>
 
@@ -51,6 +51,7 @@
 {
     public bool ProfileMenuOpen { get; set; }
     private NavMenu? NavMenu { get; set; }
+    bool _openManu=true;
     // readonly Assembly _assembly = typeof(Program).Assembly;
     string? _version = "";
 
@@ -62,6 +63,7 @@
 
     void ToggleDrawer()
     {
+        _openManu = !_openManu;
         NavMenu?.ToggleDrawer();
     }
 
