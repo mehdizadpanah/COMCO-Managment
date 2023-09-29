@@ -20,7 +20,7 @@
     <h3>کاربران برنامه</h3>
     <MudPaper Elevation="10" Class="mt-10 mb-4" Style="background:#E5E4E2">
         <MudToolBar Dense="true">
-            <MudIconButton Icon="@Icons.Material.Outlined.Add" Size="Size.Small" />
+            <MudIconButton OnClick="@NewDetail" Icon="@Icons.Material.Outlined.Add" Size="Size.Small" />
             <MudIconButton Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
             <MudIconButton Icon="@Icons.Material.Outlined.Remove" Size="Size.Small" />
         </MudToolBar>
@@ -30,17 +30,17 @@
                  SelectedItemChanged="@SelectItemChanged">
         <Columns>
             <SelectColumn />
-           @*  <TemplateColumn>
-                <CellTemplate>
-                    <MudAvatar src="@context.Item.ProfilePicture" />
-                </CellTemplate>
+            @*  <TemplateColumn>
+            <CellTemplate>
+            <MudAvatar src="@context.Item.ProfilePicture" />
+            </CellTemplate>
             </TemplateColumn> *@
             <PropertyColumn Property="x => x.FirstName" Title="نام" HeaderStyle="font-weight: bold" />
             <PropertyColumn Property="x => x.LastName" Title="نام خانوادگی" HeaderStyle="font-weight: bold" />
             <PropertyColumn Property="x => x.Email" Title="ایمیل" HeaderStyle="font-weight: bold" />
             <PropertyColumn Property="x => x.Mobile.ToPersianNumber()" Title="موبایل" HeaderStyle="font-weight: bold" />
             <PropertyColumn Property="x => x.Phone.ToPersianNumber()" Title="شماره تماس" HeaderStyle="font-weight: bold" />
-           
+
         </Columns>
 
     </MudDataGrid>
@@ -107,6 +107,25 @@
 
         }
     }
+
+    async Task NewDetail(MouseEventArgs args)
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true };
+        var parameters = new DialogParameters<ProgramUserDetail>();
+        parameters.Add(x => x.ProgramUserVm, new ProgramUserVm());
+        var result = await DialogService.Show<ProgramUserDetail>(null, parameters, options).Result;
+        if (!result.Canceled)
+        {
+            var temp = (ProgramUserVm)result.Data;
+            _programUsersModel = _programUsersModel.Concat(new[] { temp });
+            Console.WriteLine(_programUsersModel.Count().ToString());
+
+            // dataFile.SaveProgramUserVms(_programUsersModel);
+            StateHasChanged();
+        }
+
+    }
+
 
     void SelectItemChanged()
     {

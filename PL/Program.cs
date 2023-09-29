@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using SH.Service;
 using Blazored.LocalStorage;
 using MudBlazor;
+using SH.Data.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 

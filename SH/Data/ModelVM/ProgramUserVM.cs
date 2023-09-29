@@ -3,7 +3,7 @@ using SH.Service.Public;
 
 namespace SH.Data.ModelVM
 {
-    public class ProgramUserVm : DefaultModelVm
+    public class ProgramUserVm : DefaultModelVm 
     {
         public ProgramUserVm()
         {
@@ -14,8 +14,10 @@ namespace SH.Data.ModelVM
 
         public Guid Id { get; set; }
         public string ProfilePicture { get; set; } = string.Empty;
-        [Required]
+        //[Required (ErrorMessage = "نام کاربری اجباری می باشد!!!")]
         public string DcUsername { get; set; } = string.Empty;
+        //[Required(ErrorMessage = "نام اجباری می باشد!!!")]
+
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string FullName { get; set; }

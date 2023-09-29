@@ -2,14 +2,16 @@
 @using SH.Data.ModelVM;
 @using SH.Service.Public
 @using AutoMapper
+@using SH.Data.Validator
+
 @inject IMapper mapper
 @inject IWebHostEnvironment webHostEnvironment
 
 
 <MudDialog Class="w-50" style="font-family:dana !important">
     <DialogContent>
-        <EditForm Model="@ProgramUserVm" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator />
+        <MudForm Model="@ProgramUserVm" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0">
+            @* <DataAnnotationsValidator /> *@
             <MudGrid Spacing="2">
                 <MudItem xs="12">
                     <MudStack>
@@ -28,7 +30,7 @@
                     </MudStack>
                 </MudItem>
                 <MudItem xs="6" Style="min-width:130px">
-                    <MudTextField Label="نام" HelperText="" Class="order-0"
+                    <MudTextField Label="نام" Class="order-0" Immediate="true"
                     @bind-Value="ProgramUserVm.FirstName" For="@(() => ProgramUserVm.FirstName)" />
                 </MudItem>
                 <MudItem xs="6" style="min-width:130px">
@@ -57,9 +59,9 @@
                 </MudItem>
 
             </MudGrid>
-        </EditForm>
+        </MudForm>
         <div Style="font-family:dana !important" class="pt-6 pb-4">
-            <MudButton Color="Color.Primary" Style="font-family:dana" OnClick="Submit">قبول</MudButton>
+            <MudButton Color="Color.Primary" Style="font-family:dana" OnClick="@(async () => await Submit())">قبول</MudButton>
             <MudButton OnClick="Cancel" style="font-family:dana">رد</MudButton>
         </div>
     </DialogContent>
@@ -74,6 +76,9 @@
     string fileContext;
     string newProfilePicture;
     string oldProfilePicture;
+    ProgramUserValidator Validator = new ProgramUserValidator();
+    MudForm form;
+
 
     protected override void OnInitialized()
     {
@@ -98,11 +103,11 @@
                 var newfile = await file.RequestImageFileAsync(Path.GetExtension(file.Name), 150, 150);
                 var PPath = "C:\\Users\\mehiz\\source\\repos\\mehdizadpanah\\COMCO-Managment\\SH\\wwwroot";
                 newProfilePicture = Path.Combine(PPath, "TempPicture", filename);
-                
+
                 if (ProgramUserVm.ProfilePicture != "_content\\SH\\Pictures\\empty-profile-image.jpg")
                 {
                     oldProfilePicture = Path.Combine(PPath, "TempPicture", Path.GetFileName(ProgramUserVm.ProfilePicture));
-                   
+
                 }
                 if (!Directory.Exists(Path.GetDirectoryName(newProfilePicture)))
                 {
@@ -127,8 +132,10 @@
         //TODO upload the files to the server
     }
 
-    void Submit() 
+    async Task Submit()
     {
+        await form.Validate();
+        if (!form.IsValid) return;
         if (!string.IsNullOrEmpty(oldProfilePicture))
         {
             if (File.Exists(oldProfilePicture))
@@ -136,7 +143,7 @@
                 File.Delete(oldProfilePicture);
             }
         }
-        MudDialog.Close(DialogResult.Ok(true));
+        MudDialog.Close(DialogResult.Ok(ProgramUserVm));
     }
 
     void Cancel()
@@ -151,10 +158,10 @@
         }
         ProgramUserVm.ProfilePicture = "_content/SH/TempPicture/" + Path.GetFileName(oldProfilePicture);
 
-        Console.WriteLine("Cancled");
-
         MudDialog.Dispose();
         MudDialog.Cancel();
 
     }
+
+}
 }
