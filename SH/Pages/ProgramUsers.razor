@@ -40,9 +40,10 @@
         </Columns>
 
     </MudDataGrid>
-    <AreYouSure Message="آیا اطمینان دارید؟" _isOpen="true" />
 
 </div>
+@* <AreYouSure Message="اقدام به حذف کردی. این عملیات قابل برگشت نیست." _isOpen="true" Title="هشدار!!!" YesButton="انجام بده" NoButton="اشتباه کردم"/> *@
+
 
 @code
 {
@@ -112,19 +113,23 @@
         StateHasChanged();
     }
 
-    
-
-    void Delete()
+    async Task Delete()
     {
-        if (SelectedItems.Any())
-        {
-            SelectedItems.ToList().ForEach(e =>
-            {
-                var temp = _programUsersModel.ToList();
-                temp.Remove(e);
-                _programUsersModel = temp;
-            });
-        }
+        var parameters = new DialogParameters<AreYouSure> { { x => x.Title, "هشدار!!!" } };
+        var options = new DialogOptions { NoHeader = true };
+
+        var dialog = await DialogService.ShowAsync<AreYouSure>("",parameters,options);
+        var result = await dialog.Result;
+
+        // if (SelectedItems.Any())
+        // {
+        //     SelectedItems.ToList().ForEach(e =>
+        //     {
+        //         var temp = _programUsersModel.ToList();
+        //         temp.Remove(e);
+        //         _programUsersModel = temp;
+        //     });
+        // }
 
     }
 

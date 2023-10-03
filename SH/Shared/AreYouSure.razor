@@ -1,25 +1,38 @@
-﻿<MudPopover Open="@_isOpen" Fixed="true" Class="px-4 pt-4">
-    <div class="d-flex flex-column">
-        <MudText>@Message</MudText>
-        <MudButton OnClick="@Yes" Class="ml-auto mr-n3 mb-1" Color="Color.Error">بله</MudButton>
-        <MudButton OnClick="@No" Class="ml-auto mr-n3 mb-1" Color="Color.Error">خیر</MudButton>
-    </div>
-</MudPopover>
+﻿<MudDialog IsVisible="true" Options="dialogOption">
+    <DialogContent >
+        <div style="width:300px">
+            
+            <MudText Class="mb-4 mt-2" Style="font-family:dana; font-weight:bold; font-size:x-large"> @Title </MudText>
+            <MudText Class="mb-4" Style="font-family:dana">@Message</MudText>
+            <MudButton Style="font-family:dana" OnClick="@Yes" Variant="Variant.Filled" Class="ml-auto mr-n3 mb-1" Color="Color.Error">@YesButton</MudButton>
+            <MudButton Style="font-family:dana" OnClick="@No" Class="ml-auto mr-2 mb-1" Color="Color.Error">@NoButton</MudButton>
+        </div>
+    </DialogContent>
+</MudDialog>
 
 @code {
+    [CascadingParameter] 
+    MudDialogInstance MudDialog { get; set; }
     [Parameter]
     public bool _isOpen { get; set; }
     [Parameter]
-    public EventCallback<bool> result { get; set; } 
+    public string Message { get; set; } = "";
     [Parameter]
-    public string Message { get; set; }
+    public string YesButton { get; set; } = "";
+    [Parameter]
+    public string NoButton { get; set; } = "";
+    [Parameter]
+    public string Title { get; set; } = "";
+    DialogOptions dialogOption = new DialogOptions { NoHeader=true};
 
     async Task Yes()
     {
-       await  result.InvokeAsync(true);
+        MudDialog.Close(DialogResult.Ok(true));
     }
     async Task No()
     {
-        await result.InvokeAsync(false);
+        MudDialog.Cancel();
+
     }
+
 }
