@@ -1,0 +1,25 @@
+﻿<MudPopover Open="@_isOpen" Fixed="true" Class="px-4 pt-4">
+    <div class="d-flex flex-column">
+        <MudText>@Message</MudText>
+        <MudButton OnClick="@Yes" Class="ml-auto mr-n3 mb-1" Color="Color.Error">بله</MudButton>
+        <MudButton OnClick="@No" Class="ml-auto mr-n3 mb-1" Color="Color.Error">خیر</MudButton>
+    </div>
+</MudPopover>
+
+@code {
+    [Parameter]
+    public bool _isOpen { get; set; }
+    [Parameter]
+    public EventCallback<bool> result { get; set; } 
+    [Parameter]
+    public string Message { get; set; }
+
+    async Task Yes()
+    {
+       await  result.InvokeAsync(true);
+    }
+    async Task No()
+    {
+        await result.InvokeAsync(false);
+    }
+}

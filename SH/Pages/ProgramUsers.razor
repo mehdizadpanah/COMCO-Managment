@@ -21,20 +21,16 @@
     <MudPaper Elevation="10" Class="mt-10 mb-4" Style="background:#E5E4E2">
         <MudToolBar Dense="true">
             <MudIconButton OnClick="@NewDetail" Icon="@Icons.Material.Outlined.Add" Size="Size.Small" />
-            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
-            <MudIconButton Icon="@Icons.Material.Outlined.Remove" Size="Size.Small" />
+            <MudIconButton OnClick="@Delete" Icon="@Icons.Material.Outlined.Remove" Size="Size.Small" Disabled="@DeleteButtonDisabled" />
+            <MudIconButton OnClick="@OpenDetail" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" Disabled="@EditButtonDisabled" />
         </MudToolBar>
     </MudPaper>
-    <MudDataGrid Bordered="false" Class="" Dense="true" RowClick="@OpenDetail" Hover="true" Items="@_programUsersModel"
-                 ReadOnly="false" T="ProgramUserVm" ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="true"
-                 SelectedItemChanged="@SelectItemChanged">
+    <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Class="" Dense="true"
+                 Hover="true" Items="@_programUsersModel" ReadOnly="false" T="ProgramUserVm"
+                 ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="true"
+                 SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="false">
         <Columns>
             <SelectColumn />
-            @*  <TemplateColumn>
-            <CellTemplate>
-            <MudAvatar src="@context.Item.ProfilePicture" />
-            </CellTemplate>
-            </TemplateColumn> *@
             <PropertyColumn Property="x => x.FirstName" Title="نام" HeaderStyle="font-weight: bold" />
             <PropertyColumn Property="x => x.LastName" Title="نام خانوادگی" HeaderStyle="font-weight: bold" />
             <PropertyColumn Property="x => x.Email" Title="ایمیل" HeaderStyle="font-weight: bold" />
@@ -44,91 +40,101 @@
         </Columns>
 
     </MudDataGrid>
+    <AreYouSure Message="آیا اطمینان دارید؟" _isOpen="true" />
 
 </div>
 
 @code
 {
+    private HashSet<ProgramUserVm> SelectedItems { get; set; } = new HashSet<ProgramUserVm>();
+    private bool EditButtonDisabled { get; set; } = true;
+    private bool DeleteButtonDisabled { get; set; } = true;
     IEnumerable<ProgramUserVm> _programUsersModel = new List<ProgramUserVm>();
+    MudDataGrid<ProgramUserVm> grid;
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         _programUsersModel = dataFile.GetProgramUserVms();
     }
 
-    // private IEnumerable<ProgramUserVm> _programUsersModel = new List<ProgramUserVm>
-    // {
-    //     new ProgramUserVm
-    //     {
-    //         FirstName = "مهدی",
-    //         LastName = "ایزدپناه",
-    //         Phone = "71749900".ToPersianNumber(),
-    //         Mobile = "09123029200".ToPersianNumber(),
-    //         DcUsername = "mi@persianpadana.local"
-
-    //     },
-    //     new ProgramUserVm
-    //     {
-    //         FirstName = "فراز",
-    //         LastName = "ایزدپناه",
-    //         Phone = "71749900".ToPersianNumber(),
-    //         Mobile = "09123029200".ToPersianNumber(),
-    //         DcUsername = "faraz@persianpadana.local",
-
-
-    //     }
-
-    // };
-
-    async Task OpenDetail(DataGridRowClickEventArgs<ProgramUserVm> args)
+    async Task OpenDetail(MouseEventArgs args)
     {
-        var recycle = JsonSerializer.Serialize(args.Item);
+        await Edit(SelectedItems.FirstOrDefault());
+    }
 
+    async Task NewDetail(MouseEventArgs args)
+    {
+        await Edit(null);
+    }
+
+    async Task Edit(ProgramUserVm? item)
+    {
+        bool New = false;
         var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true };
         var parameters = new DialogParameters<ProgramUserDetail>();
-        parameters.Add(x => x.ProgramUserVm, args.Item);
+        //Get record for use if editing canceled by user
+        var oldSerializeData = JsonSerializer.Serialize(item);
+        //Control if item is new
+        if (item == null)
+        {
+            New = true;
+            item = new ProgramUserVm();
+        }
+
+        parameters.Add(x => x.ProgramUserVm, item);
         var result = await DialogService.Show<ProgramUserDetail>(null, parameters, options).Result;
+        //Edited succesful
         if (!result.Canceled)
         {
+            if (New)
+            {
+                _programUsersModel = _programUsersModel.Concat(new[] { (ProgramUserVm)result.Data });
+            }
             dataFile.SaveProgramUserVms(_programUsersModel);
-            StateHasChanged();
         }
-        if (result.Canceled)
+        //Canceled by user
+        if (result.Canceled && !New)
         {
-            var rec = JsonSerializer.Deserialize<ProgramUserVm>(recycle);
+            var oldDeserializeData = JsonSerializer.Deserialize<ProgramUserVm>(oldSerializeData);
             _programUsersModel = _programUsersModel.Select(x =>
             {
-                if (x.Id == rec.Id)
+                if (x.Id == oldDeserializeData.Id)
                 {
-                    return rec;
+                    return oldDeserializeData;
                 }
                 return x;
             }).ToList();
 
         }
+        grid.SelectedItems.Clear();
+        SelectItemChanged(SelectedItems);
+        StateHasChanged();
     }
 
-    async Task NewDetail(MouseEventArgs args)
-    {
-        var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true };
-        var parameters = new DialogParameters<ProgramUserDetail>();
-        parameters.Add(x => x.ProgramUserVm, new ProgramUserVm());
-        var result = await DialogService.Show<ProgramUserDetail>(null, parameters, options).Result;
-        if (!result.Canceled)
-        {
-            var temp = (ProgramUserVm)result.Data;
-            _programUsersModel = _programUsersModel.Concat(new[] { temp });
-            Console.WriteLine(_programUsersModel.Count().ToString());
+    
 
-            // dataFile.SaveProgramUserVms(_programUsersModel);
-            StateHasChanged();
+    void Delete()
+    {
+        if (SelectedItems.Any())
+        {
+            SelectedItems.ToList().ForEach(e =>
+            {
+                var temp = _programUsersModel.ToList();
+                temp.Remove(e);
+                _programUsersModel = temp;
+            });
         }
 
     }
 
 
-    void SelectItemChanged()
+    void SelectItemChanged(HashSet<ProgramUserVm> items)
     {
-
+        SelectedItems = items;
+        if (items.Count() == 1) EditButtonDisabled = false;
+        else EditButtonDisabled = true;
+        if (items.Count() == 0) DeleteButtonDisabled = true;
+        if (items.Count() > 0) DeleteButtonDisabled = false;
     }
 }
