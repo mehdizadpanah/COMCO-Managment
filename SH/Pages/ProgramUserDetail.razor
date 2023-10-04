@@ -8,7 +8,7 @@
 @inject IWebHostEnvironment webHostEnvironment
 
 
-<MudDialog Class="w-50" style="font-family:dana !important">
+<MudDialog Class="w-50">
     <DialogContent>
         <MudForm Model="@ProgramUserVm" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0">
             @* <DataAnnotationsValidator /> *@
@@ -53,6 +53,15 @@
                     <MudTextField Label="نام کاربری دامین" HelperText=""
                     @bind-Value="ProgramUserVm.DcUsername" For="@(() => ProgramUserVm.DcUsername)" />
                 </MudItem>
+                <MudItem xs="6" Style="min-width:130px">
+                    <MudTextField Label="سمت" HelperText=""
+                    @bind-Value="ProgramUserVm.Position" For="@(() => ProgramUserVm.Position)" />
+                </MudItem>
+                <MudItem xs="6" Style="min-width:130px">
+                    <MudCheckBox Label="کاربر فعال" HelperText=""
+                    @bind-Checked="ProgramUserVm.IsEnable" For="@(() => ProgramUserVm.IsEnable)"></MudCheckBox>
+
+                </MudItem>
                 <MudItem xs="12">
                     <MudTextField Label="ادرس" HelperText=""
                     @bind-Value="ProgramUserVm.Address" For="@(() => ProgramUserVm.Address)" />
@@ -60,9 +69,9 @@
 
             </MudGrid>
         </MudForm>
-        <div Style="font-family:dana !important" class="pt-6 pb-4">
-            <MudButton Color="Color.Primary" Style="font-family:dana" OnClick="@(async () => await Submit())">قبول</MudButton>
-            <MudButton OnClick="Cancel" style="font-family:dana">رد</MudButton>
+        <div class="pt-6 pb-4">
+            <MudButton Color="Color.Primary" OnClick="@(async () => await Submit())">قبول</MudButton>
+            <MudButton OnClick="Cancel">رد</MudButton>
         </div>
     </DialogContent>
 
@@ -88,11 +97,13 @@
             ProgramUserVm.ProfilePicture = "_content\\SH\\Pictures\\empty-profile-image.jpg";
         }
     }
+
     private void OnValidSubmit(EditContext context)
     {
         _success = true;
         StateHasChanged();
     }
+
     private async Task UploadFiles2(IBrowserFile file)
     {
         try

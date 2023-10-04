@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using MudBlazor;
 using SH.Service.Public;
 
 namespace SH.Data.ModelVM
@@ -26,6 +27,9 @@ namespace SH.Data.ModelVM
         public string PhoneP { get; set; }
         public string Mobile { get => mobile; set => mobile = value.ToPersianNumber(); }
         public string Address { get; set; }
+        [Required]
+        public string Position { get; set; }
+        public bool IsEnable { get; set; }
         public List<ProgramGroupVm>? ProgramGroupVms { get; set; }
         public ProgramTeamVm? ProgramTeamVm { get; set; }
 

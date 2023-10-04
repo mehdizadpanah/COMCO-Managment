@@ -16,13 +16,13 @@
 @using AutoMapper
 @using Microsoft.AspNetCore.Authentication
 
-<div style="font-family:dana; font-language-override:revert">
-    <h3>کاربران برنامه</h3>
+<div style="font-language-override:revert">
+    <h3 style="font-weight:bold">کاربران برنامه</h3>
     <MudPaper Elevation="10" Class="mt-10 mb-4" Style="background:#E5E4E2">
         <MudToolBar Dense="true">
-            <MudIconButton OnClick="@NewDetail" Icon="@Icons.Material.Outlined.Add" Size="Size.Small" />
-            <MudIconButton OnClick="@Delete" Icon="@Icons.Material.Outlined.Remove" Size="Size.Small" Disabled="@DeleteButtonDisabled" />
-            <MudIconButton OnClick="@OpenDetail" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" Disabled="@EditButtonDisabled" />
+            <MudIconButton OnClick="@NewDetail" Icon="@Icons.Material.Outlined.Add" Size="Size.Small" Title="جدید"/>
+            <MudIconButton OnClick="@Delete" Icon="@Icons.Material.Outlined.Remove" Size="Size.Small" Title="حذف" Disabled="@DeleteButtonDisabled" />
+            <MudIconButton OnClick="@OpenDetail" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" Title="اصلاح" Disabled="@EditButtonDisabled" />
         </MudToolBar>
     </MudPaper>
     <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Class="" Dense="true"
@@ -31,8 +31,35 @@
                  SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="false">
         <Columns>
             <SelectColumn />
-            <PropertyColumn Property="x => x.FirstName" Title="نام" HeaderStyle="font-weight: bold" />
-            <PropertyColumn Property="x => x.LastName" Title="نام خانوادگی" HeaderStyle="font-weight: bold" />
+            <TemplateColumn HeaderStyle="font-weight: bold" Class="col-2">
+                <CellTemplate>
+                    <MudCard Elevation="0" Style="background-color:transparent">
+                        <MudCardHeader Class="p-0">
+                            <CardHeaderAvatar>
+                                <MudAvatar Image="@context.Item.ProfilePicture" />
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.body1">@context.Item.FirstName @context.Item.LastName</MudText>
+                                <MudText Typo="Typo.caption">@context.Item.Position</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                    </MudCard>
+                </CellTemplate>
+            </TemplateColumn>
+            <TemplateColumn Class="col-sm-1">
+                <CellTemplate>
+                    <div class="text-center">
+
+                        <MudChip Size="Size.Small" Label="true" Variant="Variant.Text" Icon=""
+                                 hidden="@context.Item.IsEnable" Color="Color.Success">فعال</MudChip>
+                        <MudChip Size="Size.Small" Label="true" Variant="Variant.Text"
+                                 hidden="@(!context.Item.IsEnable)" Color="Color.Error">غیر فعال</MudChip>
+                    </div>
+
+                </CellTemplate>
+            </TemplateColumn>
+            @* <PropertyColumn Property="x => x.FirstName" Title="نام" HeaderStyle="font-weight: bold" /> *@
+            @* <PropertyColumn Property="x => x.LastName" Title="نام خانوادگی" HeaderStyle="font-weight: bold" /> *@
             <PropertyColumn Property="x => x.Email" Title="ایمیل" HeaderStyle="font-weight: bold" />
             <PropertyColumn Property="x => x.Mobile.ToPersianNumber()" Title="موبایل" HeaderStyle="font-weight: bold" />
             <PropertyColumn Property="x => x.Phone.ToPersianNumber()" Title="شماره تماس" HeaderStyle="font-weight: bold" />
@@ -42,8 +69,6 @@
     </MudDataGrid>
 
 </div>
-@* <AreYouSure Message="اقدام به حذف کردی. این عملیات قابل برگشت نیست." _isOpen="true" Title="هشدار!!!" YesButton="انجام بده" NoButton="اشتباه کردم"/> *@
-
 
 @code
 {
@@ -115,21 +140,28 @@
 
     async Task Delete()
     {
-        var parameters = new DialogParameters<AreYouSure> { { x => x.Title, "هشدار!!!" } };
-        var options = new DialogOptions { NoHeader = true };
+        var parameters = new DialogParameters<AreYouSure>
+        {
+            { x => x.Title, "هشدار!!!" } ,
+            { x => x.Message, "اقدام به حذف کردی. این عملیات قابل برگشت نیست." } ,
+            { x => x.YesButton, "انجام بده" } ,
+            { x => x.NoButton, "اشتباه کردم" } ,
 
-        var dialog = await DialogService.ShowAsync<AreYouSure>("",parameters,options);
-        var result = await dialog.Result;
+        };
 
-        // if (SelectedItems.Any())
-        // {
-        //     SelectedItems.ToList().ForEach(e =>
-        //     {
-        //         var temp = _programUsersModel.ToList();
-        //         temp.Remove(e);
-        //         _programUsersModel = temp;
-        //     });
-        // }
+        if (SelectedItems.Any())
+        {
+            var options = new DialogOptions { NoHeader = true };
+            var dialog = await DialogService.ShowAsync<AreYouSure>("", parameters, options);
+            var result = await dialog.Result;
+            if (result.Cancelled) return;
+            SelectedItems.ToList().ForEach(e =>
+            {
+                var temp = _programUsersModel.ToList();
+                temp.Remove(e);
+                _programUsersModel = temp;
+            });
+        }
 
     }
 

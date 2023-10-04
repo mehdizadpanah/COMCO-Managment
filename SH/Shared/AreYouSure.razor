@@ -2,10 +2,10 @@
     <DialogContent >
         <div style="width:300px">
             
-            <MudText Class="mb-4 mt-2" Style="font-family:dana; font-weight:bold; font-size:x-large"> @Title </MudText>
-            <MudText Class="mb-4" Style="font-family:dana">@Message</MudText>
-            <MudButton Style="font-family:dana" OnClick="@Yes" Variant="Variant.Filled" Class="ml-auto mr-n3 mb-1" Color="Color.Error">@YesButton</MudButton>
-            <MudButton Style="font-family:dana" OnClick="@No" Class="ml-auto mr-2 mb-1" Color="Color.Error">@NoButton</MudButton>
+            <MudText Class="mb-4 mt-2" Style="font-weight:bold; font-size:x-large"> @Title </MudText>
+            <MudText Class="mb-4">@Message</MudText>
+            <MudButton OnClick="@Yes" Variant="Variant.Filled" Class="ml-auto mr-n3 mb-1" Color="Color.Error">@YesButton</MudButton>
+            <MudButton OnClick="@No" Class="ml-auto mr-2 mb-1" Color="Color.Error">@NoButton</MudButton>
         </div>
     </DialogContent>
 </MudDialog>

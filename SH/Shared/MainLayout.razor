@@ -4,7 +4,8 @@
 
 
 <MudRTLProvider RightToLeft="true">
-    <MudThemeProvider />
+    <MudThemeProvider Theme="@MyCustomTheme" />
+    @* <MudThemeProvider /> *@
     <MudDialogProvider />
     <MudSnackbarProvider />
 
@@ -28,7 +29,7 @@
             </MudAppBar>
 
             <AuthorizeView>
-                <NavMenu Version="@_version" OpenMenu="@_openManu"/>
+                <NavMenu Version="@_version" OpenMenu="@_openManu" />
 
             </AuthorizeView>
 
@@ -51,9 +52,20 @@
 {
     public bool ProfileMenuOpen { get; set; }
     private NavMenu? NavMenu { get; set; }
-    bool _openManu=true;
+    bool _openManu = true;
     // readonly Assembly _assembly = typeof(Program).Assembly;
     string? _version = "";
+    MudTheme MyCustomTheme = new MudTheme()
+        {
+            Typography = new Typography()
+            {
+                Default = new Default()
+                {
+                    FontFamily = new[] { "dana" }
+                }
+            }
+
+        };
 
     protected override void OnInitialized()
     {
