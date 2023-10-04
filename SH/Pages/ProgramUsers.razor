@@ -16,59 +16,64 @@
 @using AutoMapper
 @using Microsoft.AspNetCore.Authentication
 
-<div style="font-language-override:revert">
-    <h3 style="font-weight:bold">کاربران برنامه</h3>
-    <MudPaper Elevation="10" Class="mt-10 mb-4" Style="background:#E5E4E2">
-        <MudToolBar Dense="true">
-            <MudIconButton OnClick="@NewDetail" Icon="@Icons.Material.Outlined.Add" Size="Size.Small" Title="جدید"/>
-            <MudIconButton OnClick="@Delete" Icon="@Icons.Material.Outlined.Remove" Size="Size.Small" Title="حذف" Disabled="@DeleteButtonDisabled" />
-            <MudIconButton OnClick="@OpenDetail" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" Title="اصلاح" Disabled="@EditButtonDisabled" />
-        </MudToolBar>
-    </MudPaper>
-    <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Class="" Dense="true"
-                 Hover="true" Items="@_programUsersModel" ReadOnly="false" T="ProgramUserVm"
-                 ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="true"
-                 SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="false">
-        <Columns>
-            <SelectColumn />
-            <TemplateColumn HeaderStyle="font-weight: bold" Class="col-2">
-                <CellTemplate>
-                    <MudCard Elevation="0" Style="background-color:transparent">
-                        <MudCardHeader Class="p-0">
-                            <CardHeaderAvatar>
-                                <MudAvatar Image="@context.Item.ProfilePicture" />
-                            </CardHeaderAvatar>
-                            <CardHeaderContent>
-                                <MudText Typo="Typo.body1">@context.Item.FirstName @context.Item.LastName</MudText>
-                                <MudText Typo="Typo.caption">@context.Item.Position</MudText>
-                            </CardHeaderContent>
-                        </MudCardHeader>
-                    </MudCard>
-                </CellTemplate>
-            </TemplateColumn>
-            <TemplateColumn Class="col-sm-1">
-                <CellTemplate>
-                    <div class="text-center">
 
-                        <MudChip Size="Size.Small" Label="true" Variant="Variant.Text" Icon=""
+<div class="row">
+    <div class="col" />
+    <div class="col-7">
+        <h3 style="font-weight:bold">کاربران برنامه</h3>
+        <MudPaper Elevation="10" Class="mt-10 mb-4" Style="background:#E5E4E2">
+            <MudToolBar Dense="true" Style="height:30px">
+                <MudIconButton OnClick="@NewDetail" Icon="@Icons.Material.Outlined.Add" Size="Size.Small" Title="جدید" />
+                <MudIconButton OnClick="@Delete" Icon="@Icons.Material.Outlined.Remove" Size="Size.Small" Title="حذف" Disabled="@DeleteButtonDisabled" />
+                <MudIconButton OnClick="@OpenDetail" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" Title="اصلاح" Disabled="@EditButtonDisabled" />
+            </MudToolBar>
+        </MudPaper>
+        <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Class="" Dense="true"
+                     Hover="true" Items="@_programUsersModel" ReadOnly="false" T="ProgramUserVm"
+                     ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="true"
+                     SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="false">
+            <Columns>
+                <SelectColumn Size="Size.Small" />
+                <TemplateColumn Class="col-4">
+                    <CellTemplate>
+                        <MudCard Elevation="0" Style="background-color:transparent">
+                            <MudCardHeader Class="p-0">
+                                <CardHeaderAvatar>
+                                    <MudAvatar Image="@context.Item.ProfilePicture" />
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.body2" Style="font-weight:bold">@context.Item.FirstName @context.Item.LastName</MudText>
+                                    <MudText Typo="Typo.caption">@context.Item.Position</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                        </MudCard>
+                    </CellTemplate>
+                </TemplateColumn>
+                <TemplateColumn Class="col-sm-1">
+                    <CellTemplate>
+                        <div
+
+                        <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled" Icon=""
                                  hidden="@context.Item.IsEnable" Color="Color.Success">فعال</MudChip>
-                        <MudChip Size="Size.Small" Label="true" Variant="Variant.Text"
+                        <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled"
                                  hidden="@(!context.Item.IsEnable)" Color="Color.Error">غیر فعال</MudChip>
                     </div>
 
-                </CellTemplate>
-            </TemplateColumn>
-            @* <PropertyColumn Property="x => x.FirstName" Title="نام" HeaderStyle="font-weight: bold" /> *@
-            @* <PropertyColumn Property="x => x.LastName" Title="نام خانوادگی" HeaderStyle="font-weight: bold" /> *@
-            <PropertyColumn Property="x => x.Email" Title="ایمیل" HeaderStyle="font-weight: bold" />
-            <PropertyColumn Property="x => x.Mobile.ToPersianNumber()" Title="موبایل" HeaderStyle="font-weight: bold" />
-            <PropertyColumn Property="x => x.Phone.ToPersianNumber()" Title="شماره تماس" HeaderStyle="font-weight: bold" />
+                    </CellTemplate>
+                </TemplateColumn>
+                @* <PropertyColumn Property="x => x.FirstName" Title="نام" HeaderStyle="font-weight: bold" /> *@
+                @* <PropertyColumn Property="x => x.LastName" Title="نام خانوادگی" HeaderStyle="font-weight: bold" /> *@
+                <PropertyColumn Property="x => x.Email" Title="" HeaderStyle="font-weight: bold" />
+                @* <PropertyColumn Property="x => x.Mobile.ToPersianNumber()" Title="موبایل" HeaderStyle="font-weight: bold" /> *@
+                @* <PropertyColumn Property="x => x.Phone.ToPersianNumber()" Title="شماره تماس" HeaderStyle="font-weight: bold" /> *@
 
-        </Columns>
+            </Columns>
 
-    </MudDataGrid>
-
+        </MudDataGrid>
+    </div>
+    <div class="col" />
 </div>
+
 
 @code
 {
