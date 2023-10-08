@@ -40,32 +40,7 @@ namespace DL___Web_Api.Services
 
         
     }
-        //////public class ActiveDirectoryAuthentication
-        //////{
-        //////    public static bool AuthenticateUser(string username, string password)
-        //////    {
-        //////        // Create a DirectoryEntry object.
-        //////        DirectoryEntry directoryEntry = new DirectoryEntry("LDAP://DC=persianpadana,DC=local");
-
-        //////        // Set the username and password properties.
-        //////        directoryEntry.Username = username;
-        //////        directoryEntry.Password = password;
-
-        //////        // Try to find the user.
-        //////        //SearchResult searchResult = directoryEntry.Findone();
-        //////        DirectorySearcher searcher = new DirectorySearcher(directoryEntry);
-        //////        searcher.Filter = "(sAMAccountName=" + username + ")";
-        //////        SearchResult result = searcher.FindOne();
-
-        //////        if (result != null)
-        //////        {
-        //////            // Do something with the search result
-        //////        }
-        //////    // If the search result is not null, the user was authenticated.
-        //////    //return searchResult != null;
-        //////    return result !=null;
-        //////    }
-        //////}
+       
     
             
         

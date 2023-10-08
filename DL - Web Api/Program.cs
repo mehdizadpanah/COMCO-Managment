@@ -1,5 +1,5 @@
 using DL___Web_Api.Services;
-
+using DL___Web_Api.TokenAuthentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAccountService, AccountServices>();
+builder.Services.AddSingleton<ITokenManager, TokenManager>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
