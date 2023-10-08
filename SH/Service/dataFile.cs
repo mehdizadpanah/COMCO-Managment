@@ -12,6 +12,7 @@ namespace SH.Service
     public class dataFile
     {
         private string Filepath { get; set; } = "c:/temp/";
+
         private string readFromFile(string fileName)
         {
             var fullPath = Filepath + fileName;
@@ -45,7 +46,6 @@ namespace SH.Service
             var result = JsonSerializer.Deserialize<List<ProgramUserVm>>(fileString);
             return result;
         }
-
        
         public void SaveProgramUserVms(IEnumerable<ProgramUserVm> programUserVms )
         {
@@ -53,5 +53,21 @@ namespace SH.Service
             var stringToWrite = JsonSerializer.Serialize(programUserVms);
             WriteToFile("programUserVm.txt" , stringToWrite);
         }
+
+        public List<ProgramGroupVm>? GetProgramGroupVms()
+        {
+            var fileString = readFromFile("programGroupVm.txt");
+            if (fileString == "") return new List<ProgramGroupVm>();
+            var result = JsonSerializer.Deserialize<List<ProgramGroupVm>>(fileString);
+            return result;
+        }
+
+        public void SaveProgramGroupVms(IEnumerable<ProgramGroupVm> programGroupVms)
+        {
+            DeleteFile("programGroupVm.txt");
+            var stringToWrite = JsonSerializer.Serialize(programGroupVms);
+            WriteToFile("programGroupVm.txt", stringToWrite);
+        }
+
     }
 }

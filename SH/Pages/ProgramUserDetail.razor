@@ -7,13 +7,20 @@
 @inject IMapper mapper
 @inject IWebHostEnvironment webHostEnvironment
 
+<style>
+    .mud-input{
+        font-size: var(--mud-typography-body1-size) !important;
+        
+    }
+</style>
 
-<MudDialog Class="w-50">
-    <DialogContent>
-        <MudForm Model="@ProgramUserVm" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0">
+<MudDialog Class="w-50" >
+    <DialogContent >
+        <MudForm Model="@ProgramUserVm" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0" >
             @* <DataAnnotationsValidator /> *@
-            <MudGrid Spacing="2">
-                <MudItem xs="12">
+
+            <MudGrid Spacing="2" >
+                <MudItem  xs="12">
                     <MudStack>
                         <MudStack Row="true">
                             <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
@@ -29,9 +36,11 @@
                         <h4 style="font-weight:bold">مشخصات کاربر</h4>
                     </MudStack>
                 </MudItem>
-                <MudItem xs="6" Style="min-width:130px">
-                    <MudTextField Label="نام" Class="order-0" Immediate="true"
+                <MudItem xs="6" >
+                    <div style="font-size:larger !important">
+                    <MudTextField @ref=NameTB Label="نام"  
                     @bind-Value="ProgramUserVm.FirstName" For="@(() => ProgramUserVm.FirstName)" />
+                    </div>
                 </MudItem>
                 <MudItem xs="6" style="min-width:130px">
                     <MudTextField Label="نام خانوادگی" HelperText=""
@@ -87,7 +96,7 @@
     string oldProfilePicture;
     ProgramUserValidator Validator = new ProgramUserValidator();
     MudForm form;
-
+    MudTextField<string> NameTB;
 
     protected override void OnInitialized()
     {
@@ -96,6 +105,12 @@
         {
             ProgramUserVm.ProfilePicture = "_content\\SH\\Pictures\\empty-profile-image.jpg";
         }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await NameTB.FocusAsync();
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     private void OnValidSubmit(EditContext context)

@@ -21,9 +21,9 @@
             </MudNavGroup>
             <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.Settings" Title="تنظیمات">
                 <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.SupervisedUserCircle" Title="تنظیمات کاربران">
-                        <MudNavLink href="/ProgramUsers">کاربران</MudNavLink>
-                        <MudNavLink>گروه های دسترسی</MudNavLink>
-                        <MudNavLink>تیم ها</MudNavLink>
+                    <MudNavLink href="/ProgramUsers">کاربران</MudNavLink>
+                    <MudNavLink href="/ProgramGroups">گروه های دسترسی</MudNavLink>
+                    <MudNavLink>تیم ها</MudNavLink>
                 </MudNavGroup>
 
             </MudNavGroup>
@@ -44,7 +44,7 @@
     [Parameter]
     public bool OpenMenu { get; set; }
 
-        DrawerClipMode _clipMode = DrawerClipMode.Always;
+    DrawerClipMode _clipMode = DrawerClipMode.Always;
 
     public void ToggleDrawer()
     {

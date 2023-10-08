@@ -33,17 +33,15 @@
 
             </AuthorizeView>
 
-            <MudMainContent Class="pt-16 px-16">
+            <MudMainContent Class="pt-10 p-0">
 
-                <MudContainer Class="mt-6 ">
-
+                @* <MudContainer Class="mt-6"> *@
 
 
                     @Body
 
 
-
-                </MudContainer>
+                @* </MudContainer> *@
             </MudMainContent>
         </MudInputLabel>
     </MudLayout>
@@ -61,11 +59,28 @@
             {
                 Default = new Default()
                 {
-                    FontFamily = new[] { "dana" }
+                    FontFamily = new[] { "dana" },
+                    FontSize = ".875rem",
+                    // FontSize = ".10px",
+
+
+                },
+                Body1 = new Body1()
+                {
+                    FontFamily = new[] { "dana" },
+                    FontSize = ".875rem",
+                    FontWeight = 500
+                },
+                Body2 = new Body2()
+                {
+                    FontFamily = new[] { "dana" },
+                    FontSize = ".865rem",
+                    FontWeight = 500
                 }
             }
 
         };
+
 
     protected override void OnInitialized()
     {
