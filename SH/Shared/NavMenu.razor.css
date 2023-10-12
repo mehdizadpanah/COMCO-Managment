@@ -2,7 +2,7 @@
     width: 100%;
     font-weight: 400;
     padding: 8px 16px 8px 16px;
-    color: black !important;
+    color: var(--mud-palette-secondary);
     line-height: 1.75;
     display: inline-flex;
     align-items: center;
@@ -14,15 +14,15 @@
 }
 
 ::deep .mud-navmenu.mud-navmenu-default .mud-nav-link.active:not(.mud-nav-link-disabled) {
-    /*color: var(--mud-palette-primary);
-    background-color: var(--mud-palette-action-default-hover);*/
-    color: black !important;
-    background-color: transparent;
+    /*color: var(--mud-palette-primary);*/
+    /*background-color: var(--mud-palette-action-default-hover);*/
+    /*color: var(--mud-palette-secondary);*/
+    /*background-color: transparent;*/
 }
 
 ::deep .mud-navmenu.mud-navmenu-default .mud-nav-link-expand-icon.mud-transform {
-    /*fill: var(--mud-palette-primary);*/
-    fill: black;
+    fill: var(--mud-palette-primmary);
+    /*fill: black;*/
 }
 
 

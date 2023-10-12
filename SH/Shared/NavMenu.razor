@@ -2,28 +2,31 @@
 
 
 
-<MudDrawer Class="border" @bind-Open="@OpenMenu" ClipMode="_clipMode" Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true" Color="Color.Surface">
-    <MudNavMenu Style="font-family:dana" Color="Color.Surface">
-        <MudText Class="mt-4 px-4" Typo="Typo.h6" Style="font-family:dana">دستیار کامکو</MudText>
-        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary" Style="font-family:dana; font-size:small">ورژن: @Version </MudText>
+<MudDrawer Class="border" @bind-Open="@OpenMenu" ClipMode="DrawerClipMode.Never" 
+Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true">
+    <MudNavMenu Class="pa-2" Color="Color.Primary" Rounded="true"  >
+        <div class="justify-content-center mt-1 me-3">
 
-        <MudDivider Class="d-inline-flex" />
-        <div>
+            <MudImage Src="_content/SH/Logo/Logo1.png" Height="45" ObjectFit="ObjectFit.ScaleDown" Style="opacity:0.9" />
+            <MudText Color="Color.Secondary" Class="px-1 d-inline" Typo="Typo.h6" Style="font-family:dana; font-weight:600">دستیار کامکو</MudText>
 
-            <MudNavLink Icon="@Icons.Material.Filled.Home" Href="/">صفحه اصلی</MudNavLink>
-            <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.People" Title="پرسنل">
-                <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.DateRange" Title="مرخصی">
-                    <MudNavLink>مرخصی های من</MudNavLink>
-                    <MudNavLink>لیست مرخصی ها</MudNavLink>
-                    <MudNavLink>تایید مرخصی</MudNavLink>
+        </div>
+        <div class="mt-8">
+
+            <MudNavLink Icon="@Icons.Material.Outlined.Home" Href="/Home">صفحه اصلی</MudNavLink>
+            <MudNavGroup  Icon="@Icons.Material.Outlined.People" Title="پرسنل">
+                <MudNavGroup  Icon="@Icons.Material.Outlined.DateRange" Title="مرخصی">
+                    <MudNavLink Disabled="true">مرخصی های من</MudNavLink>
+                    <MudNavLink Disabled="true">لیست مرخصی ها</MudNavLink>
+                    <MudNavLink Disabled="true">تایید مرخصی</MudNavLink>
 
                 </MudNavGroup>
             </MudNavGroup>
-            <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.Settings" Title="تنظیمات">
-                <MudNavGroup Class="link-dark" Icon="@Icons.Material.Filled.SupervisedUserCircle" Title="تنظیمات کاربران">
+            <MudNavGroup  Icon="@Icons.Material.Outlined.Settings" Title="تنظیمات">
+                <MudNavGroup Icon="@Icons.Material.Outlined.SupervisedUserCircle" Title="تنظیمات کاربران">
                     <MudNavLink href="/ProgramUsers">کاربران</MudNavLink>
                     <MudNavLink href="/ProgramGroups">گروه های دسترسی</MudNavLink>
-                    <MudNavLink>تیم ها</MudNavLink>
+                    <MudNavLink href="/Teams" Disabled="true">تیم ها</MudNavLink>
                 </MudNavGroup>
 
             </MudNavGroup>
@@ -44,7 +47,6 @@
     [Parameter]
     public bool OpenMenu { get; set; }
 
-    DrawerClipMode _clipMode = DrawerClipMode.Always;
 
     public void ToggleDrawer()
     {

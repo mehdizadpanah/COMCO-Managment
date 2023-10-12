@@ -17,38 +17,34 @@
 @using Microsoft.AspNetCore.Authentication
 
 <style>
-    .mud-table-cell{
-        justify-content:right !important;
+    .mud-table-cell {
+        justify-content: right !important;
     }
 </style>
 
-<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6" Style="max-width:fit-content">
-    
-    <MudPaper Elevation="10"  Style="background:#E5E4E2">
-        <MudToolBar Dense="false" >
-            <h3>کاربران</h3>
-            <MudSpacer/>
-            <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Size="Size.Small" Color="Color.Surface"/>
-           @*  <MudIconButton OnClick="@NewDetail" Icon="@Icons.Material.Outlined.Add" Size="Size.Small" Title="جدید" />
-            <MudIconButton OnClick="async ()=> await Delete(null)" Icon="@Icons.Material.Outlined.Remove" Size="Size.Small" Title="حذف" Disabled="@DeleteButtonDisabled" />
-            <MudIconButton OnClick="@OpenDetail" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" Title="اصلاح" Disabled="@EditButtonDisabled" />
-      *@   </MudToolBar>
-    </MudPaper>
-    <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false"  Dense="true" Class="justify-content-around"
+<MudContainer Class="mt-6" >
+
+
+    <MudToolBar Dense="false" DisableGutters = "true">
+        <MudText Typo="Typo.h5">کاربران نرم افزار</MudText>
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Add"> جدید </MudButton>
+    </MudToolBar>
+    <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Dense="true" Class="justify-content-around"
                  Hover="true" Striped="true" Items="@_programUsersModel" ReadOnly="false" T="ProgramUserVm"
                  ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="false"
-                 SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="true" >
-        <Columns  >
+                 SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="true">
+        <Columns>
             @* <SelectColumn Size="Size.Small" /> *@
             <TemplateColumn Class="col-1">
-                <CellTemplate >
-                    <MudCard  Elevation="0" Style="background-color:transparent">
+                <CellTemplate>
+                    <MudCard Elevation="0" Style="background-color:transparent">
                         <MudCardHeader Class="p-0" Style="max-width:fit-content">
                             <CardHeaderAvatar>
                                 <MudAvatar Size="Size.Small" Image="@context.Item.ProfilePicture" />
                             </CardHeaderAvatar>
                             <CardHeaderContent>
-                                <MudText Style="min-width:max-content" >@context.Item.FirstName @context.Item.LastName</MudText>
+                                <MudText Style="min-width:max-content">@context.Item.FirstName @context.Item.LastName</MudText>
                                 <MudText Typo="Typo.caption">@context.Item.Position</MudText>
                             </CardHeaderContent>
                         </MudCardHeader>
@@ -57,8 +53,8 @@
             </TemplateColumn>
             <TemplateColumn Class="col-1">
                 <CellTemplate>
-                    
-                    <div class="text-center"  >
+
+                    <div class="text-center">
                         <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled" style="font-size:x-small"
                                  hidden="@context.Item.IsEnable" Color="Color.Success">فعال</MudChip>
                         <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled" style="font-size:x-small"
@@ -67,7 +63,7 @@
                     </div>
                 </CellTemplate>
             </TemplateColumn>
-            <PropertyColumn Property="x => x.Email" Title="" CellClass="col-2 text-start"  />
+            <PropertyColumn Property="x => x.Email" Title="" CellClass="col-2 text-start" />
             <TemplateColumn>
                 <CellTemplate>
                     <MudStack Row="true" Spacing="2" Justify="Justify.FlexEnd">

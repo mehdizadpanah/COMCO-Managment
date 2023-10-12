@@ -4,6 +4,7 @@
 
 
 <MudRTLProvider RightToLeft="true">
+
     <MudThemeProvider Theme="@MyCustomTheme" />
     @* <MudThemeProvider /> *@
     <MudDialogProvider />
@@ -12,20 +13,29 @@
     <MudLayout>
 
         <MudInputLabel>
-
-            <MudAppBar Elevation="0" Dense="true">
+            <MudAppBar Elevation="0" Class="border-light border-1">
                 <AuthorizeView>
 
-                    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
-                    <ProfileMenu Open="@ProfileMenuOpen"></ProfileMenu>
-                    <MudSpacer />
-                    <div Class="px-14">
-                        <MudIconButton OnClick="@ProfileClick" Icon="@Icons.Material.Filled.Person" Color="Color.Inherit" Target="_blank" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Secondary"
+                                   Edge="Edge.Start" OnClick="@ToggleDrawer" />
+                    <div class="ms-5 ps-0  col-lg-4 col-xl-3 col-md-6 col-sm-6 col-6 d-none d-sm-flex">
+                        <MudInput Class="w-100" AdornmentIcon="@Icons.Material.Filled.Search" Adornment=Adornment.Start
+                                  Margin="Margin.Dense" IconSize="Size.Medium" T="string" Label="جستجو"
+                                  Variant="Variant.Outlined" Style="background-color:#f5f6f8"></MudInput>
                     </div>
 
+                    <ProfileMenu Open="@ProfileMenuOpen"></ProfileMenu>
+                    <MudSpacer />
+                    @{
+                        /* TODO: get picture from context.user.identify.claims */
+                    }
+                    <MudIcon Icon="@Icons.Material.Rounded.HelpOutline" Color="Color.Secondary"/>
+                    <MudBadge Class="mx-4 my-4" Dot="true" Color=Color.Error Overlap="true">
+                        <MudIcon Icon="@Icons.Material.Outlined.Notifications" Color="Color.Secondary" />
+                    </MudBadge>
+                    <MudAvatar Image="_content\\SH\\Pictures\\empty-profile-image.jpg" onclick="ProfileClick" />
+                    
                 </AuthorizeView>
-
-
             </MudAppBar>
 
             <AuthorizeView>
@@ -33,19 +43,21 @@
 
             </AuthorizeView>
 
-            <MudMainContent Class="pt-10 p-0">
-
-                @* <MudContainer Class="mt-6"> *@
+            <MudMainContent Style="height:100vh;background-color:#f5f6f8">
+                <MudContainer Class="mt-6 p-sm-0">
 
 
                     @Body
 
 
-                @* </MudContainer> *@
+                </MudContainer>
+
             </MudMainContent>
         </MudInputLabel>
     </MudLayout>
 </MudRTLProvider>
+
+
 @code
 {
     public bool ProfileMenuOpen { get; set; }
@@ -55,6 +67,15 @@
     string? _version = "";
     MudTheme MyCustomTheme = new MudTheme()
         {
+            Palette = new Palette()
+            {
+                Primary = Colors.Indigo.Default,
+                Secondary = Colors.Grey.Darken2,
+                AppbarBackground = Colors.Shades.White,
+                AppbarText = Colors.Shades.Black
+
+            },
+            
             Typography = new Typography()
             {
                 Default = new Default()
@@ -77,6 +98,7 @@
                     FontSize = ".865rem",
                     FontWeight = 500
                 }
+
             }
 
         };
