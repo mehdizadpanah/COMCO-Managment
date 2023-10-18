@@ -1,3 +1,6 @@
 .body {
     font-family:dana
 }
+::deep .mud-button-root {
+    font-family:dana
+}

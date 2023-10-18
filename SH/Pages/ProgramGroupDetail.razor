@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Hosting;
+@using SH.Data.ModelVM;
+@using SH.Service.Public
+@using AutoMapper
+@using SH.Data.Validator
+
+@inject IMapper mapper
+@inject IWebHostEnvironment webHostEnvironment
+
+
+<MudDialog Class="w-50">
+    <DialogContent>
+        <MudForm Model="@ProgramGroupVm" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0">
+            @* <DataAnnotationsValidator /> *@
+            <MudGrid Spacing="2">
+                <MudItem xs="12">
+                    <MudStack>
+                        @* <MudStack Row="true">
+                            <MudAvatar Size="Size.Large">@AvatarIcon</MudAvatar>
+                            </MudStack> *@
+
+                        <h4 style="font-weight:bold">مشخصات گروه</h4>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="6" Style="min-width:130px">
+                    <MudTextField @ref=NameTB Label="نام" Class="order-0" Immediate="true"
+                    @bind-Value="ProgramGroupVm.GroupName" For="@(() => ProgramGroupVm.GroupName)" />
+                </MudItem>
+                <MudItem xs="12" style="min-width:130px">
+                    <MudTextField Label="توضیحات" HelperText=""
+                    @bind-Value="ProgramGroupVm.Description" For="@(() => ProgramGroupVm.Description)" />
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+        <div class="pt-6 pb-4">
+            <MudButton Color="Color.Primary" OnClick="@(async () => await Submit())">قبول</MudButton>
+            <MudButton OnClick="Cancel">رد</MudButton>
+        </div>
+    </DialogContent>
+
+</MudDialog>
+
+    @code {
+    [Parameter]
+    public ProgramGroupVm? ProgramGroupVm { get; set; }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    bool _success;
+    ProgramGroupValidator Validator = new ProgramGroupValidator();
+    MudForm form;
+    MudTextField<string> NameTB;
+    string AvatarIcon ="";
+
+    // public ProgramGroupDetail(string avatarIcon)
+    // {
+    //     if (ProgramGroupVm.GroupName == "") AvatarIcon = "";
+    //     else AvatarIcon = ProgramGroupVm.GroupName[0].ToString();
+    // }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await NameTB.FocusAsync();
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void OnValidSubmit(EditContext context)
+    {
+        _success = true;
+        StateHasChanged();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (!form.IsValid) return;
+        MudDialog.Close(DialogResult.Ok(ProgramGroupVm));
+    }
+
+    void Cancel()
+    {
+        MudDialog.Dispose();
+        MudDialog.Cancel();
+
+    }
+
+}

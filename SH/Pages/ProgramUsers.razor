@@ -1,0 +1,189 @@
+﻿@page "/programusers"
+@inject IDialogService DialogService
+@inject IMapper mapper
+@inject dataFile dataFile
+
+
+@using SH.Data.ModelVM;
+@using SH.Service;
+@using SH.Shared
+@using System.Runtime.CompilerServices
+@using SH.Service.Public
+@using System.ComponentModel.Design.Serialization
+@using System.Runtime.Loader
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using AutoMapper
+@using Microsoft.AspNetCore.Authentication
+
+<style>
+    .mud-table-cell {
+        justify-content: right !important;
+    }
+</style>
+
+<MudContainer Class="mt-6" >
+
+
+    <MudToolBar Dense="false" DisableGutters = "true">
+        <MudText Typo="Typo.h5">کاربران نرم افزار</MudText>
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Add"> جدید </MudButton>
+    </MudToolBar>
+    <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Dense="true" Class="justify-content-around"
+                 Hover="true" Striped="true" Items="@_programUsersModel" ReadOnly="false" T="ProgramUserVm"
+                 ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="false"
+                 SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="true">
+        <Columns>
+            @* <SelectColumn Size="Size.Small" /> *@
+            <TemplateColumn Class="col-1">
+                <CellTemplate>
+                    <MudCard Elevation="0" Style="background-color:transparent">
+                        <MudCardHeader Class="p-0" Style="max-width:fit-content">
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Small" Image="@context.Item.ProfilePicture" />
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Style="min-width:max-content">@context.Item.FirstName @context.Item.LastName</MudText>
+                                <MudText Typo="Typo.caption">@context.Item.Position</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                    </MudCard>
+                </CellTemplate>
+            </TemplateColumn>
+            <TemplateColumn Class="col-1">
+                <CellTemplate>
+
+                    <div class="text-center">
+                        <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled" style="font-size:x-small"
+                                 hidden="@context.Item.IsEnable" Color="Color.Success">فعال</MudChip>
+                        <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled" style="font-size:x-small"
+                                 hidden="@(!context.Item.IsEnable)" Color="Color.Error">غیر فعال</MudChip>
+
+                    </div>
+                </CellTemplate>
+            </TemplateColumn>
+            <PropertyColumn Property="x => x.Email" Title="" CellClass="col-2 text-start" />
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudStack Row="true" Spacing="2" Justify="Justify.FlexEnd">
+                        <MudIconButton Icon="@Icons.Filled.Edit" Size="Size.Small"
+                                       OnClick="async()=> await Edit(context.Item)" />
+                        <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Small"
+                                       OnClick="async()=> await Delete(context.Item)" />
+                    </MudStack>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+
+    </MudDataGrid>
+</MudContainer>
+@code
+{
+    private HashSet<ProgramUserVm> SelectedItems { get; set; } = new HashSet<ProgramUserVm>();
+    private bool EditButtonDisabled { get; set; } = true;
+    private bool DeleteButtonDisabled { get; set; } = true;
+    IEnumerable<ProgramUserVm> _programUsersModel = new List<ProgramUserVm>();
+    MudDataGrid<ProgramUserVm> grid;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _programUsersModel = dataFile.GetProgramUserVms();
+    }
+
+    async Task OpenDetail(MouseEventArgs args)
+    {
+        await Edit(SelectedItems.FirstOrDefault());
+    }
+
+    async Task NewDetail(MouseEventArgs args)
+    {
+        await Edit(null);
+    }
+
+    async Task Edit(ProgramUserVm? item)
+    {
+        bool New = false;
+        var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true };
+        var parameters = new DialogParameters<ProgramUserDetail>();
+        //Get record for use if editing canceled by user
+        var oldSerializeData = JsonSerializer.Serialize(item);
+        //Control if item is new
+        if (item == null)
+        {
+            New = true;
+            item = new ProgramUserVm();
+        }
+
+        parameters.Add(x => x.ProgramUserVm, item);
+        var result = await DialogService.Show<ProgramUserDetail>(null, parameters, options).Result;
+        //Edited succesful
+        if (!result.Canceled)
+        {
+            if (New)
+            {
+                _programUsersModel = _programUsersModel.Concat(new[] { (ProgramUserVm)result.Data });
+            }
+            dataFile.SaveProgramUserVms(_programUsersModel);
+        }
+        //Canceled by user
+        if (result.Canceled && !New)
+        {
+            var oldDeserializeData = JsonSerializer.Deserialize<ProgramUserVm>(oldSerializeData);
+            _programUsersModel = _programUsersModel.Select(x =>
+            {
+                if (x.Id == oldDeserializeData.Id)
+                {
+                    return oldDeserializeData;
+                }
+                return x;
+            }).ToList();
+
+        }
+        grid.SelectedItems.Clear();
+        SelectItemChanged(SelectedItems);
+        StateHasChanged();
+    }
+
+    async Task Delete(ProgramUserVm? item)
+    {
+        if (item != null)
+        {
+            SelectedItems.Clear();
+            SelectedItems.Add(item);
+        }
+        var parameters = new DialogParameters<AreYouSure>
+        {
+            { x => x.Title, "هشدار!!!" } ,
+            { x => x.Message, "اقدام به حذف کردی. این عملیات قابل برگشت نیست." } ,
+            { x => x.YesButton, "انجام بده" } ,
+            { x => x.NoButton, "اشتباه کردم" } ,
+
+        };
+
+        if (SelectedItems.Any())
+        {
+            var options = new DialogOptions { NoHeader = true };
+            var dialog = await DialogService.ShowAsync<AreYouSure>("", parameters, options);
+            var result = await dialog.Result;
+            if (result.Cancelled) return;
+            SelectedItems.ToList().ForEach(e =>
+            {
+                var temp = _programUsersModel.ToList();
+                temp.Remove(e);
+                _programUsersModel = temp;
+            });
+        }
+        SelectedItems.Clear();
+    }
+
+    void SelectItemChanged(HashSet<ProgramUserVm> items)
+    {
+        SelectedItems = items;
+        if (items.Count() == 1) EditButtonDisabled = false;
+        else EditButtonDisabled = true;
+        if (items.Count() == 0) DeleteButtonDisabled = true;
+        if (items.Count() > 0) DeleteButtonDisabled = false;
+    }
+}

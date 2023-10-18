@@ -1,0 +1,35 @@
+﻿@Number
+
+@code {
+    [Parameter]
+    public string Number { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        var persianDic = new Dictionary<char, char>
+        {
+            {'0','۰'},
+            {'1','۱'},
+            {'2','۲'},
+            {'3','۳'},
+            {'4','۴'},
+            {'5','۵'},
+            {'6','۶'},
+            {'7','۷'},
+            {'8','۸'},
+            {'9','۹'},
+
+        };
+        var number = Number.ToString();
+        var ech = number.ToCharArray();
+        for (int i = 0; i < ech.Length; i++)
+        {
+            persianDic.TryGetValue(ech[i], out char pch);
+            if (pch == null)
+                continue;
+            ech[i] = pch;
+        }
+        Number = new string(ech);
+        return base.OnInitializedAsync();
+    }
+}

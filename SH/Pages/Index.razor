@@ -1,4 +1,5 @@
-﻿@page "/"
+﻿@page "/Home"
+@page "/"
 
 
 <PageTitle>Index</PageTitle>
@@ -17,7 +18,7 @@
             <MudIcon Icon="@Icons.Material.Filled.TheaterComedy"></MudIcon>
             <MudText Style="font-family: dana;font-variant-east-asian:full-width"> سلام دنیا </MudText>
         </h1>
-        Welcome to your new app. @context.User.Identity.Name
+        Welcome to your new app. @context.User.Identity?.Name
 
         <SurveyPrompt Title="How is Blazor working for you?" />
     </Authorized>

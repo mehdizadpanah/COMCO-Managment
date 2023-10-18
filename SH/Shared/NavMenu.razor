@@ -1,0 +1,57 @@
+﻿@using System.Reflection;
+
+
+
+<MudDrawer Class="border" @bind-Open="@OpenMenu" ClipMode="DrawerClipMode.Never" 
+Elevation="0" Variant="@DrawerVariant.Responsive" Anchor="Anchor.Right" PreserveOpenState="true">
+    <MudNavMenu Class="pa-2" Color="Color.Primary" Rounded="true"  >
+        <div class="justify-content-center mt-1 me-3">
+
+            <MudImage Src="_content/SH/Logo/Logo1.png" Height="45" ObjectFit="ObjectFit.ScaleDown" Style="opacity:0.9" />
+            <MudText Color="Color.Secondary" Class="px-1 d-inline" Typo="Typo.h6" Style="font-family:dana; font-weight:600">دستیار کامکو</MudText>
+
+        </div>
+        <div class="mt-8">
+
+            <MudNavLink Icon="@Icons.Material.Outlined.Home" Href="/Home">صفحه اصلی</MudNavLink>
+            <MudNavGroup  Icon="@Icons.Material.Outlined.People" Title="پرسنل">
+                <MudNavGroup  Icon="@Icons.Material.Outlined.DateRange" Title="مرخصی">
+                    <MudNavLink Disabled="true">مرخصی های من</MudNavLink>
+                    <MudNavLink Disabled="true">لیست مرخصی ها</MudNavLink>
+                    <MudNavLink Disabled="true">تایید مرخصی</MudNavLink>
+
+                </MudNavGroup>
+            </MudNavGroup>
+            <MudNavGroup  Icon="@Icons.Material.Outlined.Settings" Title="تنظیمات">
+                <MudNavGroup Icon="@Icons.Material.Outlined.SupervisedUserCircle" Title="تنظیمات کاربران">
+                    <MudNavLink href="/ProgramUsers">کاربران</MudNavLink>
+                    <MudNavLink href="/ProgramGroups">گروه های دسترسی</MudNavLink>
+                    <MudNavLink href="/Teams" Disabled="true">تیم ها</MudNavLink>
+                </MudNavGroup>
+
+            </MudNavGroup>
+
+        </div>
+    </MudNavMenu>
+</MudDrawer>
+
+
+
+
+
+
+@code {
+
+    [Parameter]
+    public string Version { get; set; } = "";
+    [Parameter]
+    public bool OpenMenu { get; set; }
+
+
+    public void ToggleDrawer()
+    {
+        StateHasChanged();
+    }
+
+
+}

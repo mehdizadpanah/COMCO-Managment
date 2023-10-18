@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using SH.Data.Model;
 using MudBlazor.Services;
-using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Components.Authorization;
-using SH.Class;
+using SH.Service;
+using Blazored.LocalStorage;
+using MudBlazor;
+using SH.Data.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,12 +14,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddMudServices();
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-//builder.Services.AddAuthentication()
-//    .AddCookie(option =>
-//    option.LoginPath = "/SH/Pages/Identity/Login");
+builder.Services.AddMudServices(config =>
+{
 
+    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomCenter;
+
+    config.SnackbarConfiguration.PreventDuplicates = false;
+    config.SnackbarConfiguration.NewestOnTop = false;
+    config.SnackbarConfiguration.ShowCloseIcon = true;
+    config.SnackbarConfiguration.VisibleStateDuration = 10000;
+    config.SnackbarConfiguration.HideTransitionDuration = 500;
+    config.SnackbarConfiguration.ShowTransitionDuration = 500;
+    config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+});
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+//be remove
+builder.Services.AddScoped<dataFile>();
+builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+builder.Services.AddSingleton<HtmlEncoder>(
+    HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+        UnicodeRanges.Arabic }));
+
+builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 
@@ -32,10 +53,22 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+//app.UseEndpoints(endpoints =>
+{
+    //endpoints.MapBlazorHub();
+    //endpoints.MapFallbackToPage("/_Host");
 
-app.Run();
+    // Configure a route to read the default page from the shared project
+    //endpoints.MapFallbackToPage("/shared-default", "/_content/SH/Pages/Index.razor");
+    //});
+
+    app.MapBlazorHub();
+    app.MapFallbackToPage("/_Host");
+
+    app.Run();
+}
