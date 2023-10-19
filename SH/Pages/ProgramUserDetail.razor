@@ -8,19 +8,18 @@
 @inject IWebHostEnvironment webHostEnvironment
 
 <style>
-    .mud-input{
+    .mud-input {
         font-size: var(--mud-typography-body1-size) !important;
-        
     }
 </style>
 
-<MudDialog Class="w-50" >
-    <DialogContent >
-        <MudForm Model="@ProgramUserVm" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0" >
+<MudDialog Class="w-50">
+    <DialogContent>
+        <MudForm Model="@ProgramUserVm" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0">
             @* <DataAnnotationsValidator /> *@
 
-            <MudGrid Spacing="2" >
-                <MudItem  xs="12">
+            <MudGrid Spacing="2">
+                <MudItem xs="12">
                     <MudStack>
                         <MudStack Row="true">
                             <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
@@ -36,36 +35,35 @@
                         <h4 style="font-weight:bold">مشخصات کاربر</h4>
                     </MudStack>
                 </MudItem>
-                <MudItem xs="6" >
-                    <div style="font-size:larger !important">
-                    <MudTextField @ref=NameTB Label="نام"  
+                <MudItem xs="4">
+                    <MudTextField @ref=NameTB Label="نام" Variant="Variant.Outlined" Margin="Margin.Dense" 
                     @bind-Value="ProgramUserVm.FirstName" For="@(() => ProgramUserVm.FirstName)" />
-                    </div>
                 </MudItem>
-                <MudItem xs="6" style="min-width:130px">
-                    <MudTextField Label="نام خانوادگی" HelperText=""
+                <MudItem xs="4" style="min-width:130px">
+                    <MudTextField Label="نام خانوادگی" Variant="Variant.Outlined" Margin="Margin.Dense"
                     @bind-Value="ProgramUserVm.LastName" For="@(() => ProgramUserVm.LastName)" />
                 </MudItem>
-                <MudItem xs="6" style="min-width:130px">
-                    <MudTextField Label="شماره تماس" HelperText=""
+                <MudItem xs="4" Style="min-width:130px">
+                    <MudTextField Label="سمت" Variant="Variant.Outlined" Margin="Margin.Dense"
+                    @bind-Value="ProgramUserVm.Position" For="@(() => ProgramUserVm.Position)" />
+                </MudItem>
+                <MudItem xs="4" style="min-width:130px">
+                    <MudTextField Label="شماره تماس" Variant="Variant.Outlined" Margin="Margin.Dense"
                     @bind-Value="ProgramUserVm.Phone" For="@(() => ProgramUserVm.Phone)" />
                 </MudItem>
-                <MudItem xs="6" Style="min-width:130px">
-                    <MudTextField Label="موبایل" HelperText=""
+                <MudItem xs="4" Style="min-width:130px">
+                    <MudTextField Label="موبایل" Variant="Variant.Outlined" Margin="Margin.Dense" 
                     @bind-Value="ProgramUserVm.Mobile" For="@(() => ProgramUserVm.Mobile)" />
                 </MudItem>
                 <MudItem xs="6" style="min-width:130px">
-                    <MudTextField Label="ایمیل" HelperText=""
+                    <MudTextField Label="ایمیل"
                     @bind-Value="ProgramUserVm.Email" For="@(() => ProgramUserVm.Email)" />
                 </MudItem>
                 <MudItem xs="6" Style="min-width:130px">
                     <MudTextField Label="نام کاربری دامین" HelperText=""
                     @bind-Value="ProgramUserVm.DcUsername" For="@(() => ProgramUserVm.DcUsername)" />
                 </MudItem>
-                <MudItem xs="6" Style="min-width:130px">
-                    <MudTextField Label="سمت" HelperText=""
-                    @bind-Value="ProgramUserVm.Position" For="@(() => ProgramUserVm.Position)" />
-                </MudItem>
+
                 <MudItem xs="6" Style="min-width:130px">
                     <MudCheckBox Label="کاربر غیر فعال" HelperText=""
                     @bind-Checked="ProgramUserVm.IsEnable" For="@(() => ProgramUserVm.IsEnable)"></MudCheckBox>
