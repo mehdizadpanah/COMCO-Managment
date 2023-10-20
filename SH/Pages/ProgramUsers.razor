@@ -23,17 +23,17 @@
 </style>
 
 <MudContainer Class="mt-6" >
-
-
     <MudToolBar Dense="false" DisableGutters = "true">
         <MudText Typo="Typo.h5">کاربران نرم افزار</MudText>
         <MudSpacer />
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Add"> جدید </MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Add" OnClick="@NewDetail"> جدید </MudButton>
     </MudToolBar>
-    <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Dense="true" Class="justify-content-around"
+
+    <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Dense="true" Class="justify-content-around" 
                  Hover="true" Striped="true" Items="@_programUsersModel" ReadOnly="false" T="ProgramUserVm"
                  ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="false"
                  SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="true">
+
         <Columns>
             @* <SelectColumn Size="Size.Small" /> *@
             <TemplateColumn Class="col-1">

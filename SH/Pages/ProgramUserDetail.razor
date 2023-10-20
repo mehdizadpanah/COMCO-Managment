@@ -13,9 +13,6 @@
         padding-top: 4px;
     }
 
-    .mud-grid-item {
-        min-width: 170px;
-    }
 </style>
 
 <MudDialog>
@@ -59,8 +56,11 @@
                           Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.Email" For="@(() => ProgramUserVm.Email)" />
             <MudTextField Label="نام کاربری دامین" Variant="Variant.Outlined" Margin="Margin.Dense"
                           Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.DcUsername" For="@(() => ProgramUserVm.DcUsername)" />
-            <MudCheckBox Label="کاربر غیر فعال"
-                         Class="col-6 col-lg-4 pa-2" @bind-Checked="ProgramUserVm.IsEnable" For="@(() => ProgramUserVm.IsEnable)"></MudCheckBox>
+            @* <MudCheckBox Label="کاربر غیر فعال"
+                         Class="col-6 col-lg-4 pa-2" @bind-Checked="ProgramUserVm.IsEnable" For="@(() => ProgramUserVm.IsEnable)"></MudCheckBox> *@
+            <MudSwitch @bind-Checked="ProgramUserVm.IsEnable" Color="Color.Primary">@(ProgramUserVm.IsEnable==true?"فعال":"غیر فعال") </MudSwitch>
+            <div class="col-6 col-lg-4 pa-2" />
+
             <MudTextField Label="ادرس" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="3"
                           Class="col-12 pa-2" @bind-Value="ProgramUserVm.Address" For="@(() => ProgramUserVm.Address)" />
 
