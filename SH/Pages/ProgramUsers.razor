@@ -105,7 +105,7 @@
     async Task Edit(ProgramUserVm? item)
     {
         bool New = false;
-        var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true };
+        var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true ,MaxWidth= MaxWidth.Medium};
         var parameters = new DialogParameters<ProgramUserDetail>();
         //Get record for use if editing canceled by user
         var oldSerializeData = JsonSerializer.Serialize(item);

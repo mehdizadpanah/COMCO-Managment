@@ -10,75 +10,64 @@
 <style>
     .mud-input {
         font-size: var(--mud-typography-body1-size) !important;
+        padding-top: 4px;
+    }
+
+    .mud-grid-item {
+        min-width: 170px;
     }
 </style>
 
-<MudDialog Class="w-50">
+<MudDialog>
     <DialogContent>
-        <MudForm Model="@ProgramUserVm" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0">
-            @* <DataAnnotationsValidator /> *@
+        <MudForm Model="@ProgramUserVm" @ref="@form" Validation="@(Validator.ValidateValue)" ValidationDelay="0"
+                 Class="d-flex flex-wrap">
 
-            <MudGrid Spacing="2">
-                <MudItem xs="12">
-                    <MudStack>
-                        <MudStack Row="true">
-                            <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
-                                <ButtonTemplate Context="fileContext">
-                                    <MudElement HtmlTag="label" for="@fileContext">
-                                        <MudImage ObjectFit="ObjectFit.ScaleDown" Src="@ProgramUserVm.ProfilePicture" Width="150" Height="150" Alt="Profile Picture"
-                                                  Elevation="25" Class="rounded-lg" Style="cursor:pointer" />
-                                    </MudElement>
-                                </ButtonTemplate>
-                            </MudFileUpload>
-                        </MudStack>
+            <div class="col-12 pt-6 pb-6 ">
+                <h6 style="font-weight:bold">مشخصات کاربر</h6>
 
-                        <h4 style="font-weight:bold">مشخصات کاربر</h4>
-                    </MudStack>
-                </MudItem>
-                <MudItem xs="4">
-                    <MudTextField @ref=NameTB Label="نام" Variant="Variant.Outlined" Margin="Margin.Dense" 
-                    @bind-Value="ProgramUserVm.FirstName" For="@(() => ProgramUserVm.FirstName)" />
-                </MudItem>
-                <MudItem xs="4" style="min-width:130px">
-                    <MudTextField Label="نام خانوادگی" Variant="Variant.Outlined" Margin="Margin.Dense"
-                    @bind-Value="ProgramUserVm.LastName" For="@(() => ProgramUserVm.LastName)" />
-                </MudItem>
-                <MudItem xs="4" Style="min-width:130px">
-                    <MudTextField Label="سمت" Variant="Variant.Outlined" Margin="Margin.Dense"
-                    @bind-Value="ProgramUserVm.Position" For="@(() => ProgramUserVm.Position)" />
-                </MudItem>
-                <MudItem xs="4" style="min-width:130px">
-                    <MudTextField Label="شماره تماس" Variant="Variant.Outlined" Margin="Margin.Dense"
-                    @bind-Value="ProgramUserVm.Phone" For="@(() => ProgramUserVm.Phone)" />
-                </MudItem>
-                <MudItem xs="4" Style="min-width:130px">
-                    <MudTextField Label="موبایل" Variant="Variant.Outlined" Margin="Margin.Dense" 
-                    @bind-Value="ProgramUserVm.Mobile" For="@(() => ProgramUserVm.Mobile)" />
-                </MudItem>
-                <MudItem xs="6" style="min-width:130px">
-                    <MudTextField Label="ایمیل"
-                    @bind-Value="ProgramUserVm.Email" For="@(() => ProgramUserVm.Email)" />
-                </MudItem>
-                <MudItem xs="6" Style="min-width:130px">
-                    <MudTextField Label="نام کاربری دامین" HelperText=""
-                    @bind-Value="ProgramUserVm.DcUsername" For="@(() => ProgramUserVm.DcUsername)" />
-                </MudItem>
+                <div class="d-flex align-items-center pt-5">
+                    <MudAvatar Elevation="0" Style="height:150px; width:150px;"
+                               Image="@ProgramUserVm.ProfilePicture" />
+                    <div class="d-flex flex-column text-center">
+                        <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
+                            <ButtonTemplate Context="fileContext">
+                                <MudButton EndIcon="@Icons.Material.Filled.FileUpload" Class="ms-4 mb-1" HtmlTag="label" for="@fileContext"
+                                           Style="font-size:small" Variant="Variant.Outlined"
+                                           Color="Color.Primary">بارگزاری</MudButton>
+                            </ButtonTemplate>
+                        </MudFileUpload>
+                        <MudText Style="font-size:smaller">250px * 250</MudText>
+                        <MudText Style="font-size:smaller">PNG or JPG File</MudText>
+                    </div>
 
-                <MudItem xs="6" Style="min-width:130px">
-                    <MudCheckBox Label="کاربر غیر فعال" HelperText=""
-                    @bind-Checked="ProgramUserVm.IsEnable" For="@(() => ProgramUserVm.IsEnable)"></MudCheckBox>
+                </div>
 
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField Label="ادرس" HelperText=""
-                    @bind-Value="ProgramUserVm.Address" For="@(() => ProgramUserVm.Address)" />
-                </MudItem>
+            </div>
 
-            </MudGrid>
+            <MudTextField @ref=NameTB Label="نام" Variant="Variant.Outlined" Margin="Margin.Dense"
+                          Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.FirstName" For="@(() => ProgramUserVm.FirstName)" />
+            <MudTextField Label="نام خانوادگی" Variant="Variant.Outlined" Margin="Margin.Dense"
+                          Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.LastName" For="@(() => ProgramUserVm.LastName)" />
+            <MudTextField Label="سمت" Variant="Variant.Outlined" Margin="Margin.Dense"
+                          Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.Position" For="@(() => ProgramUserVm.Position)" />
+            <MudTextField Label="شماره تماس" Variant="Variant.Outlined" Margin="Margin.Dense"
+                          Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.Phone" For="@(() => ProgramUserVm.Phone)" />
+            <MudTextField Label="موبایل" Variant="Variant.Outlined" Margin="Margin.Dense"
+                          Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.Mobile" For="@(() => ProgramUserVm.Mobile)" />
+            <MudTextField Label="ایمیل" Variant="Variant.Outlined" Margin="Margin.Dense"
+                          Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.Email" For="@(() => ProgramUserVm.Email)" />
+            <MudTextField Label="نام کاربری دامین" Variant="Variant.Outlined" Margin="Margin.Dense"
+                          Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.DcUsername" For="@(() => ProgramUserVm.DcUsername)" />
+            <MudCheckBox Label="کاربر غیر فعال"
+                         Class="col-6 col-lg-4 pa-2" @bind-Checked="ProgramUserVm.IsEnable" For="@(() => ProgramUserVm.IsEnable)"></MudCheckBox>
+            <MudTextField Label="ادرس" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="3"
+                          Class="col-12 pa-2" @bind-Value="ProgramUserVm.Address" For="@(() => ProgramUserVm.Address)" />
+
         </MudForm>
         <div class="pt-6 pb-4">
-            <MudButton Color="Color.Primary" OnClick="@(async () => await Submit())">قبول</MudButton>
-            <MudButton OnClick="Cancel">رد</MudButton>
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="@(async () => await Submit())">قبول</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">رد</MudButton>
         </div>
     </DialogContent>
 
@@ -187,5 +176,5 @@
 
     }
 
-}
+
 }
