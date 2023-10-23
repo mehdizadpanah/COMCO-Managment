@@ -24,13 +24,13 @@
         <MudSpacer />
         <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Add" OnClick="@NewDetail"> جدید </MudButton>
     </MudToolBar>
-    <MudDataGrid @ref="grid" T="ProgramGroupVm" Bordered="false" Class="" Dense="true"
-                 Hover="true" Items="@_programGroupsModel" ReadOnly="false" T="ProgramGroupVm"
+    <MudDataGrid @ref="grid" T="ProgramGroupVm" Bordered="false" Class="justify-content-around" Dense="true"
+                 Hover="true" Items="@_programGroupsModel" ReadOnly="false" T="ProgramGroupVm" Striped="true"
                  ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="false"
                  SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="true">
         <Columns>
             @* <SelectColumn Size="Size.Small" /> *@
-            <TemplateColumn Class="col-5">
+            <TemplateColumn Class="col-2">
                 <CellTemplate>
                     <MudCard Elevation="0" Style="background-color:transparent">
                         <MudCardHeader Class="p-0">
@@ -45,14 +45,10 @@
                     </MudCard>
                 </CellTemplate>
             </TemplateColumn>
-            <TemplateColumn Class="col-sm-1">
-                <CellTemplate>
-                </CellTemplate>
-            </TemplateColumn>
             <PropertyColumn Property="x => x.Description" Title="" />
             <TemplateColumn>
                 <CellTemplate>
-                    <MudStack Row="true" Spacing="2">
+                    <MudStack Row="true" Spacing="2" Justify="Justify.FlexEnd">
                         <MudIconButton Icon="@Icons.Filled.Edit" Size="Size.Small"
                                        OnClick="async()=> await Edit(context.Item)" />
                         <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Small"

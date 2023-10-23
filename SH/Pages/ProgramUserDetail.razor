@@ -10,7 +10,11 @@
 <style>
     .mud-input {
         font-size: var(--mud-typography-body1-size) !important;
-        padding-top: 4px;
+        padding-top: 4px !important;
+    }
+
+    .mud-input-control.mud-input-control-boolean-input {
+        margin-top:3px;
     }
 
 </style>
@@ -26,16 +30,16 @@
                 <div class="d-flex align-items-center pt-5">
                     <MudAvatar Elevation="0" Style="height:150px; width:150px;"
                                Image="@ProgramUserVm.ProfilePicture" />
-                    <div class="d-flex flex-column text-center">
+                    <div class="d-flex flex-column text-center justify-content-center ms-4">
                         <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
                             <ButtonTemplate Context="fileContext">
-                                <MudButton EndIcon="@Icons.Material.Filled.FileUpload" Class="ms-4 mb-1" HtmlTag="label" for="@fileContext"
+                                <MudButton EndIcon="@Icons.Material.Filled.FileUpload" Class="mb-1" HtmlTag="label" for="@fileContext"
                                            Style="font-size:small" Variant="Variant.Outlined"
                                            Color="Color.Primary">بارگزاری</MudButton>
                             </ButtonTemplate>
                         </MudFileUpload>
-                        <MudText Style="font-size:smaller">250px * 250</MudText>
-                        <MudText Style="font-size:smaller">PNG or JPG File</MudText>
+                        <MudText Color="Color.Secondary" Style="font-size:smaller">250px * 250</MudText>
+                        <MudText Color="Color.Secondary" Style="font-size:smaller">PNG or JPG File</MudText>
                     </div>
 
                 </div>
@@ -57,9 +61,11 @@
             <MudTextField Label="نام کاربری دامین" Variant="Variant.Outlined" Margin="Margin.Dense"
                           Class="col-6 col-lg-4 pa-2" @bind-Value="ProgramUserVm.DcUsername" For="@(() => ProgramUserVm.DcUsername)" />
             @* <MudCheckBox Label="کاربر غیر فعال"
-                         Class="col-6 col-lg-4 pa-2" @bind-Checked="ProgramUserVm.IsEnable" For="@(() => ProgramUserVm.IsEnable)"></MudCheckBox> *@
-            <MudSwitch @bind-Checked="ProgramUserVm.IsEnable" Color="Color.Primary">@(ProgramUserVm.IsEnable==true?"فعال":"غیر فعال") </MudSwitch>
-            <div class="col-6 col-lg-4 pa-2" />
+            Class="col-6 col-lg-4 pa-2" @bind-Checked="ProgramUserVm.IsEnable" For="@(() => ProgramUserVm.IsEnable)"></MudCheckBox> *@
+            <MudSwitch Class="col-6 col-lg-4 pa-2" @bind-Checked="ProgramUserVm.IsEnable" Color="Color.Primary">
+                @(ProgramUserVm.IsEnable == true ? "فعال" : "غیر فعال")
+            </MudSwitch>
+            <div class="col-6 col-lg-4 pa-2 m-0" />
 
             <MudTextField Label="ادرس" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="3"
                           Class="col-12 pa-2" @bind-Value="ProgramUserVm.Address" For="@(() => ProgramUserVm.Address)" />
@@ -96,7 +102,10 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await NameTB.FocusAsync();
+        if (firstRender)
+        {
+            await NameTB.FocusAsync();
+        }
         await base.OnAfterRenderAsync(firstRender);
     }
 

@@ -29,7 +29,7 @@ namespace SH.Data.ModelVM
         public string Address { get; set; }
         [Required]
         public string Position { get; set; }
-        public bool IsEnable { get; set; }
+        public bool IsEnable { get; set; } = true;
         public List<ProgramGroupVm>? ProgramGroupVms { get; set; }
         public ProgramTeamVm? ProgramTeamVm { get; set; }
 

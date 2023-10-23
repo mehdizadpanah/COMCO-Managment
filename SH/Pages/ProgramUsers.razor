@@ -56,9 +56,9 @@
 
                     <div class="text-center">
                         <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled" style="font-size:x-small"
-                                 hidden="@context.Item.IsEnable" Color="Color.Success">فعال</MudChip>
+                                 hidden="@(!context.Item.IsEnable)" Color="Color.Success">فعال</MudChip>
                         <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled" style="font-size:x-small"
-                                 hidden="@(!context.Item.IsEnable)" Color="Color.Error">غیر فعال</MudChip>
+                                 hidden="@(context.Item.IsEnable)" Color="Color.Error">غیر فعال</MudChip>
 
                     </div>
                 </CellTemplate>
