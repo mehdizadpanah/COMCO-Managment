@@ -17,14 +17,21 @@
 @using Microsoft.AspNetCore.Authentication
 
 
+<style>
+    .mud-xs-table .mud-table-cell{
+        justify-content:start !important
+    }
+</style>
+
 
 <MudContainer Class="mt-6">
     <MudToolBar Dense="false" DisableGutters="true">
         <MudText Typo="Typo.h5">گروه ها</MudText>
         <MudSpacer />
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Add" OnClick="@NewDetail"> جدید </MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Add"
+                   OnClick="@NewDetail"> جدید </MudButton>
     </MudToolBar>
-    <MudDataGrid @ref="grid" T="ProgramGroupVm" Bordered="false" Class="justify-content-around" Dense="true"
+    <MudDataGrid @ref="grid" T="ProgramGroupVm" Bordered="false" Dense="true"
                  Hover="true" Items="@_programGroupsModel" ReadOnly="false" T="ProgramGroupVm" Striped="true"
                  ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="false"
                  SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="true">
@@ -45,13 +52,17 @@
                     </MudCard>
                 </CellTemplate>
             </TemplateColumn>
-            <PropertyColumn Property="x => x.Description" Title="" />
+            <PropertyColumn HideSmall="true" Property="x => x.Description" Title="" />
             <TemplateColumn>
                 <CellTemplate>
                     <MudStack Row="true" Spacing="2" Justify="Justify.FlexEnd">
                         <MudIconButton Icon="@Icons.Filled.Edit" Size="Size.Small"
                                        OnClick="async()=> await Edit(context.Item)" />
                         <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Small"
+                                       OnClick="async()=> await Delete(context.Item)" />
+                        <MudIconButton Icon="@Icons.Filled.Group" Size="Size.Small"
+                                       OnClick="async()=> await EditMembers(context.Item)" />
+                        <MudIconButton Icon="@Icons.Filled.LockPerson" Size="Size.Small"
                                        OnClick="async()=> await Delete(context.Item)" />
                     </MudStack>
                 </CellTemplate>
@@ -170,5 +181,13 @@
         else EditButtonDisabled = true;
         if (items.Count() == 0) DeleteButtonDisabled = true;
         if (items.Count() > 0) DeleteButtonDisabled = false;
+    }
+    async Task EditMembers(ProgramGroupVm? item)
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true };
+        var parameters = new DialogParameters<ProgramGroupMembers>();
+        //Get record for use if editing canceled by user
+        var result = await DialogService.Show<ProgramGroupMembers>(null, parameters, options).Result;
+
     }
 }
