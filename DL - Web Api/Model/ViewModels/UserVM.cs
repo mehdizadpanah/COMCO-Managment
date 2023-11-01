@@ -9,8 +9,8 @@ namespace DL___Web_Api.Model.ViewModels
         public UserVM()
         {
             ID = Guid.NewGuid();
-            Groups = new HashSet<Groups>();
-            Teams = new HashSet<Teams>();
+            Groups = new HashSet<Group>();
+            Teams = new HashSet<Team>();
             FullName = new string(FirstName + " " + LastName);
         }
 
@@ -37,8 +37,8 @@ namespace DL___Web_Api.Model.ViewModels
         [Required]
         public string Position { get; set; }
         public bool IsEnable { get; set; }
-        public ICollection<Groups>? Groups { get; set; }
-        public ICollection<Teams>? Teams { get; set; }
+        public ICollection<Group>? Groups { get; set; }
+        public ICollection<Team>? Teams { get; set; }
         private string phone;
         private string mobile;
     }

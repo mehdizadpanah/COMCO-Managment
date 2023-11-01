@@ -4,18 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DL___Web_Api.Model.Models
 {
     [Table("Groups")]
-    public class Groups : DefaultModel
+    public class Group : DefaultModel
     {
-        public Groups()
+        public Group()
         {
             ID = Guid.NewGuid();
         }
 
-        [Required]
+        [Key]
         public Guid ID { get; set; }
         public string GroupName { get; set; }
         public string Description { get; set; }
         public string Permission { get; set; }
-        public ICollection<Users>? Users { get; set; }
+        public ICollection<User>? Users { get; set; }
     }
 }
