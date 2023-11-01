@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Contracts;
+using System.Reflection.Emit;
 
 namespace DL___Web_Api.Data
 {
@@ -12,7 +13,7 @@ namespace DL___Web_Api.Data
         {
 
             base.OnModelCreating(builder);
-           
+            
             //ارتباط جدول deviced ba deviceh
             //builder.Entity<DeviceD>()
             //    .HasRequired(x => x.DeviceH)

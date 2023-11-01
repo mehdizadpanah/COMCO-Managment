@@ -36,7 +36,7 @@ namespace DL___Web_Api.Model.Models
         public string Position { get; set; }
         public bool IsEnable { get; set; }
         public ICollection<Group>? Groups { get; set; }
-        public ICollection<Team>? Teams { get; set; }
+        public virtual ICollection<Team>? Teams { get; set; }
         private string phone;
         private string mobile;
     }

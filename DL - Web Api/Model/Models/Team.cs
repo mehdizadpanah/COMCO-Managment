@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace DL___Web_Api.Model.Models
 {
@@ -15,8 +17,10 @@ namespace DL___Web_Api.Model.Models
         public Guid ID { get; set; }
         public string TeamName { get; set; }
         public string TeamDescription { get; set; }
-        public ICollection<User>? Users { get; set; }
-        public Guid ManagerId { get; set; }
-        public User? Manager { get; set; }
+        public virtual ICollection<User>? Users { get; set; }
+        public int? ManagerId { get; set; }
+
+        [ForeignKey("ManagerId")]
+        public virtual User Manager { get; set; }
     }
 }
