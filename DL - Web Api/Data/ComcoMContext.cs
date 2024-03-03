@@ -8,12 +8,12 @@ namespace DL___Web_Api.Data
 {
     public class ComcoMContext : DbContext
     {
-       
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
             base.OnModelCreating(builder);
-            
+
             //ارتباط جدول deviced ba deviceh
             //builder.Entity<DeviceD>()
             //    .HasRequired(x => x.DeviceH)
@@ -43,10 +43,14 @@ namespace DL___Web_Api.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<UserTeam> UserTeams { get; set; }
+        public DbSet<Position> Positions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=192.168.0.63; Initial Catalog=ComcoMNG;Integrated Security=False;User ID=sa;Password=123456;MultipleActiveResultSets=True""");
+            //optionsBuilder.UseSqlServer(@"Data Source=192.168.0.63; Initial Catalog=ComcoMNG;Integrated Security=False;User ID=sa;Password=123456;MultipleActiveResultSets=True""");
+            optionsBuilder.UseSqlServer(@"Data Source=192.168.0.63;Initial Catalog=ComcoMNG;Integrated Security=false;User ID=sa;Password=123456;
+            MultipleActiveResultSets=True;TrustServerCertificate=yes");
         }
 
     }

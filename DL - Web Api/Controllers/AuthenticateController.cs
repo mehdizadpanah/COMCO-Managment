@@ -1,4 +1,5 @@
 ﻿using DL___Web_Api.Filters;
+using DL___Web_Api.Model.ViewModels;
 using DL___Web_Api.TokenAuthentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,23 @@ namespace DL___Web_Api.Controllers
         {
             this.tokenManager = tokenManager;
         }
-        [HttpGet]
-        public IActionResult Authenticate(string user,string pwd)
+
+        //public IActionResult Authenticate(string user,string pwd)
+        //{
+        //    if (tokenManager.Authenticate(user,pwd)) 
+        //    {
+        //        return Ok(new { Token = tokenManager.NewToken() });
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError("Unauthorized", "You are not Unauthorized.");
+        //        return Unauthorized(ModelState);
+        //    }
+        //}
+        [HttpPost]
+        public IActionResult Authenticate([FromBody] LoginVM login)
         {
-            if (tokenManager.Authenticate(user,pwd)) 
+            if (tokenManager.Authenticate(login.Username, login.Password))
             {
                 return Ok(new { Token = tokenManager.NewToken() });
             }

@@ -16,7 +16,7 @@ namespace DL___Web_Api.Model.Models
         {
             ID = Guid.NewGuid();
             Groups = new HashSet<Group>();
-            Teams = new HashSet<Team>();
+            //Teams = new HashSet<Team>();
         }
 
         [Key]
@@ -32,11 +32,11 @@ namespace DL___Web_Api.Model.Models
         public string PhoneP { get; set; }
         public string Mobile { get; set; }
         public string Address { get; set; }
-        [Required]
-        public string Position { get; set; }
+        //[Required]
+        //public string Position { get; set; }
         public bool IsEnable { get; set; }
         public ICollection<Group>? Groups { get; set; }
-        public virtual ICollection<Team>? Teams { get; set; }
+        //public virtual ICollection<Team>? Teams { get; set; }
         private string phone;
         private string mobile;
     }

@@ -14,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAccountService, AccountServices>();
 builder.Services.AddSingleton<ITokenManager, TokenManager>();
+builder.Services.AddDbContext<ComcoMContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
