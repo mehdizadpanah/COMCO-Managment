@@ -17,6 +17,7 @@ namespace DL___Web_Api.Filters
             if (result)
             {
                 token = context.HttpContext.Request.Headers.First(x => x.Key == "Authorization").Value;
+                
                 if(!tokenManager.VerifyToken(token))
                     result = false;
             }

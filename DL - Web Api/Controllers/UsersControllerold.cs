@@ -9,43 +9,43 @@ using DL___Web_Api.Data;
 using DL___Web_Api.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using DL___Web_Api.Filters;
-using DL___Web_Api.Repository;
 
 namespace DL___Web_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [TokenAuthenticationFilter]
-    public class UsersController : ControllerBase
+    public class UsersControllerold : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly ComcoMContext _context;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersControllerold(ComcoMContext context)
         {
-            _userRepository = userRepository;
+            _context = context;
         }
 
         // GET: api/Users
-        // [Authorize]
+       // [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            if (_userRepository.GetUsers == null)
-            {
-                return NotFound();
-            }
-            return await _userRepository.GetUsers();
+          if (_context.Users == null)
+          {
+
+              return NotFound();
+          }
+            return await _context.Users.ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
-            if (_userRepository.GetUser(id) == null)
-            {
-                return NotFound();
-            }
-            var user = await _userRepository.GetUser(id);
+          if (_context.Users == null)
+          {
+              return NotFound();
+          }
+            var user = await _context.Users.FindAsync(id);
 
             if (user == null)
             {
@@ -65,13 +65,15 @@ namespace DL___Web_Api.Controllers
                 return BadRequest();
             }
 
+            _context.Entry(user).State = EntityState.Modified;
+
             try
             {
-                await _userRepository.PutUser (id, user);
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (_userRepository.PutUser(id, user) == null)
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -89,13 +91,13 @@ namespace DL___Web_Api.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            if (_userRepository == null)
-            {
-                return Problem("Entity set 'ComcoMContext.Users'  is null.");
-            }
+          if (_context.Users == null)
+          {
+              return Problem("Entity set 'ComcoMContext.Users'  is null.");
+          }
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
-            await _userRepository.PostUser(user);
-            ///??????
             return CreatedAtAction("GetUser", new { id = user.ID }, user);
         }
 
@@ -103,18 +105,26 @@ namespace DL___Web_Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            if (_userRepository.DeleteUser(id) == null)
+            if (_context.Users == null)
             {
                 return NotFound();
             }
-            await _userRepository.DeleteUser(id);
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            _context.Users.Remove(user);
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool UserExists(Guid id)
         {
-            return _userRepository.UserExists(id);
+            return (_context.Users?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }

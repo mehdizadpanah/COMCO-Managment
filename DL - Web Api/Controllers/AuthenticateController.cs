@@ -1,8 +1,11 @@
-﻿using DL___Web_Api.Filters;
+﻿using Azure.Identity;
+using DL___Web_Api.Filters;
 using DL___Web_Api.Model.ViewModels;
 using DL___Web_Api.TokenAuthentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using System.Security.Claims;
 
 namespace DL___Web_Api.Controllers
 {
@@ -34,9 +37,13 @@ namespace DL___Web_Api.Controllers
         [HttpPost]
         public IActionResult Authenticate([FromBody] LoginVM login)
         {
-            if (tokenManager.Authenticate(login.Username, login.Password))
+
+            if( tokenManager.Authenticate(login.Username, login.Password))
             {
-                return Ok(new { Token = tokenManager.NewToken() });
+                return Ok(new { Token = tokenManager.NewToken(login.Username) });
+
+            
+
             }
             else
             {
