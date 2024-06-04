@@ -1,5 +1,5 @@
-﻿
 namespace SH.Data.ModelVM
+
 {
     public class DefaultVM
     {

@@ -1,0 +1,122 @@
+﻿@    using Microsoft.AspNetCore.Hosting;
+@    using SH.Data.ModelVM;
+@    using SH.Service.Public
+@    using AutoMapper
+@    using SH.Data.Validator
+
+@inject IMapper mapper
+@inject IWebHostEnvironment webHostEnvironment
+
+
+<style>
+    .mud-input {
+        font-size: var(--mud-typography-body1-size) !important;
+        padding-top: 4px;
+    }
+
+    .tr,td {
+        border-style: hidden !important;
+    }
+
+</style>
+
+
+
+<MudDialog Style="background-color:#f5f6f8">
+    <DialogContent>
+
+        <div class="d-flex row justify-content-center">
+
+
+            <div class="col-12 pt-6 pb-6 ">
+                <h6 style="font-weight:bold">کاربران عضو</h6>
+            </div>
+
+            <div class="col-5">
+                <MudPaper Elevation="25" Height="350px">
+                    <MudTable Items="@Elements" Dense="true" Bordered="false" MultiSelection="true" Elevation="0"
+                        Hover="true" SelectOnRowClick="true" ReadOnly="true">
+                        <RowTemplate>
+                            <MudTd>@context</MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudPaper>
+                @*  <MudPaper Elevation="25" Height="350px">
+                <MudList Clickable="true">
+                <MudListItem Text="مهدی ایزدپناه" />
+                <MudListItem Text="الهام ایزدپناه" />
+                <MudCheckBox T="string">فراز ایزدپناه</MudCheckBox>
+                </MudList>
+                </MudPaper> *@
+            </div>
+            <div class=" flex-column col-2  text-center align-self-center">
+                <MudIconButton Icon="@Icons.Material.Filled.ArrowLeft" />
+                <MudIconButton Icon="@Icons.Material.Filled.ArrowRight" />
+            </div>
+            <div class="col-5">
+                <MudPaper Elevation="25" Height="350px">
+                    <MudList>
+                        <MudListItem Text="Name" />
+                        <MudListItem Text="Family" />
+                    </MudList>
+                </MudPaper>
+            </div>
+            @* </MudForm> *@
+            <div class="pt-6 pb-4 mw-100">
+                <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="@(async () => await Submit())">قبول</MudButton>
+                <MudButton Variant="Variant.Outlined" OnClick="Cancel">رد</MudButton>
+            </div>
+        </div>
+    </DialogContent>
+
+</MudDialog>
+
+@code {
+    [Parameter]
+    public ProgramGroupVm? ProgramGroupVm { get; set; }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    bool _success;
+    ProgramGroupValidator Validator = new ProgramGroupValidator();
+    MudForm form;
+    MudTextField<string> NameTB;
+    string AvatarIcon = "";
+    private List<string> Elements = new List<string>();
+
+    // public ProgramGroupDetail(string avatarIcon)
+    // {
+    //     if (ProgramGroupVm.GroupName == "") AvatarIcon = "";
+    //     else AvatarIcon = ProgramGroupVm.GroupName[0].ToString();
+    // }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        Elements.Add("مهدی ایزدپناه");
+        Elements.Add("فراز ایزدپناه");
+        Elements.Add("الهام ایزدپناه");
+
+    }
+    private void OnValidSubmit(EditContext context)
+    {
+        _success = true;
+        StateHasChanged();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (!form.IsValid) return;
+        MudDialog.Close(DialogResult.Ok(ProgramGroupVm));
+    }
+
+    void Cancel()
+    {
+        MudDialog.Dispose();
+        MudDialog.Cancel();
+
+    }
+
+}

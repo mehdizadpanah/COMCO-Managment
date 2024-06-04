@@ -6,11 +6,21 @@ using SH.Service;
 using Blazored.LocalStorage;
 using MudBlazor;
 using SH.Data.Validator;
+using SH.Data.ViewModel;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using System.Diagnostics;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
+//builder.Configuration.AddJsonFile("appsettings.json");
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
+
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices(config =>
 {
@@ -25,6 +35,8 @@ builder.Services.AddMudServices(config =>
     config.SnackbarConfiguration.ShowTransitionDuration = 500;
     config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
 });
+builder.Services.AddScoped<ApiService>();
+
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllersWithViews();
 
@@ -38,7 +50,7 @@ builder.Services.AddSingleton<HtmlEncoder>(
 
 builder.Services.AddBlazoredLocalStorage();
 
-var app = builder.Build();
+var app =  builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -67,6 +79,14 @@ app.UseAuthorization();
 
     app.MapBlazorHub();
     app.MapFallbackToPage("/_Host");
+
+    //set global variable
+    GlobalSettings.ApiAddress = builder.Configuration.GetValue<string>("APPSerttings:ApiAddress");
+    GlobalSettings.ApiPort = builder.Configuration.GetValue<int>("APPSerttings:ApiPort");
+
+
+
+
 
     app.Run();
 }

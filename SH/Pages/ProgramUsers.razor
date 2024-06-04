@@ -23,17 +23,17 @@
 </style>
 
 <MudContainer Class="mt-6" >
-
-
     <MudToolBar Dense="false" DisableGutters = "true">
         <MudText Typo="Typo.h5">کاربران نرم افزار</MudText>
         <MudSpacer />
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Add"> جدید </MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Add" OnClick="@NewDetail"> جدید </MudButton>
     </MudToolBar>
-    <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Dense="true" Class="justify-content-around"
+
+    <MudDataGrid @ref="grid" T="ProgramUserVm" Bordered="false" Dense="true" Class="justify-content-around" 
                  Hover="true" Striped="true" Items="@_programUsersModel" ReadOnly="false" T="ProgramUserVm"
                  ColumnResizeMode="ResizeMode.Column" Elevation="10" MultiSelection="false"
                  SelectedItemsChanged="@SelectItemChanged" SelectOnRowClick="true">
+
         <Columns>
             @* <SelectColumn Size="Size.Small" /> *@
             <TemplateColumn Class="col-1">
@@ -56,9 +56,9 @@
 
                     <div class="text-center">
                         <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled" style="font-size:x-small"
-                                 hidden="@context.Item.IsEnable" Color="Color.Success">فعال</MudChip>
+                                 hidden="@(!context.Item.IsEnable)" Color="Color.Success">فعال</MudChip>
                         <MudChip Size="Size.Small" Label="true" Variant="Variant.Filled" style="font-size:x-small"
-                                 hidden="@(!context.Item.IsEnable)" Color="Color.Error">غیر فعال</MudChip>
+                                 hidden="@(context.Item.IsEnable)" Color="Color.Error">غیر فعال</MudChip>
 
                     </div>
                 </CellTemplate>
@@ -105,7 +105,7 @@
     async Task Edit(ProgramUserVm? item)
     {
         bool New = false;
-        var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true };
+        var options = new DialogOptions { CloseOnEscapeKey = true, NoHeader = true, CloseButton = true ,MaxWidth= MaxWidth.Medium};
         var parameters = new DialogParameters<ProgramUserDetail>();
         //Get record for use if editing canceled by user
         var oldSerializeData = JsonSerializer.Serialize(item);
