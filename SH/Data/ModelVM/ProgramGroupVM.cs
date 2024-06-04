@@ -14,6 +14,6 @@ namespace SH.Data.ModelVM
         public string GroupName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Permission { get; set; } = string.Empty;
-        public List<ProgramUserVm>? Users { get; set; }
+        public List<ProgramGroupVm>? Users { get; set; }
     }
 }
