@@ -3,7 +3,7 @@
     public interface ITokenManager
     {
         bool Authenticate(string userName, string password);
-        Token NewToken(string userId);
+        Token NewToken(string userId,Boolean rememberme);
         bool VerifyToken(string token);
     }
 }
