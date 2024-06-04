@@ -40,10 +40,7 @@ namespace DL___Web_Api.Controllers
 
             if( tokenManager.Authenticate(login.Username, login.Password))
             {
-                return Ok(new { Token = tokenManager.NewToken(login.Username) });
-
-            
-
+                return Ok(new { Token = tokenManager.NewToken(login.Username,login.IsRememberMe) });
             }
             else
             {
