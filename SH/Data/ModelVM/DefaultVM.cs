@@ -1,5 +1,4 @@
-﻿
-namespace SH.Data.ModelVM.Users
+﻿namespace SH.Data.ModelVM
 {
     public class DefaultVM
     {

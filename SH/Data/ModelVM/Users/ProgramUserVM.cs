@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MudBlazor;
-using SH.Data.ModelVM.Users;
 using SH.Service.Public;
 
-namespace SH.Data.ModelVM
+namespace SH.Data.ModelVM.Users
 {
-    public class ProgramUserVm : DefaultVM 
+    public class ProgramUserVm : DefaultVM
     {
         public ProgramUserVm()
         {

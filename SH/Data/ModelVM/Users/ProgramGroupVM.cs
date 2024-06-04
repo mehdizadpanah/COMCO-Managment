@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SH.Data.ModelVM
+namespace SH.Data.ModelVM.Users
 {
     public class ProgramGroupVm : DefaultModelVm
     {
