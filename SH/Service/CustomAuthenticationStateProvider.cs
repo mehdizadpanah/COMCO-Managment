@@ -11,6 +11,8 @@ using SH.Data.Model;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Components;
 
+
+
 namespace SH.Service
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
@@ -18,18 +20,21 @@ namespace SH.Service
     {
         public ILocalStorageService LocalStorageService { get; set; }
         public NavigationManager NavigationManager { get; set; }
+        private readonly ApiService _apiService;
 
-        public CustomAuthenticationStateProvider(ILocalStorageService localStorageService, NavigationManager navigationManager)
+        public CustomAuthenticationStateProvider(ILocalStorageService localStorageService, NavigationManager navigationManager,
+            ApiService apiService)
         {
             LocalStorageService = localStorageService;
             NavigationManager = navigationManager;
+            _apiService = apiService;
         }
 
-       
+
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-           
+
             var identity = new ClaimsIdentity();
             var user = new ClaimsPrincipal(identity);
             var username = await LocalStorageService.GetItemAsync<string>("user");
@@ -52,7 +57,17 @@ namespace SH.Service
 
         public async Task<bool> Login(string username, string password, bool rememberMe)
         {
-            var validate = false || username == "mi" && password == "1234";
+            var validate = false;
+            var values = new { UserName = username, Password = password };
+            var resp = await _apiService.PostValuesAsync("/Authenticate", values);
+            if (resp.IsSuccessStatusCode)
+            {
+                validate = true;
+                var content = await resp.Content.ReadAsStringAsync();
+
+            }
+
+            //var validate = false || username == "mi" && password == "1234";
 
             if (!validate) return validate;
 
