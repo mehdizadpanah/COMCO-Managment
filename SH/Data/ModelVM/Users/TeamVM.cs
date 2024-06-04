@@ -1,7 +1,7 @@
 ﻿using SH.Data.ModelVM;
 using System.ComponentModel.DataAnnotations;
 
-namespace DL___Web_Api.Model.ViewModels
+namespace SH.Data.ModelVM.Users
 {
     public class TeamVM : DefaultVM
     {

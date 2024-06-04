@@ -2,9 +2,9 @@
 using MudBlazor;
 using SH.Service.Public;
 
-namespace SH.Data.ModelVM
+namespace SH.Data.ModelVM.Users
 {
-    public class ProgramUserVm : DefaultModelVm 
+    public class ProgramUserVm : DefaultVM 
     {
         public ProgramUserVm()
         {

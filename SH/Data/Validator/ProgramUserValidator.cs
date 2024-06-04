@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using SH.Data.ModelVM;
+using SH.Data.ModelVM.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

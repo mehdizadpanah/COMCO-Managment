@@ -1,16 +1,15 @@
-﻿using DL___Web_Api.Model.Models;
-using SH.Service.Public;
+﻿using SH.Service.Public;
 using System.ComponentModel.DataAnnotations;
 
-namespace DL___Web_Api.Model.ViewModels
+namespace SH.Data.ModelVM.Users
 {
     public class UserVM  : DefaultVM
     {
         public UserVM()
         {
             ID = Guid.NewGuid();
-            Groups = new HashSet<Group>();
-            Teams = new HashSet<Team>();
+            Groups = new HashSet<GroupVM>();
+            Teams = new HashSet<TeamVM>();
             FullName = new string(FirstName + " " + LastName);
         }
 
@@ -37,8 +36,8 @@ namespace DL___Web_Api.Model.ViewModels
         [Required]
         public string Position { get; set; }
         public bool IsEnable { get; set; }
-        public ICollection<Group>? Groups { get; set; }
-        public ICollection<Team>? Teams { get; set; }
+        public ICollection<GroupVM>? Groups { get; set; }
+        public ICollection<TeamVM>? Teams { get; set; }
         private string phone;
         private string mobile;
     }

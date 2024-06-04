@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SH.Data.ModelVM;
+using SH.Data.ModelVM.Users;
 
 namespace SH.Service.Public;
 

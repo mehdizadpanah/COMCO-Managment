@@ -1,6 +1,5 @@
-﻿using DL___Web_Api.Model.Models;
-
-namespace DL___Web_Api.Model.ViewModels
+﻿
+namespace SH.Data.ModelVM
 {
     public class DefaultVM
     {

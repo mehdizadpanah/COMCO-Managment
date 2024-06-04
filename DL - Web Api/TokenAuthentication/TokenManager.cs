@@ -1,9 +1,9 @@
 ﻿using DL___Web_Api.Controllers;
 using DL___Web_Api.Data;
-using DL___Web_Api.Model.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using SH.Pages.Identity;
 using System.DirectoryServices;
+using SH.Data.ModelVM.Authentication;
 
 
 namespace DL___Web_Api.TokenAuthentication
