@@ -11,6 +11,6 @@ namespace DL___Web_Api.Repository
          Task<IActionResult> PutUser(Guid id, User user);
          Task<IActionResult> DeleteUser(Guid id);
          Boolean UserExists(Guid id);
-        Task PostUser(User user);
+        Task<IActionResult> PostUser(User user);
     }
 }

@@ -10,7 +10,7 @@ using System.Security.Claims;
 namespace DL___Web_Api.Controllers
 {
     
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     //[TokenAuthenticationFilter]
     public class AuthenticateController : ControllerBase

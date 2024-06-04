@@ -82,11 +82,16 @@ namespace DL___Web_Api.Repository
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.ID }, user);
+            return CreatedAtActionResult("GetUser", new { id = user.ID }, user);
+        }
+
+        private ActionResult<User> CreatedAtActionResult(string v, object value, User user)
+        {
+            throw new NotImplementedException();
         }
 
         // DELETE: api/Users/5
-       
+
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             if (_context.Users == null)
@@ -103,7 +108,7 @@ namespace DL___Web_Api.Repository
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return null;
         }
 
         private bool UserExists(Guid id)
@@ -113,6 +118,11 @@ namespace DL___Web_Api.Repository
 
         bool IUserRepository.UserExists(Guid id)
         {                               
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> IUserRepository.PostUser(User user)
+        {
             throw new NotImplementedException();
         }
     }
