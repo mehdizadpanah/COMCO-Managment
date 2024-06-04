@@ -1,15 +1,15 @@
 ﻿using Azure.Identity;
 using DL___Web_Api.Filters;
-using DL___Web_Api.Model.ViewModels;
 using DL___Web_Api.TokenAuthentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using System.Security.Claims;
+using SH.Data.ModelVM.Authentication;
 
 namespace DL___Web_Api.Controllers
 {
-    
+
     [Route("[controller]")]
     [ApiController]
     //[TokenAuthenticationFilter]
@@ -40,10 +40,7 @@ namespace DL___Web_Api.Controllers
 
             if( tokenManager.Authenticate(login.Username, login.Password))
             {
-                return Ok(new { Token = tokenManager.NewToken(login.Username) });
-
-            
-
+                return Ok(new { Token = tokenManager.NewToken(login.Username,login.IsRememberMe) });
             }
             else
             {

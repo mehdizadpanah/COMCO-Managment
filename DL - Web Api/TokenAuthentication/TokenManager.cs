@@ -1,9 +1,9 @@
 ﻿using DL___Web_Api.Controllers;
 using DL___Web_Api.Data;
-using DL___Web_Api.Model.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using SH.Pages.Identity;
 using System.DirectoryServices;
+using SH.Data.ModelVM.Authentication;
 
 
 namespace DL___Web_Api.TokenAuthentication
@@ -51,13 +51,13 @@ namespace DL___Web_Api.TokenAuthentication
                 else return false;
             }
         }
-        public Token NewToken(string userId)
+        public Token NewToken(string userId,Boolean rememberme)
 
         {
             var token = new Token
             {
                 Value = Guid.NewGuid().ToString(),
-                ExpiryDate = DateTime.Now.AddMinutes(30),
+                ExpiryDate = rememberme ? DateTime.Now.AddMonths(1): DateTime.Now.AddMinutes(30),
                 UserID = userId
             };
             listTokens.Add(token);

@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using MudBlazor;
 using SH.Service.Public;
 
 namespace SH.Data.ModelVM.Users
 {
-    public class ProgramUserVm : DefaultVM
+    public class ProgramUserVm : DefaultVM 
     {
         public ProgramUserVm()
         {
@@ -30,6 +30,7 @@ namespace SH.Data.ModelVM.Users
         [Required]
         public string Position { get; set; }
         public bool IsEnable { get; set; } = true;
+
         public List<ProgramGroupVm>? ProgramGroupVms { get; set; }
         public ProgramTeamVm? ProgramTeamVm { get; set; }
 

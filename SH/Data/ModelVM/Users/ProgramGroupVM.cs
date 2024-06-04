@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace SH.Data.ModelVM.Users
 {
-    public class ProgramGroupVm : DefaultModelVm
+    public class ProgramGroupVm : DefaultVM
     {
         public ProgramGroupVm()
         {

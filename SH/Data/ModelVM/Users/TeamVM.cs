@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+using SH.Data.ModelVM;
+using System.ComponentModel.DataAnnotations;
 
 namespace SH.Data.ModelVM.Users
 {

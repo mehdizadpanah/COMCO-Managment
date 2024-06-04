@@ -1,6 +1,5 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using SH.Data.Model;
 using MudBlazor.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using SH.Service;
@@ -23,7 +22,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
 
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices(config =>
 {
 
