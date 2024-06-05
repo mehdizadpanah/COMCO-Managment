@@ -33,7 +33,9 @@
                     <MudBadge Class="mx-4 my-4" Dot="true" Color=Color.Error Overlap="true">
                         <MudIcon Icon="@Icons.Material.Outlined.Notifications" Color="Color.Secondary" />
                     </MudBadge>
-                    <MudAvatar Image="_content\\SH\\Pictures\\empty-profile-image.jpg" onclick="ProfileClick" />
+                    <button>
+                        <MudAvatar @onclick="ProfileClick" Image="_content\\SH\\Pictures\\empty-profile-image.jpg" />
+                    </button>
                     
                 </AuthorizeView>
             </MudAppBar>
@@ -75,7 +77,7 @@
                 AppbarText = Colors.Shades.Black
 
             },
-            
+
             Typography = new Typography()
             {
                 Default = new Default()
@@ -119,6 +121,7 @@
     void ProfileClick()
     {
         ProfileMenuOpen = !ProfileMenuOpen;
+
     }
 
 
