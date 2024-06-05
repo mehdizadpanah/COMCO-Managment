@@ -9,10 +9,12 @@ namespace DL___Web_Api.Repository
     {
         private readonly ComcoMContext _context;
 
-        public UserRepository(ComcoMContext context)
+        public UserRepository()
         {
-            _context = context;
+            _context = new ComcoMContext();
         }
+
+        
 
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
@@ -40,10 +42,25 @@ namespace DL___Web_Api.Repository
 
             return user;
         }
+        public async Task<User> GetUserByDCUname(string dcusername)
+        {
+            if (_context.Users == null)
+            {
+                return null;
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(e => e.DcUsername == dcusername);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return user;
+        }
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-       
+
         public async Task<IActionResult> PutUser(Guid id, User user)
         {
             if (id != user.ID)
