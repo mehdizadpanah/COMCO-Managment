@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SH.Service.Public
+﻿namespace SH.Service.Public
 {
     public static class StringExtensions
     {
@@ -21,4 +13,5 @@ namespace SH.Service.Public
             return input;
         }
     }
+
 }
