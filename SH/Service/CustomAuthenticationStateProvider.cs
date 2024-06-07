@@ -25,20 +25,28 @@ namespace SH.Service
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
+            try
+            {
+                var identity = new ClaimsIdentity();
+                var user = new ClaimsPrincipal(identity);
+                var loginCookies = await ReadLoginCookies();
+                if (loginCookies.ExpiryDate > DateTime.UtcNow)
+                {
+                    identity = SetIdentity(loginCookies);
+                    user = new ClaimsPrincipal(identity);
+                }
+                else
+                {
+                    await Logout();
+                }
+                return await Task.FromResult(new AuthenticationState(user));
+            }
+            catch (Exception ex)
+            {
 
-            var identity = new ClaimsIdentity();
-            var user = new ClaimsPrincipal(identity);
-            var loginCookies = await ReadLoginCookies();
-            if (loginCookies.ExpiryDate > DateTime.UtcNow)
-            {
-                identity = SetIdentity(loginCookies);
-                user = new ClaimsPrincipal(identity);
+                throw new Exception(ex.Message);
             }
-            else
-            {
-                await Logout();
-            }
-            return await Task.FromResult(new AuthenticationState(user));
+            
 
         }
 
@@ -127,11 +135,15 @@ namespace SH.Service
                 {
                     Username = await LocalStorageService.GetItemAsync<string>("userName"),
                     ExpiryDate = await LocalStorageService.GetItemAsync<DateTime>("expireTime"),
-                    Token = EncryptionHelper.Decrypt(await LocalStorageService.GetItemAsync<string>("value")),
                     FirstName = await LocalStorageService.GetItemAsync<string>("firstName"),
                     LastName = await LocalStorageService.GetItemAsync<string>("lastName")
-
                 };
+                
+                //get encrypted token and decrypt it 
+                var encryptedToken = await LocalStorageService.GetItemAsync<string>("value");
+                if (encryptedToken != null)
+                    loginCookies.Token = EncryptionHelper.Decrypt(encryptedToken);
+
                 return loginCookies;
             }
             catch (Exception ex)
