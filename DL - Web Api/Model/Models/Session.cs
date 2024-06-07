@@ -3,19 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DL___Web_Api.Model.Models
 {
-    [Table("ValidTokens")]
-    public class ValidToken : DefaultModel
+    [Table("Sessions")]
+    public class Session 
     {
-        public ValidToken()
+        public Session()
         {
             ID = Guid.NewGuid();
         }
 
         [Key]
         public Guid ID { get; set; }
-        public Guid TokenID { get; set; }
+        public string TokenID { get; set; }
         public DateTime ExpiryDate { get; set; }
-        public Guid UserID { get; set; }
+        public string UserName { get; set; }
         
     }
 }
