@@ -5,6 +5,6 @@ namespace DL___Web_Api.TokenAuthentication;
 public interface ITokenManager
 {
     bool Authenticate(string userName, string password);
-    LoginResultVM NewToken(string userId, Boolean rememberme);
+    Task<LoginResultVM> NewToken(string username, Boolean rememberme);
     bool VerifyToken(string token);
 }

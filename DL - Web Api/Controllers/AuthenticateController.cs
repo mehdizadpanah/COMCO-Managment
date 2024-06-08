@@ -22,25 +22,16 @@ namespace DL___Web_Api.Controllers
             this.tokenManager = tokenManager;
         }
 
-        //public IActionResult Authenticate(string user,string pwd)
-        //{
-        //    if (tokenManager.Authenticate(user,pwd)) 
-        //    {
-        //        return Ok(new { Token = tokenManager.NewToken() });
-        //    }
-        //    else
-        //    {
-        //        ModelState.AddModelError("Unauthorized", "You are not Unauthorized.");
-        //        return Unauthorized(ModelState);
-        //    }
-        //}
+      
         [HttpPost]
-        public IActionResult Authenticate([FromBody] LoginRequestVM login)
+
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequestVM login)
         {
 
             if( tokenManager.Authenticate(login.Username, login.Password))
             {
-                return Ok(new { Token = tokenManager.NewToken(login.Username,login.IsRememberMe) });
+                var token = await tokenManager.NewToken(login.Username, login.IsRememberMe);
+                return Ok(token);
             }
             else
             {

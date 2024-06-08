@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using SH.Pages.Identity;
 using System.DirectoryServices;
 using SH.Data.ModelVM.Authentication;
-
+using DL___Web_Api.Repository;
+using NuGet.Protocol;
 
 namespace DL___Web_Api.TokenAuthentication
 {
@@ -12,26 +13,24 @@ namespace DL___Web_Api.TokenAuthentication
     public class TokenManager : ITokenManager
     {
 
+        private List<LoginResultVM> listTokens;
+       
         //private readonly ComcoMContext _context;
 
         //public TokenManager(ComcoMContext context)
         //{
         //    _context = context;
         //}
-        private List<LoginResultVM> listTokens;
+
         public TokenManager()
         {
             listTokens = new List<LoginResultVM>();
         }
+        
+        
         public  bool Authenticate(string userName, string password)
         {
-            //if (!string.IsNullOrWhiteSpace(userName) &&
-            //   !string.IsNullOrWhiteSpace(password) &&
-            //   userName.ToLower() == "admin" &&
-            //   password == "password")
-            //    return true;
-            //else
-            //    return false;
+            
             try
             {
                 
@@ -51,21 +50,28 @@ namespace DL___Web_Api.TokenAuthentication
                 else return false;
             }
         }
-        public LoginResultVM NewToken(string userId,Boolean rememberme)
+       
+        public async Task<LoginResultVM> NewToken(string username,Boolean rememberme)
 
         {
+            var _userRepository = new UserRepository();
+            var a = await  _userRepository.GetUserByDCUname(username);
             var token = new LoginResultVM
             {
-                Value = Guid.NewGuid().ToString(),
-                ExpiryDate = rememberme ? DateTime.Now.AddMonths(1): DateTime.Now.AddMinutes(30),
-                UserID = userId
+                Token = Guid.NewGuid().ToString(),
+                ExpiryDate = rememberme ? DateTime.Now.AddMonths(1) : DateTime.Now.AddMinutes(30),
+                UserName = a.DcUsername.ToString(),
+                Family = a.LastName,
+                Name = a.FirstName
+
             };
             listTokens.Add(token);
+            
             return token;
         }
         public bool VerifyToken(string token)
         {
-            if (listTokens.Any(x => x.Value == token
+            if (listTokens.Any(x => x.Token == token
                 && x.ExpiryDate > DateTime.Now))
             {
                 return true;

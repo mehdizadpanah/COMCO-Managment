@@ -1,11 +1,11 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace SH.Data.ModelVM.Authentication
 {
     public class LoginResultVM
     {
-        [JsonPropertyName("value")]
-        public string Value { get; set; }
+        [JsonPropertyName("token")]
+        public string Token { get; set; }
         [JsonPropertyName("expiryDate")]
         public DateTime ExpiryDate { get; set; }
         [JsonPropertyName("userID")]
