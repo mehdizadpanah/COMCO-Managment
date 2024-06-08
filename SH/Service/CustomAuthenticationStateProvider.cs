@@ -56,8 +56,8 @@ namespace SH.Service
             try
             {
                 var validate = false;
-                var loginCookies = new LoginCookies();
-                var messageBody = new LoginVM { Username = username, Password = password, IsRememberMe = rememberMe };
+                var loginCookies = new LoginCookiesVM();
+                var messageBody = new LoginRequestVM { Username = username, Password = password, IsRememberMe = rememberMe };
                 var resp = await _apiService.PostValuesAsync("/Authenticate", messageBody);
 
 
@@ -65,12 +65,12 @@ namespace SH.Service
                 {
                     validate = true;
                     var content = await resp.Content.ReadAsStringAsync();
-                    var loginResult = JsonSerializer.Deserialize<Token>(content);
+                    var loginResult = JsonSerializer.Deserialize<LoginResultVM>(content);
 
                     // Write cookies
                     if (loginResult != null)
                     {
-                        loginCookies = new LoginCookies
+                        loginCookies = new LoginCookiesVM
                         {
                             Username = username,
                             ExpiryDate = loginResult.ExpiryDate,
@@ -110,7 +110,7 @@ namespace SH.Service
 
         }
 
-        private async void WriteLoginCookies(LoginCookies loginCookies)
+        private async void WriteLoginCookies(LoginCookiesVM loginCookies)
         {
             try
             {
@@ -127,11 +127,11 @@ namespace SH.Service
             }
         }
 
-        private async Task<LoginCookies> ReadLoginCookies()
+        private async Task<LoginCookiesVM> ReadLoginCookies()
         {
             try
             {
-                var loginCookies = new LoginCookies
+                var loginCookies = new LoginCookiesVM
                 {
                     Username = await LocalStorageService.GetItemAsync<string>("userName"),
                     ExpiryDate = await LocalStorageService.GetItemAsync<DateTime>("expireTime"),
@@ -169,7 +169,7 @@ namespace SH.Service
             }
         }
 
-        private ClaimsIdentity SetIdentity(LoginCookies loginCookies)
+        private ClaimsIdentity SetIdentity(LoginCookiesVM loginCookies)
         {
             try
             {

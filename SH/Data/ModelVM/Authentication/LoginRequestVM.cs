@@ -1,6 +1,6 @@
 ﻿namespace SH.Data.ModelVM.Authentication
 {
-    public class LoginVM
+    public class LoginRequestVM
     {
         public required string Username { get; set; }
         public required string Password { get; set; }

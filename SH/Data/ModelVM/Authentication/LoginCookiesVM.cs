@@ -2,7 +2,7 @@
 
 namespace SH.Data.ModelVM.Authentication
 {
-    public class LoginCookies
+    public class LoginCookiesVM
     {
         public string? Username { get; set; } 
         public DateTime ExpiryDate { get; set; }

@@ -2,7 +2,7 @@
 
 namespace SH.Data.ModelVM.Authentication
 {
-    public class Token
+    public class LoginResultVM
     {
         [JsonPropertyName("value")]
         public string Value { get; set; }

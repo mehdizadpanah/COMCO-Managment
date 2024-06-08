@@ -18,10 +18,10 @@ namespace DL___Web_Api.TokenAuthentication
         //{
         //    _context = context;
         //}
-        private List<Token> listTokens;
+        private List<LoginResultVM> listTokens;
         public TokenManager()
         {
-            listTokens = new List<Token>();
+            listTokens = new List<LoginResultVM>();
         }
         public  bool Authenticate(string userName, string password)
         {
@@ -51,10 +51,10 @@ namespace DL___Web_Api.TokenAuthentication
                 else return false;
             }
         }
-        public Token NewToken(string userId,Boolean rememberme)
+        public LoginResultVM NewToken(string userId,Boolean rememberme)
 
         {
-            var token = new Token
+            var token = new LoginResultVM
             {
                 Value = Guid.NewGuid().ToString(),
                 ExpiryDate = rememberme ? DateTime.Now.AddMonths(1): DateTime.Now.AddMinutes(30),

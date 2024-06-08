@@ -35,7 +35,7 @@ namespace DL___Web_Api.Controllers
         //    }
         //}
         [HttpPost]
-        public IActionResult Authenticate([FromBody] LoginVM login)
+        public IActionResult Authenticate([FromBody] LoginRequestVM login)
         {
 
             if( tokenManager.Authenticate(login.Username, login.Password))
