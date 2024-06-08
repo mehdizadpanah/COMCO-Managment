@@ -1,11 +1,6 @@
-﻿using DL___Web_Api.Controllers;
-using DL___Web_Api.Data;
-using Microsoft.EntityFrameworkCore;
-using SH.Pages.Identity;
-using System.DirectoryServices;
+﻿using System.DirectoryServices;
 using SH.Data.ModelVM.Authentication;
 using DL___Web_Api.Repository;
-using NuGet.Protocol;
 
 namespace DL___Web_Api.TokenAuthentication
 {
@@ -13,7 +8,7 @@ namespace DL___Web_Api.TokenAuthentication
     public class TokenManager : ITokenManager
     {
 
-        private List<LoginResultVM> listTokens;
+        private readonly List<LoginResultVM> listTokens;
        
         //private readonly ComcoMContext _context;
 
@@ -60,7 +55,7 @@ namespace DL___Web_Api.TokenAuthentication
             {
                 Token = Guid.NewGuid().ToString(),
                 ExpiryDate = rememberme ? DateTime.Now.AddMonths(1) : DateTime.Now.AddMinutes(30),
-                UserName = a.DcUsername.ToString(),
+                UserName = a.DcUsername,
                 Family = a.LastName,
                 Name = a.FirstName
 

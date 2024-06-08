@@ -74,7 +74,7 @@ namespace SH.Service
                         {
                             Username = username,
                             ExpiryDate = loginResult.ExpiryDate,
-                            Token = loginResult.Value,
+                            Token = loginResult.Token,
                             FirstName = loginResult.Name,
                             LastName = loginResult.Family
 
