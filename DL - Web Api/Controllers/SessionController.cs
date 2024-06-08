@@ -116,25 +116,25 @@ namespace DL___Web_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> VerifySession( [FromBody] VerifySessionVM verifys)
+        public async Task<ActionResult> VerifySession( [FromBody] LoginVM verifys)
         {
             if (_context.Sessions == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
-            var a = await _context.Sessions.FirstOrDefaultAsync(e => e.UserName == verifys.UserName && e.TokenID == verifys.Token);
+            var a = await _context.Sessions.FirstOrDefaultAsync(e => e.UserName == verifys.Username && e.TokenID == verifys.Token);
             if ( a == null )
             {
-                return NoContent();
+                return Unauthorized();
             }
             else
             {
                 if (a.ExpiryDate.Date > DateTime.Now)
                 {
                     DeleteSession(a.ID);
-                    return NoContent();
+                    return Unauthorized();
                 }
-                else return Ok(true);
+                else return Ok();
                
             }
         }
