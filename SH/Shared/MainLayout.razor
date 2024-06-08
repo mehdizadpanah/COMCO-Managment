@@ -1,6 +1,4 @@
-﻿@using System.Reflection
-@using SH.Shared
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
 
 <MudRTLProvider RightToLeft="true">
@@ -36,6 +34,17 @@
                     <button>
                         <MudAvatar @onclick="ProfileClick" Image="_content\\SH\\Pictures\\empty-profile-image.jpg" />
                     </button>
+                    <div>
+                        @{
+                            var a = @context.User.Claims.FirstOrDefault(c => c.Type == "UserName");
+                            if (a != null)
+                            {
+                                @a.Value;
+                            }
+                        }
+
+
+                    </div>
                     
                 </AuthorizeView>
             </MudAppBar>

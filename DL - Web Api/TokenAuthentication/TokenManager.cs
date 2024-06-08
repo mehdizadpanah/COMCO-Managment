@@ -15,6 +15,13 @@ namespace DL___Web_Api.TokenAuthentication
 
         private List<LoginResultVM> listTokens;
        
+        //private readonly ComcoMContext _context;
+
+        //public TokenManager(ComcoMContext context)
+        //{
+        //    _context = context;
+        //}
+
         public TokenManager()
         {
             listTokens = new List<LoginResultVM>();
