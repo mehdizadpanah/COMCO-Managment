@@ -9,7 +9,7 @@ namespace SH.Data.ModelVM.Authentication
         [JsonPropertyName("expiryDate")]
         public DateTime ExpiryDate { get; set; }
         [JsonPropertyName("userID")]
-        public string UserID { get; set; }
+        public string UserName { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
         [JsonPropertyName("family")]
