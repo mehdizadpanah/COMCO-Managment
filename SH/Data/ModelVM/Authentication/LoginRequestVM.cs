@@ -6,6 +6,7 @@
         public string? Password { get; set; }
         public bool IsRememberMe { get; set; } = false;
         public string? Token { get; set; } 
+        
 
     }
 }
