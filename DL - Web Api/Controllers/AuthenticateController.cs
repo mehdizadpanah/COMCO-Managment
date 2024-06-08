@@ -24,7 +24,7 @@ namespace DL___Web_Api.Controllers
 
       
         [HttpPost]
-        public async Task<IActionResult> Authenticate([FromBody] LoginVM login)
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequestVM login)
         {
 
             if( tokenManager.Authenticate(login.Username, login.Password))

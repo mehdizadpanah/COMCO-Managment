@@ -13,11 +13,11 @@ namespace DL___Web_Api.TokenAuthentication
     public class TokenManager : ITokenManager
     {
 
-        private List<LoginResult> listTokens;
+        private List<LoginResultVM> listTokens;
        
         public TokenManager()
         {
-            listTokens = new List<LoginResult>();
+            listTokens = new List<LoginResultVM>();
         }
         
         
@@ -44,12 +44,12 @@ namespace DL___Web_Api.TokenAuthentication
             }
         }
        
-        public async Task<LoginResult> NewToken(string username,Boolean rememberme)
+        public async Task<LoginResultVM> NewToken(string username,Boolean rememberme)
 
         {
             var _userRepository = new UserRepository();
             var a = await  _userRepository.GetUserByDCUname(username);
-            var token = new LoginResult
+            var token = new LoginResultVM
             {
                 Token = Guid.NewGuid().ToString(),
                 ExpiryDate = rememberme ? DateTime.Now.AddMonths(1) : DateTime.Now.AddMinutes(30),

@@ -1,6 +1,6 @@
 ﻿namespace SH.Data.ModelVM.Authentication
 {
-    public class LoginResult
+    public class LoginResultVM
     {
         public string Token { get; set; }
         public DateTime ExpiryDate { get; set; }

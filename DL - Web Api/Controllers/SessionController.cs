@@ -116,7 +116,7 @@ namespace DL___Web_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> VerifySession( [FromBody] LoginVM verifys)
+        public async Task<ActionResult> VerifySession( [FromBody] LoginRequestVM verifys)
         {
             if (_context.Sessions == null)
             {
