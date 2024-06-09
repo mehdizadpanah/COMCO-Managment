@@ -16,6 +16,8 @@ namespace DL___Web_Api.Model.Models
         public string TokenID { get; set; }
         public DateTime ExpiryDate { get; set; }
         public string UserName { get; set; }
+        public string IP { get; set; }
+        public string brInfo { get; set; }
         
     }
 }

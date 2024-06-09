@@ -12,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+  
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -20,23 +22,9 @@ builder.Services.AddScoped<IAccountService, AccountServices>();
 builder.Services.AddSingleton<ITokenManager, TokenManager>();
 builder.Services.AddDbContext<ComcoMContext>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddAutoMapper(typeof(IStartup));
+builder.Services.AddControllersWithViews();
 var app = builder.Build();
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(options =>
-//    {
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuer = true,
-//            ValidateAudience = true,
-//            ValidateLifetime = true,
-//            ValidateIssuerSigningKey = true,
-//            ValidIssuer = "your-issuer", // Replace with your issuer
-//            ValidAudience = "your-audience", // Replace with your audience
-//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key")) // Replace with your secret key
-//        };
-//    });
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

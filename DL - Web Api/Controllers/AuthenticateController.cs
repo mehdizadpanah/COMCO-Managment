@@ -1,10 +1,5 @@
-﻿using Azure.Identity;
-using DL___Web_Api.Filters;
-using DL___Web_Api.TokenAuthentication;
-using Microsoft.AspNetCore.Http;
+﻿using DL___Web_Api.TokenAuthentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
-using System.Security.Claims;
 using SH.Data.ModelVM.Authentication;
 
 namespace DL___Web_Api.Controllers
@@ -27,8 +22,9 @@ namespace DL___Web_Api.Controllers
 
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestVM login)
         {
-
-            if( tokenManager.Authenticate(login.Username, login.Password))
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var brInfo = HttpContext.Request.Headers["User-Agent"].ToString();
+            if ( tokenManager.Authenticate(login.Username, login.Password))
             {
                 var token = await tokenManager.NewToken(login.Username, login.IsRememberMe);
                 return Ok(token);
