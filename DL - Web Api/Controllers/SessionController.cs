@@ -94,10 +94,6 @@ namespace DL___Web_Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSession(Guid id)
         {
-            if (_context.Sessions == null)
-            {
-                return NotFound();
-            }
             var logSession = await _context.Sessions.FindAsync(id);
             if (logSession == null)
             {
@@ -114,10 +110,7 @@ namespace DL___Web_Api.Controllers
         [HttpPost]
         public async Task<ActionResult> VerifySession([FromBody] LoginRequestVM logReqVM)
         {
-            if (_context.Sessions == null)
-            {
-                return Unauthorized();
-            }
+            
             var a = await _context.Sessions.FirstOrDefaultAsync(e => e.UserName == logReqVM.Username && e.TokenID == logReqVM.Token);
             if (a == null)
             {
