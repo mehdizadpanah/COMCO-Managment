@@ -14,5 +14,6 @@ namespace SH.Data.ModelVM.Authentication
         public string Name { get; set; }
         [JsonPropertyName("family")]
         public string Family { get; set; }
+        public string? ProfilePicture { get; set; }
     }
 }

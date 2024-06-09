@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DL___Web_Api.Data;
 using DL___Web_Api.Model.Models;
-using Microsoft.AspNetCore.Authorization;
+
 using DL___Web_Api.Filters;
 using DL___Web_Api.Repository;
 
 namespace DL___Web_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     [TokenAuthenticationFilter]
     public class UsersController : ControllerBase
