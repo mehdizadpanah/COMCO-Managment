@@ -78,15 +78,6 @@ namespace DL___Web_Api.Controllers
 
         
 
-        [HttpPost]
-        public async Task<ActionResult<Session>> PostUser([FromBody] Session session)
-        {
-
-            _context.Sessions.Add(session);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSessionByID", new { id = session.ID }, session);
-        }
 
         // DELETE: api/Sessions/5
         [HttpDelete("{id}")]
@@ -105,7 +96,7 @@ namespace DL___Web_Api.Controllers
             return NoContent();
         }
 
-        [HttpPost("{logReqVM}")]
+        [HttpPost]
         public async Task<ActionResult> VerifySession([FromBody] LoginRequestVM logReqVM)
         {
             try
@@ -121,6 +112,10 @@ namespace DL___Web_Api.Controllers
                     await DeleteSession(a.ID);
                     return Unauthorized();
                 }
+                a.IP= HttpContext.Connection.RemoteIpAddress?.ToString();
+                a.brInfo = HttpContext.Request.Headers["User-Agent"].ToString();
+                _context.Update(a); 
+                await _context.SaveChangesAsync();
                 return Ok();
             }
             catch (Exception ex)
