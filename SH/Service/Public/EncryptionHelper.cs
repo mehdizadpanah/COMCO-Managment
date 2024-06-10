@@ -3,7 +3,7 @@ using System.Text;
 
 public class EncryptionHelper
 {
-    private static readonly string key = "yGdnM1e5o9B+MhX+ZfPmIrH9uZY8mSDFuD/D5LgPfWo+"; // Must be 32 characters for AES-256
+    private static readonly string key = "yGdnM1e5o9B+MhX+ZfPmIrH9uZY8mSDF"; // Must be 32 characters for AES-256
 
     public static string Encrypt(string plainText)
     {

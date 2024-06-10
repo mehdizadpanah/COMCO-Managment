@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using System.Net;
+using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using SH.Data.ModelVM.Authentication;
 using System.Text.Json;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
+using static MudBlazor.CategoryTypes;
 
 
 namespace SH.Service
@@ -30,23 +35,32 @@ namespace SH.Service
                 var identity = new ClaimsIdentity();
                 var user = new ClaimsPrincipal(identity);
                 var loginCookies = await ReadLoginCookies();
-                if (loginCookies.ExpiryDate > DateTime.UtcNow)
+                var messageBody = new LoginRequestVM
                 {
-                    identity = SetIdentity(loginCookies);
-                    user = new ClaimsPrincipal(identity);
-                }
-                else
+                    Username = null
+                };
+                if (loginCookies is { Username: not null, Token: not null })
+                //Cookie founded
                 {
-                    await Logout();
+                    messageBody.Username = loginCookies.Username;
+                    messageBody.Token = loginCookies.Token;
+                    var resp = await _apiService.PostValuesAsync("/VerifySession", messageBody);
+                    if (loginCookies.ExpiryDate > DateTime.UtcNow && resp.StatusCode == HttpStatusCode.OK)
+                    {
+                        identity = SetIdentity(loginCookies);
+                        user = new ClaimsPrincipal(identity);
+                    }
+                    else await Logout();
                 }
+                else await Logout();
                 return await Task.FromResult(new AuthenticationState(user));
+
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
-            
+
 
         }
 
@@ -138,7 +152,7 @@ namespace SH.Service
                     FirstName = await LocalStorageService.GetItemAsync<string>("firstName"),
                     LastName = await LocalStorageService.GetItemAsync<string>("lastName")
                 };
-                
+
                 //get encrypted token and decrypt it 
                 var encryptedToken = await LocalStorageService.GetItemAsync<string>("value");
                 if (encryptedToken != null)
