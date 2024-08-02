@@ -76,19 +76,8 @@ namespace DL___Web_Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Sessions
-        //[HttpPost]
-        //public async Task<ActionResult<Session>> PostSession(Session logsession)
-        //{
-        //    if (_context.Sessions == null)
-        //    {
-        //        return Problem("Entity set 'ComcoMContext.Users'  is null.");
-        //    }
-        //    _context.Sessions.Add(logsession);
-        //    await _context.SaveChangesAsync();
+        
 
-        //    return CreatedAtAction("GetToken", new { id = logsession.ID }, logsession);
-        //}
 
         // DELETE: api/Sessions/5
         [HttpDelete("{id}")]
@@ -110,19 +99,31 @@ namespace DL___Web_Api.Controllers
         [HttpPost]
         public async Task<ActionResult> VerifySession([FromBody] LoginRequestVM logReqVM)
         {
-            
-            var a = await _context.Sessions.FirstOrDefaultAsync(e => e.UserName == logReqVM.Username && e.TokenID == logReqVM.Token);
-            if (a == null)
+            try
             {
-                return Unauthorized();
-            }
+                var a = await _context.Sessions.FirstOrDefaultAsync(e => e.UserName == logReqVM.Username && e.TokenID == logReqVM.Token);
+                if (a == null)
+                {
+                    return Unauthorized();
+                }
 
-            if (a.ExpiryDate.Date > DateTime.Now)
-            {
-                await DeleteSession(a.ID);
-                return Unauthorized();
+                if (a.ExpiryDate.Date > DateTime.Now)
+                {
+                    await DeleteSession(a.ID);
+                    return Unauthorized();
+                }
+                a.IP= HttpContext.Connection.RemoteIpAddress?.ToString();
+                a.brInfo = HttpContext.Request.Headers["User-Agent"].ToString();
+                _context.Update(a); 
+                await _context.SaveChangesAsync();
+                return Ok();
             }
-            return Ok();
+            catch (Exception ex)
+            {
+
+                throw ;
+            }
+            
         }
 
         private bool SessionExists(Guid id)
