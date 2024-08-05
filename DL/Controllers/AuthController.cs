@@ -27,7 +27,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestByUsernameVM userLogin)
     {
-        if (_authService.ValidateUser(userLogin.Username,userLogin.Password))
+        if (_authService.LdapAuthenticate(userLogin.Username,userLogin.Password,"Persianpadana.local"))
         {
             var claims = new List<Claim>
             {
